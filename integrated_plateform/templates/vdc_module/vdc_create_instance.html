@@ -1,0 +1,553 @@
+{% extends 'vdc_module/vdc_module_base.html' %}
+{% load static %}
+{% load staticfiles %}
+{% block tag_title %}
+<title>vdc_create_instance</title>
+{% endblock %}
+{% block extracss %}
+    <link href="{% static 'assets/global/plugins/simple-line-icons/simple-line-icons.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css' %}" rel="stylesheet" type="text/css" />
+
+    <link href="{% static 'assets/global/css/components.min.css' %}" rel="stylesheet" id="style_components" type="text/css" />
+    <link href="{% static 'assets/global/css/plugins.min.css' %}" rel="stylesheet" type="text/css" />
+
+    <!--自定义-->
+    <link rel="stylesheet" href="{% static 'css/instance_create.css' %}">
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/plugins/jeditable/jquery.jeditable.js' %}"></script>
+    <script src="{% static 'js/instance_create.js' %}"></script>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="wrapper wrapper-content animated fadeInRight gray-bg">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 ins-create-header">
+                <h2><a class="J_menuItem" onclick="cancelBtn()" href="#"><span class="glyphicon glyphicon-backward"></span></a>&ensp;&ensp;&ensp;<b>创建实例</b></h2>
+            </div>
+            <div class="col-sm-12" style="margin-top: 20px;">
+                <!--<form action="#" class="form-horizontal">-->
+                    <!--<div class="form-group">-->
+                <div class="col-sm-7">
+                    <div class="input-group m-b">
+                        <span class="input-group-addon">名称</span>
+                        <input id="server_name" class="form-control" type="text" placeholder="实例名称">
+                    </div>
+                    <div class="input-group m-b">
+                        <span class="input-group-addon">数量</span>
+                        <input id="server_amount" class="form-control" type="number" placeholder="数量">
+                    </div>
+{#                    <button id="test001" class="btn btn-white btn-default btn-sm">网络测试</button>#}
+{#                    <button id="test002" class="btn btn-white btn-default btn-sm">flavor测试</button>#}
+{#                    <button id="test003" class="btn btn-white btn-default btn-sm">image测试</button>#}
+                </div>
+{#                <div class="col-sm-5">#}
+{#                    <img src="{% static 'img/instance_usage.png' %}" alt="实例使用情况">#}
+{#                </div>#}
+                <div class="col-sm-7">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span class="panel-title"><b>机器类型</b></span>
+                            <span class="pull-right">自定义以选择核心、内存数量</span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-3 dropdown">
+                                    <button class="btn btn-default btn-white dropdown dropdown-toggle" data-toggle="dropdown">
+                                        <span id="flavor_name">middle</span> &ensp;&ensp;&ensp;
+                                        <b class="caret"></b>
+                                    </button>
+                                    <ul id="flavor_list" class="dropdown-menu">
+{#                                        <li><a href="#"><span><b>微型（一个共享vCPU）</b></span><br><span>0.6 GB内存， f1-micro</span></a></li>#}
+{#                                        <li><a href="#"><span><b>小型（一个共享vCPU）</b></span><br><span>1.7 GB内存， g1-small</span></a></li>#}
+{#                                        <li class="divider"></li>#}
+{#                                        <li><a href="#"><span><b>middle</b></span><br><span>3.75 GB内存， 1个vCPU</span></a></li>#}
+{#                                        <li><a href="#"><span><b>software</b></span><br><span>3.75 GB内存， 4个vCPU</span></a></li>#}
+                                    </ul>
+                                </div>
+                                <div class="col-sm-6">
+                                    <ul class="list-group">
+                                        <li id="flavor_detail" class="list-group-item border_no"><b></b></li>
+                                        <li id="flavor_id" class="list-group-item border_no" style="display: none"></li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-3">
+                                    <button class="btn btn-default blue right-button" type="button">自定义</button>
+                                </div>
+                            </div>
+                            <!--<div class="form-group">-->
+                            <!--<label for="exampleInputPassword2" class="sr-only">密码</label>-->
+                            <!--<input type="password" placeholder="请输入密码" id="exampleInputPassword2" class="form-control">-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-7">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">启动磁盘</h3>
+                            <div class="">
+                                <span class="pull-right"></span>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <img src="{% static 'img/disk_launch.png' %}" alt="disk_launch">
+                                </div>
+                                <div class="col-sm-6">
+                                    <ul class="list-group">
+                                        <li id="image_name" class="list-group-item border_no"><b>新的10G标准永久磁盘</b></li>
+                                        <li class="list-group-item border_no">映像</li>
+                                        <li id="image_desc" class="list-group-item border_no">Debian GNU/Linux 9(stretch)</li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-3">
+                                    <button class="btn btn-default blue right-button" type="button" data-toggle="modal" data-target="#myModal">更改</button>
+                                </div>
+                            </div>
+                            <!--<div class="form-group">-->
+                                <!--<label for="exampleInputPassword2" class="sr-only">密码</label>-->
+                                <!--<input type="password" placeholder="请输入密码" id="exampleInputPassword2" class="form-control">-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-7">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>网络接口</h5>
+                            <div class="ibox-tools">
+                                <span class="pull-right">进行自定义选择核心、内存容量</span>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <ul id="network_list" class="list-inline m-l m-r">
+                                        <li id="network_name" class="list-group-item border_no"><span><b>default</b></span></li>
+                                        <li id="network_desc" class="list-group-item border_no"><span>default (10.128.0.0/20)</span></li>
+                                        <li class="list-group-item border_no pull-right"><a data-toggle="modal" data-target="#myModal_network" type=""><span class="glyphicon glyphicon-pencil"></span></a></li>
+                                    </ul>
+                                    <!--<label class="sr-only">用户名</label>-->
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <ul class="nav nav-tabs">
+                                            <li class="active"><a href="#manage_1" data-toggle="tab">管理</a></li>
+                                            <li><a href="#manage_2" data-toggle="tab">SSH密钥</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="tab-content">
+                                        <div class="tab-pane fade in active" id="manage_1">
+                                            <div class="container-fluid">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for="manage_desc"><b>说明（可选）</b></label>
+                                                        <textarea class="form-control" id="manage_desc" cols="" rows="2" style="resize: vertical"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <h4>标签（可选）</h4>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <div class="form-group col-sm-5">
+                                                        <label class="control-label" for="manage_key">键</label>
+                                                        <input id="manage_key" class="form-control" type="text" placeholder="要添加的键">
+                                                    </div>
+                                                    <div class="form-group col-sm-5">
+                                                        <label class="control-label" for="manage_value">值</label>
+                                                        <input id="manage_value" class="form-control" type="text" placeholder="空">
+                                                    </div>
+                                                    <div class="form-group col-sm-2">
+                                                        <label class="control-label">&ensp;</label>
+                                                        <a class="btn form-control border_no"><span class="glyphicon glyphicon-remove"></span></a>
+                                                    </div>
+                                                    <div class="btn btn-default blue col-sm-10">
+                                                        添加标签
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <div class="form-group col-sm-12">
+                                                        <h4>自动化</h4>
+                                                        <label class="control-label" for="manage_auto"><b>启动脚本（可选）</b></label>
+                                                        <br>您可以选择指定再实例启动或重启时运行的启动脚本。启动脚本可以用来安装软件和更新，以及确保各项服务正在虚拟机内运行。
+                                                        <input id="manage_auto" class="form-control" type="text">
+                                                    </div>
+                                                    <div class="form-group col-sm-12">
+                                                        <label class="control-label"><b>元数据（可选）</b></label>
+                                                        <br>在服务器定义的元数据之外，您可以为实例或项目设置自定义元数据。如果您要将任意值（可在实例上通过您的代码设置）传递到您的项目或实例，此功能会非常有用。
+                                                    </div>
+                                                    <div class="form-group col-sm-5">
+                                                        <label class="control-label" for="ori_param_key">键</label>
+                                                        <input id="ori_param_key" class="form-control" type="text" placeholder="键">
+                                                    </div>
+                                                    <div class="form-group col-sm-5">
+                                                        <label class="control-label" for="ori_param_value">值</label>
+                                                        <input id="ori_param_value" class="form-control" type="text" placeholder="空">
+                                                    </div>
+                                                    <div class="form-group col-sm-2">
+                                                        <label class="control-label">&ensp;</label>
+                                                        <a class="btn form-control border_no"><span class="glyphicon glyphicon-remove"></span></a>
+                                                    </div>
+                                                    <div class="btn btn-default blue col-sm-10">
+                                                        添加一项
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="manage_2">
+                                            <div class="container-fluid">
+                                                <div class="col-sm-12">
+                                                    <ul class="list-inline">
+                                                        <li class="list-group-item border_no"><span>dc.t (f3:d7:85:0e:3a:5d:4g:de:80:t5:3r:34)</span></li>
+                                                        <li class="list-group-item border_no pull-right"><a data-toggle="modal" data-target="#myModal_SSH" type=""><span class="glyphicon glyphicon-pencil"></span></a></li>
+                                                    </ul>
+                                                    <!--<label class="sr-only">用户名</label>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div class="form-group">-->
+                                <!--<label for="exampleInputPassword2" class="sr-only">密码</label>-->
+                                <!--<input type="password" placeholder="请输入密码" id="exampleInputPassword2" class="form-control">-->
+                                <!--</div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-7">
+                    <button id="createVS_btn" class="btn btn-white blue" style="border: none;">创建</button>
+                    <a href="#" class="btn btn-white blue" style="border: none;" onclick="cancelBtn()">取消</a>
+                </div>
+                    <!--</div>-->
+                <!--</form>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- 模态框（Modal）启动磁盘 -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!--<button type="button" class="close" data-dismiss="modal"-->
+                            <!--aria-hidden="true">×-->
+                    <!--</button>-->
+                    <div class="modal-title" id="myModalLabel">
+                        <b>启动磁盘</b> <span class="pull-right">选择映像以创建启动磁盘。映像将决定在实例上安装的操作系统</span>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <ul id="myTab" class="nav nav-tabs">
+                                    <li class="active"><a href="#tab1" data-toggle="tab">操作系统映像</a></li>
+                                    <li><a href="#tab2" data-toggle="tab">自定义映像</a></li>
+                                </ul>
+                            </div>
+                            <div id="myTabContent" class="tab-content">
+                                <div class="tab-pane fade in active" id="tab1">
+                                    <div class="col-sm-12">
+                                         <table class="table">
+                                            <caption><span>从以下列表中选择一个镜像</span></caption>
+                                            <thead>
+                                            <tr>
+                                                <th hidden>id</th>
+                                                <th>name</th>
+                                                <th>status</th>
+                                                <th>created_at</th>
+                                                <th>size</th>
+                                                <th>visibility</th>
+                                                <th>#</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="image_list"></tbody>
+                                        </table>
+{#                                        <div class="radio">#}
+{#                                            <input type="radio" name="radio1" id="radio1" value="option1" checked="">#}
+{#                                            <label for="radio1">#}
+{#                                                <b>Debian GNU/Linux 8 (jessie)</b>#}
+{#                                            </label><br>#}
+{#                                            <span class="padding-left">Debian GNU/Linux 8 (jessie)</span>#}
+{#                                        </div>#}
+{#                                        <div class="radio">#}
+{#                                            <input type="radio" name="radio1" id="radio2" value="option2">#}
+{#                                            <label for="radio2">#}
+{#                                                <b>Debian GNU/Linux 8 (jessie)</b>#}
+{#                                            </label><br>#}
+{#                                            <span class="padding-left">amd64 build on 20180611</span>#}
+{#                                        </div>#}
+{#                                        <div class="radio">#}
+{#                                            <input type="radio" name="radio1" id="radio3" value="option2">#}
+{#                                            <label for="radio3">#}
+{#                                                <b>CentOS 6</b>#}
+{#                                            </label><br>#}
+{#                                            <span class="padding-left">amd64 build on 20180611</span>#}
+{#                                        </div>#}
+{#                                        <div class="radio">#}
+{#                                            <input type="radio" name="radio1" id="radio4" value="option2">#}
+{#                                            <label for="radio4">#}
+{#                                                <b>CentOS 7</b>#}
+{#                                            </label><br>#}
+{#                                            <span class="padding-left">amd64 build on 20180611</span>#}
+{#                                        </div>#}
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-6 form-group">
+                                            <label for="launch-disk-volume" class="control-label"><b>启动磁盘大小(GB)</b></label>
+                                            <input id="launch-disk-volume" type="text" class="form-control" placeholder="0">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <h4>Boot disk</h4>
+                                            <h5>删除规则</h5>
+                                            <input class="checkbox-inline" type="checkbox" id="del_rule" value="default" style="margin-top: 0">
+                                            <label for="del_rule">
+                                                在删除实例时页删除启动磁盘
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="tab2">
+                                    <b>this part is still in progress</b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="selected_image" type="button" class="btn btn-primary">
+                        选择
+                    </button>
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">取消
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- 模态框（Modal）网络 -->
+    <div class="modal fade" id="myModal_network" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!--<button type="button" class="close" data-dismiss="modal"-->
+                            <!--aria-hidden="true">×-->
+                    <!--</button>-->
+                    <div class="modal-title" id="myModalLabel_network">
+                        <b>网络窗口</b> <span class="pull-right"></span>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <table class="table">
+                            <caption><span>从以下列表中选择一个网络</span></caption>
+                            <thead>
+                            <tr>
+                                <th hidden>ID</th>
+                                <th>Name</th>
+                                <th>Shared</th>
+                                <th>Admin State</th>
+                                <th>Status</th>
+                                <th>#</th>
+                            </tr>
+                            </thead>
+                            <tbody id="netlist">
+                            </tbody>
+                        </table>
+                    </div>
+{#                    <div class="container-fluid">#}
+{#                        <div class="row">#}
+{#                            <div class="form-group">#}
+{#                                <label class="control-label" for="net-work-sel">网络</label>#}
+{#                                <select class="form-control" name="" id="net-work-sel">#}
+{#                                    <option value="1">network1</option>#}
+{#                                    <option value="2">network2</option>#}
+{#                                    <option value="3">network3</option>#}
+{#                                </select>#}
+{#                            </div>#}
+{#                            <div class="form-group">#}
+{#                                <label class="control-label" for="sub-net-work-sel">子网</label>#}
+{#                                <select class="form-control" name="" id="sub-net-work-sel">#}
+{#                                    <option value="1">子网1</option>#}
+{#                                    <option value="2">子网2</option>#}
+{#                                    <option value="3">子网3</option>#}
+{#                                </select>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+                </div>
+                <div class="modal-footer">
+                    <button id="selected_net" type="button" class="btn btn-primary">
+                        选择
+                    </button>
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">取消
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- 模态框（Modal）SSH -->
+    <div class="modal fade" id="myModal_SSH" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!--<button type="button" class="close" data-dismiss="modal"-->
+                            <!--aria-hidden="true">×-->
+                    <!--</button>-->
+                    <div class="modal-title" id="myModalLabel_SSH">
+                        <b>SSH 密钥</b> <span class="pull-right"></span>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="col-sm-12">
+                            <button class="btn btn-default btn-white" data-toggle="modal" data-target="#myModal_SSH_key_create"><span class="glyphicon glyphicon-plus"></span>创建密钥对</button>
+                            <button class="btn btn-default btn-white" data-toggle="modal" data-target="#myModal_SSH_key_import"><span class="glyphicon glyphicon-open"></span>导入密钥对</button>
+                        </div>
+                        <div class="col-sm-12">
+                            <ul class="list-inline">
+                                <li class="list-group-item border_no"><span>密钥对</span></li>
+                                <li class="list-group-item border_no pull-right">dc.t (f3:d7:85:0e:3a:5d:4g:de:80:t5:3r:34)</li>
+                            </ul>
+{#                            <span class="btn btn-white border_no">密钥对</span>#}
+{#                            <span class="btn btn-white border_no">dc.t (f3:d7:85:0e:3a:5d:4g:de:80:t5:3r:34)</span>#}
+                        </div>
+                        <div class="col-sm-12">
+                            <table class="table">
+                                <caption>从以下列表中可选择一个Key Pair</caption>
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Fingerprint</th>
+                                    <th>#</th>
+                                </tr>
+                                </thead>
+                                <tbody id="keypair_list"></tbody>
+                            </table>
+{#                            <table class="table">#}
+{#                                <thead>#}
+{#                                <tr>#}
+{#                                    <th>选择</th>#}
+{#                                    <th>名称</th>#}
+{#                                    <th>指纹</th>#}
+{#                                </tr>#}
+{#                                </thead>#}
+{#                                <tbody>#}
+{#                                <tr>#}
+{#                                    <td><input class="radio" name="SSH_key" type="radio"></td>#}
+{#                                    <td>dc</td>#}
+{#                                    <td>f3:d7:85:0e:3a:5d:4g:de:80:t5:3r:34</td>#}
+{#                                </tr>#}
+{#                                <tr>#}
+{#                                    <td><input class="radio" name="SSH_key" type="radio"></td>#}
+{#                                    <td>dc.t</td>#}
+{#                                    <td>f3:d7:85:0e:3a:5d:4g:de:80:t5:3f:34</td>#}
+{#                                </tr>#}
+{#                                </tbody>#}
+{#                            </table>#}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">
+                        完成
+                    </button>
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">取消
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- 模态框（Modal）SSH_key_create -->
+    <div class="modal fade" id="myModal_SSH_key_create" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!--<button type="button" class="close" data-dismiss="modal"-->
+                            <!--aria-hidden="true">×-->
+                    <!--</button>-->
+                    <div class="modal-title" id="myModalLabel_SSH_key_create">
+                        <b>创建密钥对</b> <span class="pull-right"></span>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="col-sm-12">
+                            <span>密钥对是您在实例创建后登录进去的一种方式。选择一个您易于是别的密钥对名字，名字只能由半角的字母、数字、空格、减号组成</span>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="control-label" for="ssh_key_create">密钥对名称</label>
+                                <input id="ssh_key_create" class="form-control" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">
+                        创建
+                    </button>
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">取消
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- 模态框（Modal）SSH_key_create -->
+    <div class="modal fade" id="myModal_SSH_key_import" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!--<button type="button" class="close" data-dismiss="modal"-->
+                        <!--aria-hidden="true">×-->
+                <!--</button>-->
+                <div class="modal-title" id="myModalLabel_SSH_key_omport">
+                    <b>导入密钥对</b> <span class="pull-right"></span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="col-sm-12">
+                        <span>密钥对是您在实例启动后登录进去的一种方式。选择一个您易于是别的密钥对名字，并把您的SSH公钥粘贴到空白处</span>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="control-label" for="ssh_key_import_name">密钥对名称</label>
+                            <input id="ssh_key_import_name" class="form-control" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="ssh_key_public">公共密钥</label>
+                            <textarea id="ssh_key_public" class="form-control" type="text"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">
+                    导入
+                </button>
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">取消
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+{% endblock %}

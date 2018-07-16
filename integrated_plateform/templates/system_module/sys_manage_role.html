@@ -1,0 +1,52 @@
+{% extends 'system_module/sys_module_base.html' %}
+{% load static %}
+{% load staticfiles %}
+{% block tag_title %}
+<title>sys_manage_role</title>
+{% endblock %}
+{% block extracss %}
+    <link href="{% static 'assets/global/css/components.min.css' %}" rel="stylesheet" id="style_components" type="text/css" /> <!-- sidebar字体加粗 -->
+    <link href="{% static 'assets/global/css/plugins.min.css' %}" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="{% static 'js/jQuery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="wrapper wrapper-content animated fadeInRight gray-bg">
+        <div class="container-fluid">
+            <table class="table">
+                <caption></caption>
+                <thead>
+                <tr>
+                    {% for line in role_fields %}
+                    <th>{{ line.name }}</th>
+                    {% endfor %}
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    {% for line in role_lists %}
+                        <tr>
+                            <td>{{ line.id }}</td>
+                            <td>{{ line.name }}</td>
+                            <td>{{ line.description }}</td>
+                            <td>{{ line.updated_time }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="#" class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-wrench"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="btn" href="#">编辑</a></li>
+                                        <li><a class="btn" href="#">删除</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
