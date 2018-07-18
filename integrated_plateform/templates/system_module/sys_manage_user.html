@@ -98,10 +98,9 @@
                                     <div class="form-group">
                                         <label class="control-label">角色：</label>
                                         <select class="form-control" name="user_role" type="text">
-                                            <option value="1">系统管理员</option>
-                                            <option value="3">VDC管理员</option>
-                                            <option value="5">监控用户</option>
-                                            <option value="4">维护用户</option>
+                                            {% for rr in role_lists %}
+                                            <option value="{{ rr.id }}">{{ rr.name }}</option>
+                                            {% endfor %}
                                         </select>
                                     </div>
                                 </div>
