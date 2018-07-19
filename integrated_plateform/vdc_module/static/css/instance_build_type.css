@@ -1,0 +1,14 @@
+.ins-create-header{
+    border-bottom: 1px solid #f1a417 !important;
+}
+.border_no{
+    border: none;
+}
+.right-button{
+    /*display: table;*/
+    float: right;
+    margin-right: 15px;
+}
+.padding-left{
+    padding-left: 20px;
+}

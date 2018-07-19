@@ -174,3 +174,11 @@ def showSingleSever(request):
     item_id = request.POST.get('server_id')
     result = novaclient.server.details(user=request.session.get("user"), server_id=item_id)
     return HttpResponse(result, content_type="application/json")
+
+
+def instance_type(request):
+    return render(request, 'vdc_module/vdc_instance_type.html')
+
+
+def instance_build_type(request):
+    return render(request, 'vdc_module/vdc_instance_build_type.html')

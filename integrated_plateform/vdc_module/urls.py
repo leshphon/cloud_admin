@@ -21,4 +21,6 @@ urlpatterns = [
     url(r'^show_flavors', views.show_flavors, name='show_flavors'),
     url(r'^show_image', views.show_image, name='show_image'),
     url(r'^show_keypairs', views.show_keypairs, name='show_keypairs'),
+    url(r'^instance_type', views.instance_type, name='instance_type'),
+    url(r'^instance_build_type', views.instance_build_type, name='instance_build_type'),
 ]
