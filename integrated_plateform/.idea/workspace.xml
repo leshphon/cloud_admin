@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/system_module/views.py" line="136" />
+    <bookmark url="file://$PROJECT_DIR$/system_module/views.py" line="160" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e7074fb-ecec-4b2c-8e91-356239e96022" name="Default" comment="" />
@@ -12,18 +12,21 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/integrated_plateform$tests.coverage" NAME="tests Coverage Results" MODIFIED="1532330347167" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/user_auth" />
+  </component>
   <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/user_auth/models.py">
+        <entry file="file://$PROJECT_DIR$/system_module/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="416">
-              <caret line="19" column="6" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
+            <state relative-caret-position="181">
+              <caret line="13" column="4" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="4" />
               <folding>
-                <element signature="e#0#28#0" expanded="true" />
+                <element signature="e#24#63#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -32,48 +35,30 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/system_module/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="936">
-              <caret line="47" selection-start-line="47" selection-end-line="47" />
+            <state relative-caret-position="163">
+              <caret line="108" column="32" selection-start-line="108" selection-start-column="23" selection-end-line="108" selection-end-column="32" />
               <folding>
                 <element signature="e#24#63#0" expanded="true" />
+                <marker date="1532351326937" expanded="true" signature="4495:4503" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/system_module/models.py">
+      <file leaf-file-name="sys_manage_user.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/system_module/sys_manage_user.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="624">
-              <caret line="24" column="19" lean-forward="true" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="19" />
-              <folding>
-                <element signature="e#24#63#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="130">
+              <caret line="35" column="31" lean-forward="true" selection-start-line="35" selection-start-column="31" selection-end-line="35" selection-end-column="31" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sys_manage_vdc.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/system_module/sys_manage_vdc.html">
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/integrated_plateform/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2106">
-              <caret line="81" column="104" selection-start-line="81" selection-start-column="94" selection-end-line="81" selection-end-column="104" />
-              <folding>
-                <element signature="e#4376#6399#0#HTML" />
-                <element signature="e#6420#7586#0#HTML" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vdc_module/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1664">
-              <caret line="79" column="13" selection-start-line="79" selection-start-column="13" selection-end-line="79" selection-end-column="13" />
-              <folding>
-                <element signature="e#24#63#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="549">
+              <caret line="24" column="1" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -81,19 +66,18 @@
       <file leaf-file-name="sys_create_vdc.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/system_module/static/js/sys_create_vdc.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="572">
-              <caret line="22" column="22" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
+            <state relative-caret-position="93">
+              <caret line="60" column="37" lean-forward="true" selection-start-line="60" selection-start-column="37" selection-end-line="60" selection-end-column="37" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vdc_module/models.py">
+      <file leaf-file-name="flot-demo-system.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system_module/static/js/flot-demo-system.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="22" column="24" selection-start-line="22" selection-start-column="24" selection-end-line="22" selection-end-column="24" />
+            <state relative-caret-position="-6708">
               <folding>
-                <element signature="e#24#63#0" expanded="true" />
+                <element signature="n#!!doc" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -102,29 +86,35 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/system_module/urls.py">
           <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="208">
+              <caret line="9" column="22" selection-start-line="9" selection-start-column="11" selection-end-line="9" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sys_module_base.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/system_module/sys_module_base.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-3840">
+              <caret line="89" column="24" lean-forward="true" selection-start-line="89" selection-start-column="24" selection-end-line="89" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sys_create_user.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system_module/static/js/sys_create_user.js">
+          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="286">
-              <caret line="12" column="22" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="22" />
+              <caret line="11" column="12" lean-forward="true" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/user_auth/views.py">
+      <file leaf-file-name="system_overview_pie_data.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/system_module/static/js/system_overview_pie_data.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5824">
-              <caret line="234" column="14" selection-start-line="232" selection-end-line="234" selection-end-column="14" />
-              <folding>
-                <element signature="e#14#77#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sys_manage_user.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/system_module/sys_manage_user.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1040">
-              <caret line="40" column="45" selection-start-line="40" selection-start-column="35" selection-end-line="40" selection-end-column="45" />
+            <state relative-caret-position="1326">
+              <caret line="51" lean-forward="true" selection-start-line="51" selection-end-line="51" />
             </state>
           </provider>
         </entry>
@@ -134,9 +124,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
         <option value="JavaScript File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -155,8 +145,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/vdc_module/api/neutron/base.py" />
-        <option value="$PROJECT_DIR$/vdc_module/api/neutron/networks.py" />
         <option value="$PROJECT_DIR$/vdc_module/api/nova/availabilityzone.py" />
         <option value="$PROJECT_DIR$/vdc_module/api/nova/flavor.py" />
         <option value="$PROJECT_DIR$/vdc_module/api/nova/keypairs.py" />
@@ -173,7 +161,6 @@
         <option value="$PROJECT_DIR$/user_auth/static/css/login.css" />
         <option value="$PROJECT_DIR$/user_auth/urls.py" />
         <option value="$PROJECT_DIR$/public_static/css/style.css" />
-        <option value="$PROJECT_DIR$/integrated_plateform/settings.py" />
         <option value="$PROJECT_DIR$/integrated_plateform/urls.py" />
         <option value="$PROJECT_DIR$/public_static/bootstrap/css/bootstrap.css" />
         <option value="$PROJECT_DIR$/templates/vdc_module/vdc_module_base.html" />
@@ -194,18 +181,21 @@
         <option value="$PROJECT_DIR$/vdc_module/static/js/vdc_instance_manage.js" />
         <option value="$PROJECT_DIR$/../repository_yuxin/RYJ_part/7.13/user_auth/models.py" />
         <option value="$PROJECT_DIR$/../repository_yuxin/RYJ_part/7.13/user_auth/views.py" />
-        <option value="$PROJECT_DIR$/templates/system_module/sys_manage_vdc.html" />
-        <option value="$PROJECT_DIR$/system_module/static/js/sys_create_vdc.js" />
-        <option value="$PROJECT_DIR$/templates/system_module/sys_manage_user.html" />
         <option value="$PROJECT_DIR$/system_module/urls.py" />
-        <option value="$PROJECT_DIR$/system_module/static/js/sys_create_user.js" />
         <option value="$PROJECT_DIR$/user_auth/models.py" />
-        <option value="$PROJECT_DIR$/user_auth/views.py" />
         <option value="$PROJECT_DIR$/../views.py" />
         <option value="$PROJECT_DIR$/vdc_module/models.py" />
-        <option value="$PROJECT_DIR$/vdc_module/views.py" />
-        <option value="$PROJECT_DIR$/system_module/views.py" />
+        <option value="$PROJECT_DIR$/api/__init__.py" />
+        <option value="$PROJECT_DIR$/system_module/static/js/sys_create_user.js" />
+        <option value="$PROJECT_DIR$/user_auth/tests.py" />
+        <option value="$PROJECT_DIR$/user_auth/views.py" />
         <option value="$PROJECT_DIR$/system_module/models.py" />
+        <option value="$PROJECT_DIR$/vdc_module/views.py" />
+        <option value="$PROJECT_DIR$/system_module/static/js/sys_create_vdc.js" />
+        <option value="$PROJECT_DIR$/templates/system_module/sys_manage_vdc.html" />
+        <option value="$PROJECT_DIR$/integrated_plateform/settings.py" />
+        <option value="$PROJECT_DIR$/system_module/views.py" />
+        <option value="$PROJECT_DIR$/templates/system_module/sys_manage_user.html" />
       </list>
     </option>
   </component>
@@ -221,7 +211,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="2006" />
     <option name="y" value="130" />
     <option name="width" value="1448" />
@@ -242,7 +232,41 @@
             <path>
               <item name="integrated_plateform" type="b2602c69:ProjectViewProjectNode" />
               <item name="integrated_plateform" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="integrated_plateform" type="b2602c69:ProjectViewProjectNode" />
               <item name="integrated_plateform" type="462c0819:PsiDirectoryNode" />
+              <item name="integrated_plateform" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="integrated_plateform" type="b2602c69:ProjectViewProjectNode" />
+              <item name="integrated_plateform" type="462c0819:PsiDirectoryNode" />
+              <item name="system_module" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="integrated_plateform" type="b2602c69:ProjectViewProjectNode" />
+              <item name="integrated_plateform" type="462c0819:PsiDirectoryNode" />
+              <item name="system_module" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="integrated_plateform" type="b2602c69:ProjectViewProjectNode" />
+              <item name="integrated_plateform" type="462c0819:PsiDirectoryNode" />
+              <item name="system_module" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="integrated_plateform" type="b2602c69:ProjectViewProjectNode" />
+              <item name="integrated_plateform" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="integrated_plateform" type="b2602c69:ProjectViewProjectNode" />
+              <item name="integrated_plateform" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="system_module" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="integrated_plateform" type="b2602c69:ProjectViewProjectNode" />
@@ -259,23 +283,23 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
-    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://C:/Users/123/Desktop/integrated_plateform/user_auth/views.py&#10;create_vdc_admin&#9;null&#9;null" />
+    <property name="SearchEverywhereHistoryKey" value="manage_user&#9;FILE&#9;file://D:/git-cloud/cloud_code/integrated_plateform/templates/system_module/sys_manage_user.html&#10;create_vdc_admin&#9;null&#9;null" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../integrated_plateform-1" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="Settings.JavaScript" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/user_auth/static/css" />
+      <recent name="$PROJECT_DIR$/public_static" />
+      <recent name="$PROJECT_DIR$/templates/vdc_module" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/user_auth/migrations" />
       <recent name="$PROJECT_DIR$/user_auth" />
       <recent name="$PROJECT_DIR$/system_module/static/js" />
       <recent name="$PROJECT_DIR$/vdc_module/static/img" />
       <recent name="$PROJECT_DIR$/vdc_module/static/js" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/user_auth/static/css" />
-      <recent name="$PROJECT_DIR$/public_static" />
-      <recent name="$PROJECT_DIR$/templates/vdc_module" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -290,7 +314,26 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Django server.integrated_plateform">
+    <configuration name="tests" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="integrated_plateform" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/user_auth" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/user_auth/tests.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
     <configuration name="integrated_plateform" type="Python.DjangoServer" factoryName="Django server">
       <module name="integrated_plateform" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -314,6 +357,15 @@
       <option name="useCustomRunCommand" value="false" />
       <option name="customRunCommand" value="" />
     </configuration>
+    <list>
+      <item itemvalue="Django server.integrated_plateform" />
+      <item itemvalue="Python.tests" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.tests" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -330,22 +382,21 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Python Console" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.28104576" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.18736383" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16311301" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.45315903" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.3899782" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12313433" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.22004357" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -363,53 +414,10 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="4" />
+      <option name="time" value="7" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/system_module/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="12" column="22" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/user_auth/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5824">
-          <caret line="234" column="14" lean-forward="true" selection-start-line="232" selection-end-line="234" selection-end-column="14" />
-          <folding>
-            <element signature="e#14#77#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/system_module/sys_manage_user.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1040">
-          <caret line="40" column="45" selection-start-line="40" selection-start-column="35" selection-end-line="40" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/system_module/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="520">
-          <caret line="27" column="24" lean-forward="true" selection-start-line="27" selection-start-column="24" selection-end-line="27" selection-end-column="24" />
-          <folding>
-            <element signature="e#24#63#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../repository_yuxin/RYJ_part/user_auth/models.py" />
-    <entry file="file://$PROJECT_DIR$/user_auth/migrations/0010_auto_20180710_0800.py" />
-    <entry file="file://$PROJECT_DIR$/templates/vdc_module/vdc_module_base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="22" column="28" selection-start-line="22" selection-start-column="28" selection-end-line="22" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vdc_module/api/nova/status.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -440,13 +448,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
           <caret column="174653" selection-start-column="174653" selection-end-column="174653" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/system_module/sys_module_base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1602">
-          <caret line="89" column="24" lean-forward="true" selection-start-line="89" selection-start-column="24" selection-end-line="89" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -494,20 +495,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/integrated_plateform/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="24" column="1" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/system_module/static/js/system_overview_pie_data.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="51" lean-forward="true" selection-start-line="51" selection-end-line="51" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../repository_yuxin/RYJ_part/7.13/user_auth/models.py" />
     <entry file="file://$PROJECT_DIR$/user_auth/migrations/0016_remove_user_quota.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -535,29 +522,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/system_module/static/js/sys_create_user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="546">
-          <caret line="21" column="9" selection-start-line="21" selection-start-column="9" selection-end-line="21" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../repository_yuxin/RYJ_part/user_auth/views.py" />
     <entry file="file://$PROJECT_DIR$/../repository_yuxin/RYJ_part/del_update.py" />
-    <entry file="file://C:/Python27/Lib/site-packages/django/apps/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/system_module/apps.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="156">
           <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/integrated_plateform/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3308">
-          <caret line="9" column="51" selection-start-line="9" selection-start-column="51" selection-end-line="9" selection-end-column="51" />
         </state>
       </provider>
     </entry>
@@ -575,47 +545,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="494">
-          <caret line="59" column="53" lean-forward="true" selection-start-line="54" selection-start-column="20" selection-end-line="59" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/user_auth/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5824">
-          <caret line="234" column="14" selection-start-line="232" selection-end-line="234" selection-end-column="14" />
-          <folding>
-            <element signature="e#14#77#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/system_module/sys_manage_user.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1040">
-          <caret line="40" column="45" selection-start-line="40" selection-start-column="35" selection-end-line="40" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/system_module/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="12" column="22" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/user_auth/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
-          <caret line="19" column="6" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../views.py" />
     <entry file="file://$PROJECT_DIR$/vdc_module/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="442">
@@ -626,51 +556,178 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vdc_module/views.py">
+    <entry file="file://$USER_HOME$/.PyCharm2018.1/system/python_stubs/-762174762/__builtin__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1664">
-          <caret line="79" column="13" selection-start-line="79" selection-start-column="13" selection-end-line="79" selection-end-column="13" />
+        <state relative-caret-position="297">
+          <caret line="4309" column="8" selection-start-line="4309" selection-start-column="8" selection-end-line="4309" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/keystone/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/keystone/client.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="156">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/keystone/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="17" column="29" selection-start-line="17" selection-start-column="29" selection-end-line="17" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user_auth/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2158">
+          <caret line="83" column="34" lean-forward="true" selection-start-line="83" selection-start-column="34" selection-end-line="83" selection-end-column="34" />
+          <folding>
+            <element signature="e#14#77#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user_auth/tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="156">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
           <folding>
             <element signature="e#24#63#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/system_module/static/js/sys_create_vdc.js">
+    <entry file="file://$PROJECT_DIR$/user_auth/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="572">
-          <caret line="22" column="22" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
+        <state relative-caret-position="-524">
+          <caret line="30" column="13" selection-start-line="30" selection-start-column="4" selection-end-line="30" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Python27/Lib/site-packages/django/conf/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="305">
+          <caret line="198" lean-forward="true" selection-start-line="198" selection-end-line="198" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/system_module/sys_manage_vdc.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2106">
-          <caret line="81" column="104" selection-start-line="81" selection-start-column="94" selection-end-line="81" selection-end-column="104" />
+        <state relative-caret-position="227">
+          <caret line="34" column="28" lean-forward="true" selection-start-line="34" selection-start-column="28" selection-end-line="34" selection-end-column="28" />
           <folding>
-            <element signature="e#4376#6399#0#HTML" />
-            <element signature="e#6420#7586#0#HTML" />
+            <element signature="e#3510#8188#0#HTML" />
+            <element signature="e#5016#5039#0#HTML" expanded="true" />
+            <element signature="e#5168#5193#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vdc_module/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="203">
+          <caret line="15" column="54" lean-forward="true" selection-start-line="15" selection-start-column="54" selection-end-line="15" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/integrated_plateform/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="281">
+          <caret line="14" column="35" lean-forward="true" selection-start-line="14" selection-start-column="35" selection-end-line="14" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system_module/static/js/sys_create_user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="11" column="12" lean-forward="true" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system_module/static/js/system_overview_pie_data.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1326">
+          <caret line="51" lean-forward="true" selection-start-line="51" selection-end-line="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system_module/static/js/flot-demo-system.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-6708">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system_module/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="9" column="22" selection-start-line="9" selection-start-column="11" selection-end-line="9" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/system_module/sys_module_base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3840">
+          <caret line="89" column="24" lean-forward="true" selection-start-line="89" selection-start-column="24" selection-end-line="89" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/integrated_plateform/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="549">
+          <caret line="24" column="1" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system_module/static/js/sys_create_vdc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="93">
+          <caret line="60" column="37" lean-forward="true" selection-start-line="60" selection-start-column="37" selection-end-line="60" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system_module/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="181">
+          <caret line="13" column="4" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="4" />
+          <folding>
+            <element signature="e#24#63#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/system_module/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="936">
-          <caret line="47" selection-start-line="47" selection-end-line="47" />
+        <state relative-caret-position="163">
+          <caret line="108" column="32" selection-start-line="108" selection-start-column="23" selection-end-line="108" selection-end-column="32" />
           <folding>
             <element signature="e#24#63#0" expanded="true" />
+            <marker date="1532351326937" expanded="true" signature="4495:4503" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/system_module/models.py">
+    <entry file="file://$PROJECT_DIR$/templates/system_module/sys_manage_user.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="624">
-          <caret line="24" column="19" lean-forward="true" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="19" />
-          <folding>
-            <element signature="e#24#63#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="130">
+          <caret line="35" column="31" lean-forward="true" selection-start-line="35" selection-start-column="31" selection-end-line="35" selection-end-column="31" />
         </state>
       </provider>
     </entry>

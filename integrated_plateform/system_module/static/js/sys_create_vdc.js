@@ -58,11 +58,13 @@ function get_quota(id) {
             pop_box.setAttribute('data-content', '<table class="table table-striped table-bordered m-b-xs table-hover">' +
                 '<tr>' +
                 '<td>cpu</td>' +
+                '<td>instance</td>' +
                 '<td>ram</td>' +
-                '<td>disk</td>' +
+                '<td>volume</td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>' + data[0].fields.cpu + '</td>' +
+                '<td>' + data[0].fields.instances + '</td>' +
                 '<td>' + data[0].fields.ram + '</td>' +
                 '<td>' + data[0].fields.volume + '</td>' +
                 '</tr>' +

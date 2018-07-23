@@ -11,20 +11,27 @@ import json
 from django.core import serializers
 from user_auth.views import auth
 import models
+from api.keystone import client as keystoneClient
 
 
 # Create your views here.
 def sys_index(request):
     return render(request, 'system_module/sys_index_overview.html')
 
+#角色id设为全局
+vdc_admin_role_id = auth_models.Role.objects.get(name='VDC_admin').id
+general_user_role_id = auth_models.Role.objects.get(name='general_user').id
+system_admin_role_id = auth_models.Role.objects.get(name='system_admin').id
+system_maintainer_role_id = auth_models.Role.objects.get(name='system_maintainer').id
+system_monitor_role_id = auth_models.Role.objects.get(name='system_monitor').id
 
 #-----------manage VDC---------------
 @auth
 def manage_vdc(request):
     exclude = ['created_time', 'backend_info', 'usage']
-    print_vdc_fields = models.print_fields(exclude,'VDC')
+    print_vdc_fields = models.print_fields(exclude, 'VDC')
     vdc_lists = auth_models.VDC.objects.all()
-    vdc_admins_obj = auth_models.User_Role_VDC.objects.filter(role_id=3)
+    vdc_admins_obj = auth_models.User_Role_VDC.objects.filter(role_id=vdc_admin_role_id)
     vdc_admins = []
     for i in vdc_admins_obj:
         if i.vdc_id == None:        #判断该用户是否已经是某个vdc的管理员了
@@ -35,16 +42,28 @@ def manage_vdc(request):
         'vdc_admins': vdc_admins,
     })
 
+
 def create_vdc(request):
     name = request.POST.get('vdc_name')
     desc = request.POST.get('vdc_desc')
     vdc_admin_id = request.POST.get('vdc_admin_id')
     quota_obj = models.quota_create(request)
-    vdc_obj = auth_models.VDC(name=name, description=desc, quota_id=quota_obj.id)
-    vdc_obj.save()
-    user_vdc_obj = auth_models.User_Role_VDC(vdc_id=vdc_obj.id,user_id=vdc_admin_id,role_id=3)
-    user_vdc_obj.save()
-    return redirect('/sys_manage_vdc')
+    #管理平台创建vdc时，先通过传递quota参数在openstack后端创建对应的project 如创建成功，再在管理平台创建vdc
+    quota_dict = {"cores":quota_obj.cpu,"gigabytes": quota_obj.volume, "backup_gigabytes": quota_obj.volume, "instances": quota_obj.instances, "ram": quota_obj.ram}
+    cl = keystoneClient.Client()
+    key = cl.attach2project(quota_params=quota_dict)
+    vdc_user = cl.register_user(key=key)
+    print("this is backend info",vdc_user)
+    if vdc_user:
+        usage = auth_models.Usage(cpu=0,ram=0,instances=0,volume=0)
+        usage.save()
+        vdc_obj = auth_models.VDC(name=name, description=desc, quota_id=quota_obj.id,backend_info=vdc_user,usage_id=usage.id)
+        vdc_obj.save()
+        request.session["backend_info"] = vdc_user
+        user_vdc_obj = auth_models.User_Role_VDC(vdc_id=vdc_obj.id,user_id=vdc_admin_id,role_id=vdc_admin_role_id)
+        user_vdc_obj.save()
+        return redirect('/sys_manage_vdc')
+
 
 #创建vdc时，选择新建一个用户作为vdc管理员
 def create_vdc_admin(request):
@@ -72,18 +91,23 @@ def update_VDC(request):
 #------------manage user-------------
 @auth
 def manage_user(request):
-    exclude = ['password', 'created_time', 'status', 'recent_use_VDC', 'usage', 'quota']
+    exclude = ['id','password', 'created_time', 'updated_time','status', 'recent_use_VDC', 'usage', 'quota']
     print_user_fields = models.print_fields(exclude, 'User')
     user_lists = []
-    # user_role_list = []                 #用户的角色列表
+    # user_lists = auth_models.User.objects.all()
+    # user_role_list = []                #用户的角色列表
     user_role_obj = auth_models.User_Role_VDC.objects.all()
+    # for i in user_role_obj:
+    #     user_role = auth_models.User_Role_VDC.objects.filter(line.id)
+    #     line['role'] = user_role.role_id
     for i in user_role_obj:
-        if i.role_id != 6:
-            user_id = i.user_id
-            user_obj = auth_models.User.objects.get(id=user_id)
-            user_lists.append(user_obj)
-            # user_role_name = auth_models.Role.objects.get(id=i.role_id).name
-            # user_role_list.append(user_role_name)
+        if i.role_id != general_user_role_id:
+            user_dict = {}
+            user_obj = i.user
+            role_obj_name = i.role.name
+            user_dict["user_obj"] = user_obj
+            user_dict["role_name"] = role_obj_name
+            user_lists.append(user_dict)
     roles = auth_models.Role.objects.all()
     return render(request, 'system_module/sys_manage_user.html', {
         'user_fields': print_user_fields,
@@ -133,19 +157,20 @@ def manage_role(request):
 def create_role(request):
     name = request.POST.get('rolename')
     desc = request.POST.get('desc')
-    obj = auth_models.Role(name=name,description=desc)
+    obj = auth_models.Role(name=name, description=desc)
     obj.save()
 
-def del_role(request):
-    role_id = request.POST.get('role_id')
-    if role_id > 6 :
-        auth_models.User.objects.filter(id=role_id).delete()
-        return redirect('/sys_manage_user')
-    else:return HttpResponse('you can not delete the role')
+# def del_role(request):
+#     role_id = request.POST.get('role_id')
+#     if role_id != system_admin_role_id | vdc_admin_role_id | system_maintainer_role_id | system_monitor_role_id | general_user_role_id:
+#         auth_models.User.objects.filter(id=role_id).delete()
+#         return redirect('/sys_manage_user')
+#     else: return HttpResponse('you can not delete the role')
+
 
 def update_user(request):
     role_id = request.POST.get('role_id')
-    if role_id > 6:
+    if role_id != system_admin_role_id | vdc_admin_role_id | system_maintainer_role_id | system_monitor_role_id | general_user_role_id:
         name = request.POST.get('update_rolename')
         desc = request.POST.get('update_desc')
         auth_models.User.objects.filter(id=role_id).update(name=name, description=desc)

@@ -7,14 +7,16 @@ from django.forms import models,fields
 from django.contrib.auth.hashers import (
     check_password, is_password_usable, make_password,
 )
+from api.keystone import client
 
 # Create your models here.
 
 def print_fields(exclude,table_name):
-    obj = apps.get_model('user_auth',table_name)
+    obj = apps.get_model('user_auth', table_name)
     obj_fields = obj._meta.fields
     print_fields_list = [f for f in obj_fields if f.name not in exclude]
     return print_fields_list
+
 
 def create_user_operation(request):
     name = request.POST.get('username')
@@ -27,10 +29,13 @@ def create_user_operation(request):
     user_role_obj.save()
     print 'user_created'
 
+
 def quota_create(request):
     quota_cpu = request.POST.get('cpu_amount')
+    print("iiiiiiiiiiiiiiiiiiii:",quota_cpu)
     quota_ram = request.POST.get('memory')
-    quota_volume = request.POST.get('disk')
-    quota_instances = request.POST.get('instances')
+    quota_volume = request.POST.get('volume')
+    quota_instances = request.POST.get('instance_amount')
     quota_obj = auth_models.Quota(cpu=quota_cpu, ram=quota_ram, volume=quota_volume,instances=quota_instances)
     quota_obj.save()
+    return quota_obj

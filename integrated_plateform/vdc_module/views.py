@@ -17,6 +17,14 @@ from django.contrib.auth.hashers import (
 )
 # Create your views here.
 
+#角色id设为全局
+vdc_admin_role_id = auth_models.Role.objects.get(name='VDC_admin').id
+general_user_role_id = auth_models.Role.objects.get(name='general_user').id
+system_admin_role_id = auth_models.Role.objects.get(name='system_admin').id
+system_maintainer_role_id = auth_models.Role.objects.get(name='system_maintainer').id
+system_monitor_role_id = auth_models.Role.objects.get(name='system_monitor').id
+
+
 #---------------manage user-----------------
 def manage_user(request):
     exclude = ['password', 'created_time', 'status', 'recent_use_VDC', 'usage', 'quota']

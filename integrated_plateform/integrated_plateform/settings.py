@@ -10,7 +10,6 @@ https://docs.djangoproject.com/en/1.11/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
-
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -155,3 +154,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "user_auth/static"),
     os.path.join(BASE_DIR, "system_module/static"),
 ]
+
+
+
+
+
