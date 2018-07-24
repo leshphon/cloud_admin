@@ -33,8 +33,8 @@
                     {% for line in user_fields %}
                     <th>{{ line.name }}</th>
                     {% endfor %}
-                    <th>角色</th>
-                    <th>操作</th>
+                    <th>role</th>
+                    <th>action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -43,8 +43,9 @@
                         <tr>
                             {% for key,value in line.items %}
                                 {% if key == "user_obj" %}
-                                    <td>{{ value.name }}</td>
-                                    <td>{{ value.email }}</td>
+                                    <td hidden id="user_id">{{ value.id }}</td>
+                                    <td id="user_name">{{ value.name }}</td>
+                                    <td id="user_email">{{ value.email }}</td>
                                     <td>{{ value.department }}</td>
                                 {% endif %}
                             {% endfor %}
@@ -57,8 +58,10 @@
                                 <div class="btn-group">
                                     <a href="#" class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-wrench"></span></a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="btn" href="#">编辑</a></li>
-                                        <li><a id="del_user" class="btn" href="#">删除</a></li>
+                                         <li>
+                                             <a data-toggle="modal" data-target="#updateModal" href="#" onclick="getUserInfo($("#user_n,$("#user_email").val())">update</a></li>
+                                         <li>
+                                        <li><a id="del_user" class="btn" href="#">delete</a></li>
                                     </ul>
                                 </div>
                             </td>
@@ -131,5 +134,36 @@
         </div>
     </div>
 </div><!-- /.modal -->
+<div class="modal fade" id="updateModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h4 class="modal-title">update user</h4>
+                </div>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group col-sm-6">
+                                <label class="control-label" for="update_name">Name</label>
+                                <div>
+                                    <input id="update_name" class="form-control" value="">
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label class="control-label" for="update_email">Email</label>
+                                <div>
+                                    <input id="update_email" class="form-control" value="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="text-right"><button id="updateUser_btn" class="btn btn-default" type="submit">Submit</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

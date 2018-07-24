@@ -91,12 +91,13 @@ def update_VDC(request):
 #------------manage user-------------
 @auth
 def manage_user(request):
-    exclude = ['id','password', 'created_time', 'updated_time','status', 'recent_use_VDC', 'usage', 'quota']
+    exclude = ['password', 'created_time', 'updated_time','status', 'recent_use_VDC', 'usage', 'quota']
     print_user_fields = models.print_fields(exclude, 'User')
     user_lists = []
     # user_lists = auth_models.User.objects.all()
     # user_role_list = []                #用户的角色列表
     user_role_obj = auth_models.User_Role_VDC.objects.all()
+    user_id_list = []
     # for i in user_role_obj:
     #     user_role = auth_models.User_Role_VDC.objects.filter(line.id)
     #     line['role'] = user_role.role_id
@@ -108,12 +109,12 @@ def manage_user(request):
             user_dict["user_obj"] = user_obj
             user_dict["role_name"] = role_obj_name
             user_lists.append(user_dict)
-    roles = auth_models.Role.objects.all()
+            user_id_list.append(user_obj.id)      #id传向前端 用于更新用户数据时显示旧的信息
+
     return render(request, 'system_module/sys_manage_user.html', {
         'user_fields': print_user_fields,
         'user_lists': user_lists,
-        'role_lists': roles,
-        # 'user_role_lists':user_role_list,
+        'user_id_lists': user_id_list,
     })
 
 def create_user(request):
