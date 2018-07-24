@@ -9,11 +9,14 @@ class SubnetManager(object):
     def __init__(self, user):
         self.user = user
 
-    def get(self, identification=None):
+    def get(self, identification=None, **kwargs):
+        url = self.user.endpoint['neutron'] + '/subnets'
         if identification is None:
-            result = requests.get(self.user.endpoint['neutron'] + '/subnets', data=None, headers=self.user.headers)
+            if kwargs.get("network_id") is not None:
+                url = url + "?network_id=" + kwargs["network_id"]
+            result = requests.get(url=url, data=None, headers=self.user.headers)
         else:
-            result = requests.get(self.user.endpoint['neutron'] + '/subnets/' + identification,
+            result = requests.get(url=url + '/' + identification,
                                   data=None, headers=self.user.headers)
         return utils.answer_detect(result)
 

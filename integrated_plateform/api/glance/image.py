@@ -25,7 +25,7 @@ class ImageManager(object):
             params["min_disk"] = kwargs["min_disk"]
         if kwargs.get("min_ram"):
             params["min_ram"] = kwargs["min_ram"]
-        if kwargs.get("protected"):
+        if kwargs.get("protected") is not None:
             params["protected"] = kwargs["protected"]
         if kwargs.get("visibility"):
             params["visibility"] = kwargs["visibility"]
@@ -55,7 +55,7 @@ class ImageManager(object):
         if kwargs.get("name"):
             params.append({"op": "replace", "path": "/name", "value": kwargs["name"]})
 
-        if kwargs.get("protected"):
+        if kwargs.get("protected") is not None:
             params.append({"op": "replace", "path": "/protected", "value": kwargs["protected"]})
 
         if kwargs.get("visibility"):

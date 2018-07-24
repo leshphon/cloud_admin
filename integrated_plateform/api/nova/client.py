@@ -1,5 +1,4 @@
 # coding=utf-8
-import warnings
 
 import server
 import flavor
@@ -10,15 +9,25 @@ class Client(object):
         self.client_name = 'Nova'
 
     @staticmethod
-    def create_servers(user, params=None):
+    def create_servers(user, params):
         server_manager = server.ServerManager(user=user)
-        params["description"] = params["owner"]
-        return server_manager.create(**params)
+        flavor_manager = flavor.FlavorManager(user=user)
+        result = server_manager.create(**params)
+        if isinstance(result, list):
+            result[0].flavor_obj = flavor_manager.get(identification=result[0].flavor_id)
+            return result
+        else:
+            return result
 
     @staticmethod
     def show_servers(user, owner=None, identification=None):
         server_manager = server.ServerManager(user=user)
         return server_manager.get(owner=owner, identification=identification)
+
+    @staticmethod
+    def update_servers(user, params, identification):
+        server_manager = server.ServerManager(user=user)
+        return server_manager.update(identification, **params)
 
     @staticmethod
     def manipulate_servers(user, action=None, identification=None, params=None):
@@ -41,7 +50,8 @@ class Client(object):
     @staticmethod
     def show_flavor(user):
         flavor_manager = flavor.FlavorManager(user=user)
-        return flavor_manager.get()
+        params = {"project_id": user.project.identification}
+        return flavor_manager.get(**params)
 
     @staticmethod
     def update_flavor(user, params):
