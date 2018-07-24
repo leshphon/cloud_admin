@@ -15,6 +15,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.hashers import (
     check_password, is_password_usable, make_password,
 )
+from django.conf import settings
 # Create your views here.
 
 #角色id设为全局
@@ -24,25 +25,41 @@ system_admin_role_id = auth_models.Role.objects.get(name='system_admin').id
 system_maintainer_role_id = auth_models.Role.objects.get(name='system_maintainer').id
 system_monitor_role_id = auth_models.Role.objects.get(name='system_monitor').id
 
+def sync_role_id(request):
+    roleobjs = auth_models.Role.objects.all()
+    for robj in roleobjs:
+        if robj.name == 'sys_admin':
+            settings.SYSROLES['SYSADMIN'] = int(robj.id)
+        elif robj.name == 'VDC_admin':
+            settings.SYSROLES['SYSVDC'] = int(robj.id)
+        elif robj.name == 'system_maintainer':
+            settings.SYSROLES['SYSMAIN'] = int(robj.id)
+        elif robj.name == 'system_monitor':
+            settings.SYSROLES['SYSMON'] = int(robj.id)
+        elif robj.name == 'general_user':
+            settings.SYSROLES['SYSUSER'] = int(robj.id)
+    return {
+        'SYSADMIN': settings.SYSROLES['SYSADMIN'],
+        'SYSVDC': settings.SYSROLES['SYSVDC'],
+        'SYSMAIN': settings.SYSROLES['SYSMAIN'],
+        'SYSMON': settings.SYSROLES['SYSMON'],
+        'SYSUSER': settings.SYSROLES['SYSUSER']
+    }
 
 #---------------manage user-----------------
 def manage_user(request):
-    exclude = ['password', 'created_time', 'status', 'recent_use_VDC', 'usage', 'quota']
+    exclude = ['id','password', 'created_time', 'updated_time','status', 'recent_use_VDC','cpu','ram','volume','instances','used_ram','used_cpu','used_volume','used_instances']
     print_user_fields = models.print_fields(exclude, 'User')
     user_lists = []
     # user_role_list = []                 #用户的角色列表
     user_role_obj = auth_models.User_Role_VDC.objects.all()
     for i in user_role_obj:
-        if i.role_id == 6:
-            user_id = i.user_id
-            user_obj = auth_models.User.objects.get(id=user_id)
+        if i.role_id == settings.SYSROLES['SYSUSER']:
+            user_obj = i.user
             user_lists.append(user_obj)
-            # user_role_name = auth_models.Role.objects.get(id=i.role_id).name
-            # user_role_list.append(user_role_name)
     return render(request, 'system_module/sys_manage_user.html', {
         'user_fields': print_user_fields,
         'user_lists': user_lists,
-        # 'user_role_lists':user_role_list,
     })
 
 def create_user(request):                 #前端提供的角色列表要加以限制，只能创建普通用户，即role_id=6

@@ -23,4 +23,6 @@ urlpatterns = [
     url(r'^show_keypairs', views.show_keypairs, name='show_keypairs'),
     url(r'^instance_type', views.instance_type, name='instance_type'),
     url(r'^instance_build_type', views.instance_build_type, name='instance_build_type'),
+
+    url(r'^manage_user', views.manage_user, name='manage_user'),
 ]

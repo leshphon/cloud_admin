@@ -101,18 +101,17 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-       # 'NAME': 'PPI',
-       # 'USER': 'root',
-       # 'PASSWORD': 'art319',
-       # 'HOST': '10.190.2.226',
-        'NAME': 'cloudb',
-        'USER': 'cloud',
-        'PASSWORD': '123456',
-        'HOST': 'localhost',
+        'NAME': 'PPI',
+        'USER': 'root',
+        'PASSWORD': 'art319',
+        'HOST': '10.190.2.226',
+        # 'NAME': 'cloudb',
+        # 'USER': 'cloud',
+        # 'PASSWORD': '123456',
+        # 'HOST': 'localhost',
         'PORT': '3306'
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators

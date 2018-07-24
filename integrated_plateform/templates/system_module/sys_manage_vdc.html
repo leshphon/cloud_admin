@@ -40,22 +40,24 @@
             <tr>
                 {% for line in vdc_lists %}
                     <tr>
-                        <td>{{ line.id }}</td>
                         <td>{{ line.name }}</td>
                         <td>{{ line.description }}</td>
-                        <td>{{ line.updated_time }}</td>
-                        <td>
-                            <button id="quota_{{ line.quota_id }}" type="button" class="btn btn-default btn-white btn-sm" data-title="quota"
-                                    data-container="body" data-toggle="popover" data-placement="right" data-trigger="focus"
-                                    data-content="左侧的 Popover 中的一些内容" data-delay="" data-html="true" onclick="get_quota({{ line.quota_id }})" >
-                                详细
-                            </button>
-                        </td>
+                        <td>{{ line.cpu }}</td>
+                        <td>{{ line.instances }}</td>
+                        <td>{{ line.ram }}</td>
+                        <td>{{ line.volume }}</td>
+{#                        <td>#}
+{#                            <button id="quota_{{ line.quota_id }}" type="button" class="btn btn-default btn-white btn-sm" data-title="quota"#}
+{#                                    data-container="body" data-toggle="popover" data-placement="right" data-trigger="focus"#}
+{#                                    data-content="左侧的 Popover 中的一些内容" data-delay="" data-html="true" onclick="get_quota({{ line.quota_id }})" >#}
+{#                                详细#}
+{#                            </button>#}
+{#                        </td>#}
                         <td>
                             <div class="btn-group">
                                 <a href="#" class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-wrench"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="btn" href="#">编辑</a></li>
+                                    <li><a data-toggle="modal" data-target="#updateModal" href="#" onclick="getVDCInfo({{ line.name }},{{ line.description }})">update</a></li>
                                     <li><a class="btn" href="#" onclick="return window.confirm('confirm delete {{ line.name }}?')">删除</a></li>
                                 </ul>
                             </div>
@@ -213,6 +215,39 @@
     </div>
 </div>
 </div><!-- /.modal -->
+
+<div class="modal fade" id="updateModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h4 class="modal-title">update project</h4>
+                </div>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group col-sm-6">
+                                <label class="control-label" for="update_name">name</label>
+                                <div>
+                                    <input id="ide_update_name" class="form-control" value="">
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label class="control-label" for="update_desc">description</label>
+                                <div>
+                                    <input id="ide_update_desc" class="form-control" value="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="text-right"><button id="updatePrj_btn" class="btn btn-default" type="submit">Submit</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <script>
         $(function () {

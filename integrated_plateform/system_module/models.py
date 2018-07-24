@@ -30,12 +30,3 @@ def create_user_operation(request):
     print 'user_created'
 
 
-def quota_create(request):
-    quota_cpu = request.POST.get('cpu_amount')
-    print("iiiiiiiiiiiiiiiiiiii:",quota_cpu)
-    quota_ram = request.POST.get('memory')
-    quota_volume = request.POST.get('volume')
-    quota_instances = request.POST.get('instance_amount')
-    quota_obj = auth_models.Quota(cpu=quota_cpu, ram=quota_ram, volume=quota_volume,instances=quota_instances)
-    quota_obj.save()
-    return quota_obj

@@ -13,8 +13,14 @@ class User(models.Model):
     updated_time = models.DateField(auto_now=True)
     recent_use_VDC = models.IntegerField(default=0, blank=True)
     department = models.CharField(max_length=32, null=True)
-    usage = models.ForeignKey('Usage', on_delete=models.CASCADE, null=True)
-    quota = models.ForeignKey('Quota', on_delete=models.CASCADE, null=True)
+    cpu = models.IntegerField(default=None)
+    ram = models.IntegerField(default=None)
+    volume = models.IntegerField(default=None)
+    instances = models.IntegerField(default=None)
+    used_cpu = models.IntegerField(default=None)
+    used_ram = models.IntegerField(default=None)
+    used_volume = models.IntegerField(default=None)
+    used_instances = models.IntegerField(default=None)
 
 
 class Role(models.Model):
@@ -24,29 +30,21 @@ class Role(models.Model):
     updated_time = models.DateField(auto_now=True)
 
 
-class Quota(models.Model):
-    cpu = models.IntegerField(default=None)
-    ram = models.BigIntegerField(default=None)
-    volume = models.BigIntegerField(default=None)
-    instances = models.IntegerField(default=None)
-
-
-class Usage(models.Model):
-    cpu = models.IntegerField(default=None)
-    ram = models.BigIntegerField(default=None)
-    volume = models.BigIntegerField(default=None)
-    instances = models.IntegerField(default=None)
-
-
 #
 class VDC(models.Model):
     name = models.CharField(max_length=32, unique=True)
     description = models.TextField(default=None)
     created_time = models.DateField(auto_now_add=True)
     updated_time = models.DateField(auto_now=True)
-    quota = models.ForeignKey('Quota', on_delete=models.CASCADE)
     backend_info = models.TextField(default=None)
-    usage = models.ForeignKey(Usage, on_delete=models.CASCADE, blank=True)
+    cpu = models.IntegerField(default=None)
+    ram = models.IntegerField(default=None)
+    volume = models.IntegerField(default=None)
+    instances = models.IntegerField(default=None)
+    used_cpu = models.IntegerField(default=None)
+    used_ram = models.IntegerField(default=None)
+    used_volume = models.IntegerField(default=None)
+    used_instances = models.IntegerField(default=None)
 
 
 #

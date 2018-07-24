@@ -51,7 +51,7 @@ system_monitor_role_id = auth_models.Role.objects.get(name='system_monitor').id
 #-----------manage VDC---------------
 @auth
 def manage_vdc(request):
-    exclude = ['created_time', 'backend_info', 'usage']
+    exclude = ['id','created_time', 'updated_time','backend_info','used_ram','used_cpu','used_volume','used_instances']
     print_vdc_fields = models.print_fields(exclude, 'VDC')
     vdc_lists = auth_models.VDC.objects.all()
     vdc_admins_obj = auth_models.User_Role_VDC.objects.filter(role_id=settings.SYSROLES['SYSVDC'])
@@ -70,20 +70,21 @@ def create_vdc(request):
     name = request.POST.get('vdc_name')
     desc = request.POST.get('vdc_desc')
     vdc_admin_id = request.POST.get('vdc_admin_id')
-    quota_obj = models.quota_create(request)
+    quota_cpu = request.POST.get('cpu_amount')
+    quota_ram = request.POST.get('memory')
+    quota_volume = request.POST.get('volume')
+    quota_instances = request.POST.get('instance_amount')
     #管理平台创建vdc时，先通过传递quota参数在openstack后端创建对应的project 如创建成功，再在管理平台创建vdc
-    quota_dict = {"cores":quota_obj.cpu,"gigabytes": quota_obj.volume, "backup_gigabytes": quota_obj.volume, "instances": quota_obj.instances, "ram": quota_obj.ram}
+    quota_dict = {"cores":quota_cpu,"gigabytes": quota_volume, "backup_gigabytes": quota_volume, "instances": quota_instances, "ram": quota_ram}
     cl = keystoneClient.Client()
     key = cl.attach2project(quota_params=quota_dict)
     vdc_user = cl.register_user(key=key)
     print("this is backend info",vdc_user)
     if vdc_user:
-        usage = auth_models.Usage(cpu=0,ram=0,instances=0,volume=0)
-        usage.save()
-        vdc_obj = auth_models.VDC(name=name, description=desc, quota_id=quota_obj.id,backend_info=vdc_user,usage_id=usage.id)
+        vdc_obj = auth_models.VDC(name=name, description=desc,backend_info=vdc_user,cpu=quota_cpu,ram=quota_ram,volume=quota_volume,instances=quota_instances)
         vdc_obj.save()
         request.session["backend_info"] = vdc_user
-        user_vdc_obj = auth_models.User_Role_VDC(vdc_id=vdc_obj.id,user_id=vdc_admin_id,role_id=vdc_admin_role_id)
+        user_vdc_obj = auth_models.User_Role_VDC(vdc_id=vdc_obj.id,user_id=vdc_admin_id,role_id=settings.SYSROLES['SYSVDC'])
         user_vdc_obj.save()
         return redirect('/sys_manage_vdc')
 
@@ -93,12 +94,6 @@ def create_vdc_admin(request):
     models.create_user_operation(request)
     return HttpResponse(serializers.serialize('json', [auth_models.User.objects.get(name=request.POST.get('username'))]))
     # return HttpResponse('ok')
-
-def get_quota(request):
-    quota_id = request.POST.get('quota_id')
-    print(quota_id)
-    quota_detail = auth_models.Quota.objects.get(id__exact=quota_id)
-    return HttpResponse(serializers.serialize('json', [quota_detail]), content_type="application/json")
 
 def del_VDC(request):
     vdc_id = request.POST.get('vdc_id')
@@ -112,18 +107,12 @@ def update_VDC(request):
     auth_models.VDC.objects.filter(id=vdc_id).update(name=name,description=desc)
 
 #------------manage user-------------
-#@auth
+@auth
 def manage_user(request):
-    exclude = ['password', 'created_time', 'updated_time','status', 'recent_use_VDC', 'usage', 'quota']
+    exclude = ['id','password', 'created_time', 'updated_time','status', 'recent_use_VDC','cpu','ram','volume','instances','used_ram','used_cpu','used_volume','used_instances']
     print_user_fields = models.print_fields(exclude, 'User')
     user_lists = []
-    # user_lists = auth_models.User.objects.all()
-    # user_role_list = []                #用户的角色列表
     user_role_obj = auth_models.User_Role_VDC.objects.all()
-    user_id_list = []
-    # for i in user_role_obj:
-    #     user_role = auth_models.User_Role_VDC.objects.filter(line.id)
-    #     line['role'] = user_role.role_id
     for i in user_role_obj:
         if i.role_id != general_user_role_id:
             user_dict = {}
@@ -132,12 +121,12 @@ def manage_user(request):
             user_dict["user_obj"] = user_obj
             user_dict["role_name"] = role_obj_name
             user_lists.append(user_dict)
-            user_id_list.append(user_obj.id)      #id传向前端 用于更新用户数据时显示旧的信息
+            # user_id_list.append(user_obj.id)      #id传向前端 用于更新用户数据时显示旧的信息
 
     return render(request, 'system_module/sys_manage_user.html', {
         'user_fields': print_user_fields,
         'user_lists': user_lists,
-        'user_id_lists': user_id_list,
+        # 'user_id_lists': user_id_list,
     })
 
 def create_user(request):
@@ -170,7 +159,7 @@ def change_user_password(request):
 #------------manage Role-------------
 @auth
 def manage_role(request):
-    exclude = ['created_time']
+    exclude = ['created_time','updated_time','id']
     print_role_fields = models.print_fields(exclude, 'Role')
     role_lists = auth_models.Role.objects.all()
     return render(request, 'system_module/sys_manage_role.html', {
