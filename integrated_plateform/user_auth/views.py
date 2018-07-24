@@ -11,6 +11,7 @@ import json
 from . import models
 import os
 from api.keystone import client
+from django.conf import settings
 
 # Create your views here.
 
@@ -20,14 +21,6 @@ passwd = "art319"
 db = "PPIDB"
 port = 3306
 charset = "utf8"
-
-#角色id设为全局
-vdc_admin_role_id = models.Role.objects.get(name='VDC_admin').id
-general_user_role_id = models.Role.objects.get(name='general_user').id
-system_admin_role_id = models.Role.objects.get(name='system_admin').id
-system_maintainer_role_id = models.Role.objects.get(name='system_maintainer').id
-system_monitor_role_id = models.Role.objects.get(name='system_monitor').id
-
 
 def auth(func):
     print("come auth")
@@ -62,7 +55,7 @@ def login(request):
                     print('this is session.username', request.session.get("username"))
                     # 判断用户角色并进入相应页面
                     login_rel_objs = models.User_Role_VDC.objects.filter(user_id=login_obj.id)      # log_rel_objs是login用户的所有角色、vdc信息
-                    if login_rel_objs.__len__() == 1 and login_rel_objs.first().role_id == system_admin_role_id:       # 系统用户没有VDC关系,因此一个系统用户只有一条记录
+                    if login_rel_objs.__len__() == 1 and login_rel_objs.first().role_id == settings.SYSROLES['SYSADMIN']:       # 系统用户没有VDC关系,因此一个系统用户只有一条记录
                         request.session['login_role'] = login_rel_objs.first().role_id
                         print('save role_id in session', request.session.get("login_role"))
                         return render(request, 'system_module/sys_index_overview.html')
@@ -75,10 +68,10 @@ def login(request):
                         login_rel_obj = models.User_Role_VDC.objects.get(user_id=login_obj.id, vdc_id=recent_use_VDC_id)
                         request.session['login_role'] = login_rel_obj.role_id
                         print('save role_id in session',request.session.get("login_role"))
-                        if login_rel_obj.role_id == vdc_admin_role_id:
+                        if login_rel_obj.role_id == settings.SYSROLES['SYSVDC']:
                             print('success!!!')
                             return render(request, 'vdc_module/vdc_index.html')
-                        elif login_rel_obj.role_id == general_user_role_id:
+                        elif login_rel_obj.role_id == settings.SYSROLES['SYSUSER']:
                             return HttpResponse('这是一个普通用户，页面还在制作')
                 else:
                     error = '密码错误'

@@ -41,13 +41,6 @@ def sync_role_id(request):
 def sys_index(request):
     return render(request, 'system_module/sys_index_overview.html')
 
-#角色id设为全局
-vdc_admin_role_id = auth_models.Role.objects.get(name='VDC_admin').id
-general_user_role_id = auth_models.Role.objects.get(name='general_user').id
-system_admin_role_id = auth_models.Role.objects.get(name='system_admin').id
-system_maintainer_role_id = auth_models.Role.objects.get(name='system_maintainer').id
-system_monitor_role_id = auth_models.Role.objects.get(name='system_monitor').id
-
 #-----------manage VDC---------------
 @auth
 def manage_vdc(request):
@@ -183,7 +176,7 @@ def create_role(request):
 
 def update_user(request):
     role_id = request.POST.get('role_id')
-    if role_id != system_admin_role_id | vdc_admin_role_id | system_maintainer_role_id | system_monitor_role_id | general_user_role_id:
+    if role_id != settings.SYSROLES['SYSADMIN'] | settings.SYSROLES['SYSVDC'] | settings.SYSROLES['SYSMAIN'] | settings.SYSROLES['SYSMON'] | settings.SYSROLES['SYSUSER']:
         name = request.POST.get('update_rolename')
         desc = request.POST.get('update_desc')
         auth_models.User.objects.filter(id=role_id).update(name=name, description=desc)
