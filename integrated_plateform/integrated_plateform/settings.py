@@ -67,6 +67,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'system_module.views.sync_role_id',
             ],
         },
     },
@@ -101,10 +102,14 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'PPI',
-        'USER': 'root',
-        'PASSWORD': 'art319',
-        'HOST': '10.190.2.226',
+       # 'NAME': 'PPI',
+       # 'USER': 'root',
+       # 'PASSWORD': 'art319',
+       # 'HOST': '10.190.2.226',
+        'NAME': 'cloudb',
+        'USER': 'cloud',
+        'PASSWORD': '123456',
+        'HOST': 'localhost',
         'PORT': '3306'
     }
 }
@@ -155,3 +160,12 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "user_auth/static"),
     os.path.join(BASE_DIR, "system_module/static"),
 ]
+
+#define roles in global
+SYSROLES = {
+    'SYSADMIN':1,
+    'SYSVDC':2,
+    'SYSMAIN':3,
+    'SYSMON':4,
+    'SYSUSER':5,
+}

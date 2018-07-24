@@ -11,7 +11,29 @@ import json
 from django.core import serializers
 from user_auth.views import auth
 import models
+from django.conf import settings
 
+
+def sync_role_id(request):
+    roleobjs = auth_models.Role.objects.all()
+    for robj in roleobjs:
+        if robj.name == 'sys_admin':
+            settings.SYSROLES['SYSADMIN'] = int(robj.id)
+        elif robj.name == 'VDC_admin':
+            settings.SYSROLES['SYSVDC'] = int(robj.id)
+        elif robj.name == 'system_maintainer':
+            settings.SYSROLES['SYSMAIN'] = int(robj.id)
+        elif robj.name == 'system_monitor':
+            settings.SYSROLES['SYSMON'] = int(robj.id)
+        elif robj.name == 'general_user':
+            settings.SYSROLES['SYSUSER'] = int(robj.id)
+    return {
+        'SYSADMIN': settings.SYSROLES['SYSADMIN'],
+        'SYSVDC': settings.SYSROLES['SYSVDC'],
+        'SYSMAIN': settings.SYSROLES['SYSMAIN'],
+        'SYSMON': settings.SYSROLES['SYSMON'],
+        'SYSUSER': settings.SYSROLES['SYSUSER']
+    }
 
 # Create your views here.
 def sys_index(request):
@@ -24,10 +46,10 @@ def manage_vdc(request):
     exclude = ['created_time', 'backend_info', 'usage']
     print_vdc_fields = models.print_fields(exclude,'VDC')
     vdc_lists = auth_models.VDC.objects.all()
-    vdc_admins_obj = auth_models.User_Role_VDC.objects.filter(role_id=3)
+    vdc_admins_obj = auth_models.User_Role_VDC.objects.filter(role_id=settings.SYSROLES['SYSVDC'])
     vdc_admins = []
     for i in vdc_admins_obj:
-        if i.vdc_id == None:        #判断该用户是否已经是某个vdc的管理员了
+        if i.vdc_id is None:        #判断该用户是否已经是某个vdc的管理员了
             vdc_admins.append(auth_models.User.objects.get(id=i.user_id))
     return render(request, 'system_module/sys_manage_vdc.html', {
         'vdc_fields': print_vdc_fields,
@@ -42,7 +64,7 @@ def create_vdc(request):
     quota_obj = models.quota_create(request)
     vdc_obj = auth_models.VDC(name=name, description=desc, quota_id=quota_obj.id)
     vdc_obj.save()
-    user_vdc_obj = auth_models.User_Role_VDC(vdc_id=vdc_obj.id,user_id=vdc_admin_id,role_id=3)
+    user_vdc_obj = auth_models.User_Role_VDC(vdc_id=vdc_obj.id,user_id=vdc_admin_id,role_id=settings.SYSROLES['SYSVDC'])
     user_vdc_obj.save()
     return redirect('/sys_manage_vdc')
 
@@ -70,7 +92,7 @@ def update_VDC(request):
     auth_models.VDC.objects.filter(id=vdc_id).update(name=name,description=desc)
 
 #------------manage user-------------
-@auth
+#@auth
 def manage_user(request):
     exclude = ['password', 'created_time', 'status', 'recent_use_VDC', 'usage', 'quota']
     print_user_fields = models.print_fields(exclude, 'User')
