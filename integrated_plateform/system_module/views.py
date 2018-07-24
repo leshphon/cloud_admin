@@ -100,14 +100,15 @@ def update_VDC(request):
     auth_models.VDC.objects.filter(id=vdc_id).update(name=name,description=desc)
 
 #------------manage user-------------
-@auth
+#@auth
 def manage_user(request):
     exclude = ['id','password', 'created_time', 'updated_time','status', 'recent_use_VDC','cpu','ram','volume','instances','used_ram','used_cpu','used_volume','used_instances']
     print_user_fields = models.print_fields(exclude, 'User')
     user_lists = []
     user_role_obj = auth_models.User_Role_VDC.objects.all()
+    roles = auth_models.Role.objects.all()
     for i in user_role_obj:
-        if i.role_id != general_user_role_id:
+        if i.role_id != settings.SYSROLES['SYSUSER']:
             user_dict = {}
             user_obj = i.user
             role_obj_name = i.role.name
@@ -119,7 +120,7 @@ def manage_user(request):
     return render(request, 'system_module/sys_manage_user.html', {
         'user_fields': print_user_fields,
         'user_lists': user_lists,
-        # 'user_id_lists': user_id_list,
+        'role_lists': roles,
     })
 
 def create_user(request):
