@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.hashers import (
     check_password, is_password_usable, make_password,
@@ -5,8 +6,8 @@ from django.contrib.auth.hashers import (
 
 
 class User(models.Model):
-    name = models.CharField(max_length=32, unique=True)
-    email = models.EmailField(max_length=64, blank=True)
+    name = models.CharField(verbose_name="姓名",max_length=32, unique=True)
+    email = models.EmailField(verbose_name="邮箱",max_length=64, blank=True)
     password = models.CharField(max_length=128)
     status = models.BooleanField(default=False)
     created_time = models.DateField(auto_now_add=True)
@@ -41,10 +42,10 @@ class VDC(models.Model):
     ram = models.IntegerField(default=None)
     volume = models.IntegerField(default=None)
     instances = models.IntegerField(default=None)
-    used_cpu = models.IntegerField(default=None)
-    used_ram = models.IntegerField(default=None)
-    used_volume = models.IntegerField(default=None)
-    used_instances = models.IntegerField(default=None)
+    used_cpu = models.IntegerField(default=None,null=True)
+    used_ram = models.IntegerField(default=None,null=True)
+    used_volume = models.IntegerField(default=None,null=True)
+    used_instances = models.IntegerField(default=None,null=True)
 
 
 #

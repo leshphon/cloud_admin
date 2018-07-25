@@ -77,8 +77,7 @@ def create_vdc(request):
         vdc_obj = auth_models.VDC(name=name, description=desc,backend_info=vdc_user,cpu=quota_cpu,ram=quota_ram,volume=quota_volume,instances=quota_instances)
         vdc_obj.save()
         request.session["backend_info"] = vdc_user
-        user_vdc_obj = auth_models.User_Role_VDC(vdc_id=vdc_obj.id,user_id=vdc_admin_id,role_id=settings.SYSROLES['SYSVDC'])
-        user_vdc_obj.save()
+        auth_models.User_Role_VDC.objects.filter(user_id=vdc_admin_id,role_id=settings.SYSROLES['SYSVDC']).update(vdc_id=vdc_obj.id)  #确保一个用户只充当一个vdc的admin
         return redirect('/sys_manage_vdc')
 
 
