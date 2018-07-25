@@ -54,10 +54,12 @@ def manage_user(request):
     # user_role_list = []                 #用户的角色列表
     user_role_obj = auth_models.User_Role_VDC.objects.all()
     for i in user_role_obj:
-        if i.role_id == settings.SYSROLES['SYSUSER']:
+        if i.role_id == settings.SYSROLES['SYSUSER'] and i.vdc_id == request.session['login_user_recent_vdc']:    #判断是登录vdc_admin_user所管理的vdc中的用户
+            print('333333333333:',request.session['login_user_recent_vdc'],i.vdc_id)
             user_obj = i.user
             user_lists.append(user_obj)
-    return render(request, 'system_module/sys_manage_user.html', {
+    print("this is vdc user list:",user_lists)
+    return render(request, 'vdc_module/vdc_module_user.html', {
         'user_fields': print_user_fields,
         'user_lists': user_lists,
     })

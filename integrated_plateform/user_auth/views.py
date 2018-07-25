@@ -74,6 +74,7 @@ def login(request):
                         recent_use_VDC_id = login_obj.recent_use_VDC
                         login_rel_obj = models.User_Role_VDC.objects.get(user_id=login_obj.id, vdc_id=recent_use_VDC_id)
                         request.session['login_role'] = login_rel_obj.role_id
+                        request.session['login_user_recent_vdc'] = recent_use_VDC_id    #将recent_use_vdc也存入session中
                         print('save role_id in session',request.session.get("login_role"))
                         if login_rel_obj.role_id == vdc_admin_role_id:
                             print('success!!!')
