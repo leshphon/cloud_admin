@@ -11,11 +11,7 @@ from api.keystone import client
 
 # Create your models here.
 
-def print_fields(exclude,table_name):
-    obj = apps.get_model('user_auth', table_name)
-    obj_fields = obj._meta.fields
-    print_fields_list = [f for f in obj_fields if f.name not in exclude]
-    return print_fields_list
+
 
 
 def create_user_operation(request):

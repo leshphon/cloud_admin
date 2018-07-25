@@ -101,8 +101,6 @@ def update_VDC(request):
 #------------manage user-------------
 #@auth
 def manage_user(request):
-    exclude = ['id','password', 'created_time', 'updated_time','status', 'recent_use_VDC','cpu','ram','volume','instances','used_ram','used_cpu','used_volume','used_instances']
-    print_user_fields = models.print_fields(exclude, 'User')
     user_lists = []
     user_role_obj = auth_models.User_Role_VDC.objects.all()
     roles = auth_models.Role.objects.all()
@@ -120,7 +118,6 @@ def manage_user(request):
             # user_id_list.append(user_obj.id)      #id传向前端 用于更新用户数据时显示旧的信息
 
     return render(request, 'system_module/sys_manage_user.html', {
-        'user_fields': print_user_fields,
         'user_lists': user_lists,
         'role_lists': roles,
     })
@@ -137,11 +134,17 @@ def del_user(request):
     return redirect('/sys_manage_user')
 
 def update_user(request):
-    user_id = request.POST.get('user_id')
-    name = request.POST.get('username')
-    email = request.POST.get('email')
+    param = request.GET.get("data")
+    print(param)
+    update_info = json.loads(param)
+    print('123:',update_info)
+    print('123:', update_info['user_id'])
+    user_id = update_info['user_id']
+    name = update_info['name']
+    email = update_info['email']
     auth_models.User.objects.filter(id=user_id).update(name=name,email=email)
-
+    # return redirect('/sys_manage_user')
+    return HttpResponse('ok')
 def change_user_password(request):
     old_password = request.POST.get('old_password')
     new_password = request.POST.get('new_password')
@@ -177,14 +180,14 @@ def create_role(request):
 #     else: return HttpResponse('you can not delete the role')
 
 
-def update_user(request):
-    role_id = request.POST.get('role_id')
-    if role_id != settings.SYSROLES['SYSADMIN'] | settings.SYSROLES['SYSVDC'] | settings.SYSROLES['SYSMAIN'] | settings.SYSROLES['SYSMON'] | settings.SYSROLES['SYSUSER']:
-        name = request.POST.get('update_rolename')
-        desc = request.POST.get('update_desc')
-        auth_models.User.objects.filter(id=role_id).update(name=name, description=desc)
-    else:
-        return HttpResponse('you can not update the role')
+# def update_user(request):
+#     role_id = request.POST.get('role_id')
+#     if role_id != settings.SYSROLES['SYSADMIN'] | settings.SYSROLES['SYSVDC'] | settings.SYSROLES['SYSMAIN'] | settings.SYSROLES['SYSMON'] | settings.SYSROLES['SYSUSER']:
+#         name = request.POST.get('update_rolename')
+#         desc = request.POST.get('update_desc')
+#         auth_models.User.objects.filter(id=role_id).update(name=name, description=desc)
+#     else:
+#         return HttpResponse('you can not update the role')
 
 def init_role(request):
     role_lists = auth_models.Role.objects.all()
