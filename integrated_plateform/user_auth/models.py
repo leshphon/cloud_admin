@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.hashers import (
     check_password, is_password_usable, make_password,
@@ -5,22 +6,22 @@ from django.contrib.auth.hashers import (
 
 
 class User(models.Model):
-    name = models.CharField(max_length=32, unique=True)
-    email = models.EmailField(max_length=64, blank=True)
+    name = models.CharField(verbose_name="姓名",max_length=32, unique=True)
+    email = models.EmailField(verbose_name="邮箱",max_length=64, blank=True)
     password = models.CharField(max_length=128)
     status = models.BooleanField(default=False)
     created_time = models.DateField(auto_now_add=True)
     updated_time = models.DateField(auto_now=True)
-    recent_use_VDC = models.IntegerField(default=0, blank=True)
+    recent_use_VDC = models.IntegerField(default=0, null=True)
     department = models.CharField(max_length=32, null=True)
-    cpu = models.IntegerField(default=None)
-    ram = models.IntegerField(default=None)
-    volume = models.IntegerField(default=None)
-    instances = models.IntegerField(default=None)
-    used_cpu = models.IntegerField(default=None)
-    used_ram = models.IntegerField(default=None)
-    used_volume = models.IntegerField(default=None)
-    used_instances = models.IntegerField(default=None)
+    cpu = models.IntegerField(default=None, null=True)
+    ram = models.IntegerField(default=None, null=True)
+    volume = models.IntegerField(default=None, null=True)
+    instances = models.IntegerField(default=None, null=True)
+    used_cpu = models.IntegerField(default=None, null=True)
+    used_ram = models.IntegerField(default=None, null=True)
+    used_volume = models.IntegerField(default=None, null=True)
+    used_instances = models.IntegerField(default=None, null=True)
 
 
 class Role(models.Model):
@@ -41,10 +42,10 @@ class VDC(models.Model):
     ram = models.IntegerField(default=None)
     volume = models.IntegerField(default=None)
     instances = models.IntegerField(default=None)
-    used_cpu = models.IntegerField(default=None)
-    used_ram = models.IntegerField(default=None)
-    used_volume = models.IntegerField(default=None)
-    used_instances = models.IntegerField(default=None)
+    used_cpu = models.IntegerField(default=None,null=True)
+    used_ram = models.IntegerField(default=None,null=True)
+    used_volume = models.IntegerField(default=None,null=True)
+    used_instances = models.IntegerField(default=None,null=True)
 
 
 #

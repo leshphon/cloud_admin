@@ -23,56 +23,33 @@ $(document).on('click', '#del_user', function () {
     })
 });
 
-// function getUserInfo(name,email) {
-//     $.ajax({
-//         type:'get',
-//         url: "/project_info",
-//         dataType:'json',
-//         success: function (data) {
-//             // console.log(data);
-//             var array0;
-//             for(var i=0;i<data.length;i++){
-//                 if (data[i][0] == ide_id){
-//                     array0 = data[i];
-//                     break;
-//                 }
-//             }
-//             // console.log(array0);
-//             $("#update_name").val(name);
-//             $("#update_email").val(email);
-//         }
-//     })
-// }
-function getUserInfo(name) {
-
-    console.log("this is qianduan name",name);
-    // console.log("this is qianduan email",email);
+var update_user_id;
+function getUserInfo(id,name,email) {
+    update_user_id = id;
     $("#update_name").val(name);
-    // $("#update_email").val(email);
+    $("#update_email").val(email);
 
 }
 
-function updateIdeJsonGet(){
-    let ide_update_name = $("#update_name").val();
-    let ide_update_description = $("#update_email").val();
-    let ide_update_id = $("#update_id").val();
-    console.log(ide_update_id);
+function updateUserJsonGet(){
+    let update_name = $("#update_name").val();
+    let update_email = $("#update_email").val();
     let json_param = {
-        "name":ide_update_name,
-        "description":ide_update_description,
-        "id":ide_update_id,
+        "name":update_name,
+        "email":update_email,
+        "user_id":update_user_id,
     };
     console.log(json_param);
     return json_param;
 }
 
-$(document).on('click','#updatePrj_btn',function () {
+$(document).on('click','#updateUser_btn',function () {
     $.ajax({
         type:"GET",
-        url:"/ide_update",
-        data:{"data":JSON.stringify(updateIdeJsonGet())},
-
+        url:"/sys_update_user",
+        data:{"data":JSON.stringify(updateUserJsonGet())},
         success:function (data) {
+            console.log("success",data)
             window.location.reload();
         },
         error:function () {

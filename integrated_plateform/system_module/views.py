@@ -77,8 +77,7 @@ def create_vdc(request):
         vdc_obj = auth_models.VDC(name=name, description=desc,backend_info=vdc_user,cpu=quota_cpu,ram=quota_ram,volume=quota_volume,instances=quota_instances)
         vdc_obj.save()
         request.session["backend_info"] = vdc_user
-        user_vdc_obj = auth_models.User_Role_VDC(vdc_id=vdc_obj.id,user_id=vdc_admin_id,role_id=settings.SYSROLES['SYSVDC'])
-        user_vdc_obj.save()
+        auth_models.User_Role_VDC.objects.filter(user_id=vdc_admin_id,role_id=settings.SYSROLES['SYSVDC']).update(vdc_id=vdc_obj.id)  #确保一个用户只充当一个vdc的admin
         return redirect('/sys_manage_vdc')
 
 
@@ -100,26 +99,27 @@ def update_VDC(request):
     auth_models.VDC.objects.filter(id=vdc_id).update(name=name,description=desc)
 
 #------------manage user-------------
-@auth
+#@auth
 def manage_user(request):
-    exclude = ['id','password', 'created_time', 'updated_time','status', 'recent_use_VDC','cpu','ram','volume','instances','used_ram','used_cpu','used_volume','used_instances']
-    print_user_fields = models.print_fields(exclude, 'User')
     user_lists = []
     user_role_obj = auth_models.User_Role_VDC.objects.all()
+    roles = auth_models.Role.objects.all()
     for i in user_role_obj:
-        if i.role_id != general_user_role_id:
+        if i.role_id != settings.SYSROLES['SYSUSER']:
             user_dict = {}
             user_obj = i.user
             role_obj_name = i.role.name
-            user_dict["user_obj"] = user_obj
+            user_dict["id"] = user_obj.id
+            user_dict["name"] = user_obj.name
+            user_dict["email"] = user_obj.email
+            user_dict["department"] = user_obj.department
             user_dict["role_name"] = role_obj_name
             user_lists.append(user_dict)
             # user_id_list.append(user_obj.id)      #id传向前端 用于更新用户数据时显示旧的信息
 
     return render(request, 'system_module/sys_manage_user.html', {
-        'user_fields': print_user_fields,
         'user_lists': user_lists,
-        # 'user_id_lists': user_id_list,
+        'role_lists': roles,
     })
 
 def create_user(request):
@@ -134,11 +134,17 @@ def del_user(request):
     return redirect('/sys_manage_user')
 
 def update_user(request):
-    user_id = request.POST.get('user_id')
-    name = request.POST.get('username')
-    email = request.POST.get('email')
+    param = request.GET.get("data")
+    print(param)
+    update_info = json.loads(param)
+    print('123:',update_info)
+    print('123:', update_info['user_id'])
+    user_id = update_info['user_id']
+    name = update_info['name']
+    email = update_info['email']
     auth_models.User.objects.filter(id=user_id).update(name=name,email=email)
-
+    # return redirect('/sys_manage_user')
+    return HttpResponse('ok')
 def change_user_password(request):
     old_password = request.POST.get('old_password')
     new_password = request.POST.get('new_password')
@@ -174,14 +180,14 @@ def create_role(request):
 #     else: return HttpResponse('you can not delete the role')
 
 
-def update_user(request):
-    role_id = request.POST.get('role_id')
-    if role_id != settings.SYSROLES['SYSADMIN'] | settings.SYSROLES['SYSVDC'] | settings.SYSROLES['SYSMAIN'] | settings.SYSROLES['SYSMON'] | settings.SYSROLES['SYSUSER']:
-        name = request.POST.get('update_rolename')
-        desc = request.POST.get('update_desc')
-        auth_models.User.objects.filter(id=role_id).update(name=name, description=desc)
-    else:
-        return HttpResponse('you can not update the role')
+# def update_user(request):
+#     role_id = request.POST.get('role_id')
+#     if role_id != settings.SYSROLES['SYSADMIN'] | settings.SYSROLES['SYSVDC'] | settings.SYSROLES['SYSMAIN'] | settings.SYSROLES['SYSMON'] | settings.SYSROLES['SYSUSER']:
+#         name = request.POST.get('update_rolename')
+#         desc = request.POST.get('update_desc')
+#         auth_models.User.objects.filter(id=role_id).update(name=name, description=desc)
+#     else:
+#         return HttpResponse('you can not update the role')
 
 def init_role(request):
     role_lists = auth_models.Role.objects.all()
