@@ -18,34 +18,6 @@ from django.contrib.auth.hashers import (
 from django.conf import settings
 # Create your views here.
 
-#角色id设为全局
-vdc_admin_role_id = auth_models.Role.objects.get(name='VDC_admin').id
-general_user_role_id = auth_models.Role.objects.get(name='general_user').id
-system_admin_role_id = auth_models.Role.objects.get(name='system_admin').id
-system_maintainer_role_id = auth_models.Role.objects.get(name='system_maintainer').id
-system_monitor_role_id = auth_models.Role.objects.get(name='system_monitor').id
-
-def sync_role_id(request):
-    roleobjs = auth_models.Role.objects.all()
-    for robj in roleobjs:
-        if robj.name == 'sys_admin':
-            settings.SYSROLES['SYSADMIN'] = int(robj.id)
-        elif robj.name == 'VDC_admin':
-            settings.SYSROLES['SYSVDC'] = int(robj.id)
-        elif robj.name == 'system_maintainer':
-            settings.SYSROLES['SYSMAIN'] = int(robj.id)
-        elif robj.name == 'system_monitor':
-            settings.SYSROLES['SYSMON'] = int(robj.id)
-        elif robj.name == 'general_user':
-            settings.SYSROLES['SYSUSER'] = int(robj.id)
-    return {
-        'SYSADMIN': settings.SYSROLES['SYSADMIN'],
-        'SYSVDC': settings.SYSROLES['SYSVDC'],
-        'SYSMAIN': settings.SYSROLES['SYSMAIN'],
-        'SYSMON': settings.SYSROLES['SYSMON'],
-        'SYSUSER': settings.SYSROLES['SYSUSER']
-    }
-
 #---------------manage user-----------------
 def manage_user(request):
     exclude = ['id','password', 'created_time', 'updated_time','status', 'recent_use_VDC','cpu','ram','volume','instances','used_ram','used_cpu','used_volume','used_instances']

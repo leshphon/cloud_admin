@@ -41,13 +41,6 @@ def sync_role_id(request):
 def sys_index(request):
     return render(request, 'system_module/sys_index_overview.html')
 
-#角色id设为全局
-vdc_admin_role_id = auth_models.Role.objects.get(name='VDC_admin').id
-general_user_role_id = auth_models.Role.objects.get(name='general_user').id
-system_admin_role_id = auth_models.Role.objects.get(name='system_admin').id
-system_maintainer_role_id = auth_models.Role.objects.get(name='system_maintainer').id
-system_monitor_role_id = auth_models.Role.objects.get(name='system_monitor').id
-
 #-----------manage VDC---------------
 @auth
 def manage_vdc(request):
@@ -107,14 +100,15 @@ def update_VDC(request):
     auth_models.VDC.objects.filter(id=vdc_id).update(name=name,description=desc)
 
 #------------manage user-------------
-@auth
+#@auth
 def manage_user(request):
     exclude = ['id','password', 'created_time', 'updated_time','status', 'recent_use_VDC','cpu','ram','volume','instances','used_ram','used_cpu','used_volume','used_instances']
     print_user_fields = models.print_fields(exclude, 'User')
     user_lists = []
     user_role_obj = auth_models.User_Role_VDC.objects.all()
+    roles = auth_models.Role.objects.all()
     for i in user_role_obj:
-        if i.role_id != general_user_role_id:
+        if i.role_id != settings.SYSROLES['SYSUSER']:
             user_dict = {}
             user_obj = i.user
             role_obj_name = i.role.name
@@ -126,7 +120,7 @@ def manage_user(request):
     return render(request, 'system_module/sys_manage_user.html', {
         'user_fields': print_user_fields,
         'user_lists': user_lists,
-        # 'user_id_lists': user_id_list,
+        'role_lists': roles,
     })
 
 def create_user(request):
@@ -183,7 +177,7 @@ def create_role(request):
 
 def update_user(request):
     role_id = request.POST.get('role_id')
-    if role_id != system_admin_role_id | vdc_admin_role_id | system_maintainer_role_id | system_monitor_role_id | general_user_role_id:
+    if role_id != settings.SYSROLES['SYSADMIN'] | settings.SYSROLES['SYSVDC'] | settings.SYSROLES['SYSMAIN'] | settings.SYSROLES['SYSMON'] | settings.SYSROLES['SYSUSER']:
         name = request.POST.get('update_rolename')
         desc = request.POST.get('update_desc')
         auth_models.User.objects.filter(id=role_id).update(name=name, description=desc)
