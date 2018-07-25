@@ -112,7 +112,10 @@ def manage_user(request):
             user_dict = {}
             user_obj = i.user
             role_obj_name = i.role.name
-            user_dict["user_obj"] = user_obj
+            user_dict["id"] = user_obj.id
+            user_dict["name"] = user_obj.name
+            user_dict["email"] = user_obj.email
+            user_dict["department"] = user_obj.department
             user_dict["role_name"] = role_obj_name
             user_lists.append(user_dict)
             # user_id_list.append(user_obj.id)      #id传向前端 用于更新用户数据时显示旧的信息
