@@ -102,7 +102,7 @@ def manage_user(request):
         if i.role_id != settings.SYSROLES['SYSUSER']:
             user_dict = {}
             user_obj = i.user
-            role_obj_name = i.role.name
+            role_obj_name = i.role.description
             user_dict["id"] = user_obj.id
             user_dict["name"] = user_obj.name
             user_dict["email"] = user_obj.email
