@@ -57,7 +57,7 @@
                                     <div class="am-btn-toolbar  pull-right">
                                     <div class="am-btn-group am-btn-group-xs">
                                         <button class="am-btn am-btn-default am-btn-xs " data-toggle="modal" data-target="#updateModal" href="#" onclick="getUserInfo({{ line.id }},'{{ line.name }}','{{ line.email }}')"><span class="am-icon-pencil-square-o"></span> 编辑</button>
-                                        <button class="am-btn am-btn-default am-btn-xs am-hide-sm-only"  id="del_user" onclick="return window.confirm('confirm delete {{ line.name }}?')"><span class="am-icon-trash-o"></span> 删除</button>
+                                        <button class="am-btn am-btn-default am-btn-xs am-hide-sm-only"   id="{{ line.id }}"  onclick="clickButton(this.id,'{{ line.name }}')"><span class="am-icon-trash-o"></span> 删除</button>
                                     </div>
                                     </div>
                                 </td>
@@ -185,15 +185,24 @@
             $('.dataTables-example').dataTable({
                 "bPaginate": true,
                 "bSortMulti":false,
+                "bAutoWidth": false,
                 "columns": [
 		           { "bSortable": true },
 		           { "bSortable": true },
 		           { "bSortable": true },
 		           { "bSortable": true },
-		           { "bSortable": false },
+		           { "bSortable": false ,sWidth:'130px'},
                    { "bSortable": false },
 		         ],
-		       } );
+		       });
          })
+    function clickButton(id,uname)
+    {
+        var ret = window.confirm('确定删除：' + uname + '?');
+        if (ret == true) {
+            alert('ok');
+        }
+        //document.getElementById('button1').click()
+    }
     </script>
 {% endblock %}

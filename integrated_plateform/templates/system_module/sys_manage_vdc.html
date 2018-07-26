@@ -279,8 +279,20 @@
 
     <script>
         $(document).ready(function () {
-            $('.dataTables-example').dataTable();
-
+            $('.dataTables-example').dataTable({
+                "bPaginate": true,
+                "bSortMulti":false,
+                "bAutoWidth":false,
+                "columns": [
+                   { "bSortable": true },
+		           { "bSortable": true },
+		           { "bSortable": true },
+		           { "bSortable": true },
+		           { "bSortable": true },
+		           { "bSortable": true },
+                   { "bSortable": false ,sWidth:'130px'},
+		         ],
+		       });
         });
 
     </script>
