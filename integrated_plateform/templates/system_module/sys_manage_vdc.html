@@ -39,7 +39,7 @@
                 <div class="ibox-title">
                     <h5>vdc信息</h5>
                         <div class="btn-group pull-right">
-                            <a href="#" class="btn btn-primary btn-sm dropdown-toggle pull-right" data-toggle="dropdown">创建vdc</a>
+                            <a href="#" class="btn btn-primary btn-xs dropdown-toggle pull-right" data-toggle="dropdown">创建vdc</a>
                             <ul class="dropdown-menu">
                                 <li><a data-toggle="modal" class="btn btn-primary btn-sm " data-target="#myModal">创建虚拟vdc</a></li>
                                 <li><a class="btn btn-primary btn-sm "  href="#">创建物理vdc</a></li>
@@ -70,10 +70,10 @@
                             <td>{{ line.ram }}</td>
                             <td>{{ line.volume }}</td>
                             <td>
-                                <div class="am-btn-toolbar">
+                                <div class="am-btn-toolbar  pull-right">
                                 <div class="am-btn-group am-btn-group-xs">
-                                    <button class="am-btn am-btn-default am-btn-xs am-text-secondary" data-toggle="modal" data-target="#updateModal" href="#" onclick="getVDCInfo({{ line.name }},{{ line.description }})"><span class="am-icon-pencil-square-o"></span> 编辑</button>
-                                    <button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" href="#" onclick="return window.confirm('confirm delete {{ line.name }}?')"><span class="am-icon-trash-o"></span> 删除</button>
+                                    <button class="am-btn am-btn-default am-btn-xs " data-toggle="modal" data-target="#updateModal" href="#" onclick="getVDCInfo({{ line.name }},{{ line.description }})"><span class="am-icon-pencil-square-o"></span> 编辑</button>
+                                    <button class="am-btn am-btn-default am-btn-xs am-hide-sm-only" href="#" onclick="return window.confirm('confirm delete {{ line.name }}?')"><span class="am-icon-trash-o"></span> 删除</button>
                                 </div>
                                 </div>
                             </td>
