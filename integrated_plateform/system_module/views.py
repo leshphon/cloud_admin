@@ -44,8 +44,6 @@ def sys_index(request):
 #-----------manage VDC---------------
 @auth
 def manage_vdc(request):
-    exclude = ['id','created_time', 'updated_time','backend_info','used_ram','used_cpu','used_volume','used_instances']
-    print_vdc_fields = models.print_fields(exclude, 'VDC')
     vdc_lists = auth_models.VDC.objects.all()
     vdc_admins_obj = auth_models.User_Role_VDC.objects.filter(role_id=settings.SYSROLES['SYSVDC'])
     vdc_admins = []
@@ -53,7 +51,6 @@ def manage_vdc(request):
         if i.vdc_id is None:        #判断该用户是否已经是某个vdc的管理员了
             vdc_admins.append(auth_models.User.objects.get(id=i.user_id))
     return render(request, 'system_module/sys_manage_vdc.html', {
-        'vdc_fields': print_vdc_fields,
         'vdc_lists': vdc_lists,
         'vdc_admins': vdc_admins,
     })
@@ -74,7 +71,7 @@ def create_vdc(request):
     vdc_user = cl.register_user(key=key)
     print("this is backend info",vdc_user)
     if vdc_user:
-        vdc_obj = auth_models.VDC(name=name, description=desc,backend_info=vdc_user,cpu=quota_cpu,ram=quota_ram,volume=quota_volume,instances=quota_instances)
+        vdc_obj = auth_models.VDC(name=name, description=desc,backend_info=key,cpu=quota_cpu,ram=quota_ram,volume=quota_volume,instances=quota_instances)
         vdc_obj.save()
         request.session["backend_info"] = vdc_user
         auth_models.User_Role_VDC.objects.filter(user_id=vdc_admin_id,role_id=settings.SYSROLES['SYSVDC']).update(vdc_id=vdc_obj.id)  #确保一个用户只充当一个vdc的admin

@@ -1,7 +1,8 @@
-function getVDCInfo(name,desc) {
-    console.log("qianduan:",name);
-    $("#ide_update_name").val(name);
-    $("#ide_update_desc").val(desc);
+var update_vdc_id;
+function getVDCInfo(id,name,desc) {
+    update_vdc_id = id;
+    $("#update_name").val(name);
+    $("#update_desc").val(desc);
 }
 $(document).on('click', '#sys_create_vdc_user_sub', function () {
     if ($('#password_1').val() === $('#password_2').val()){
