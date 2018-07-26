@@ -7,7 +7,7 @@
 {% block extracss %}
     <link href="{% static 'assets/global/css/components.min.css' %}" rel="stylesheet" id="style_components" type="text/css" /> <!-- sidebar字体加粗 -->
     <link href="{% static 'assets/global/css/plugins.min.css' %}" rel="stylesheet" type="text/css" />
-
+    <link href="{% static 'assets/global/css/amazeui.min.css' %}" rel="stylesheet" type="text/css" />
     <!-- Data Tables -->
     <link href="{% static 'css/plugins/dataTables/dataTables.bootstrap.css' %}" rel="stylesheet">
 
@@ -54,14 +54,11 @@
                                 <td>{{ line.department }}</td>
                                 <td>{{ line.role_name }}</td>
                                 <td>
-                                    <div class="btn-group">
-                                        <a href="#" class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-wrench"></span></a>
-                                        <ul class="dropdown-menu">
-                                             <li>
-                                                 <a data-toggle="modal" data-target="#updateModal" href="#" onclick="getUserInfo({{ line.id }},'{{ line.name }}','{{ line.email }}')">update</a></li>
-                                             <li>
-                                            <li><a id="del_user" class="btn" href="#">delete</a></li>
-                                        </ul>
+                                    <div class="am-btn-toolbar">
+                                    <div class="am-btn-group am-btn-group-xs">
+                                        <button class="am-btn am-btn-default am-btn-xs am-text-secondary" data-toggle="modal" data-target="#updateModal" href="#" onclick="getUserInfo({{ line.id }},'{{ line.name }}','{{ line.email }}')"><span class="am-icon-pencil-square-o"></span> 编辑</button>
+                                        <button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"  id="del_user" onclick="return window.confirm('confirm delete {{ line.name }}?')"><span class="am-icon-trash-o"></span> 删除</button>
+                                    </div>
                                     </div>
                                 </td>
                              </tr>
