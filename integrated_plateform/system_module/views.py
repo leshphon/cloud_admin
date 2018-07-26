@@ -153,11 +153,8 @@ def change_user_password(request):
 #------------manage Role-------------
 @auth
 def manage_role(request):
-    exclude = ['created_time','updated_time','id']
-    print_role_fields = models.print_fields(exclude, 'Role')
     role_lists = auth_models.Role.objects.all()
     return render(request, 'system_module/sys_manage_role.html', {
-        'role_fields': print_role_fields,
         'role_lists': role_lists,
     })
 
