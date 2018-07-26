@@ -14,6 +14,8 @@ urlpatterns = [
     url(r'^create_vdc_admin$', views.create_vdc_admin, name='create_vdc_admin'),
     url(r'^del_user$', views.del_user, name='del_user'),
     url(r'^update_user$', views.update_user, name='update_user'),
+    url(r'^update_VDC$', views.update_VDC, name='update_VDC'),
+    url(r'^delete_VDC$', views.del_VDC, name='delete_VDC'),
 
 
     #url(r'^init', views.init_role, name='init'),

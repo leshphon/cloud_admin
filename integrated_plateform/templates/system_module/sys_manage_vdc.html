@@ -53,10 +53,10 @@
                             <tr>
                                 <th>VDC名</th>
                                 <th>描述</th>
-                                <th>CPU</th>
-                                <th>实例数</th>
-                                <th>内存</th>
-                                <th>卷</th>
+                                <th>CPU(个)</th>
+                                <th>实例数(个)</th>
+                                <th>内存(GB)</th>
+                                <th>卷(GB)</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -72,8 +72,8 @@
                             <td>
                                 <div class="am-btn-toolbar  pull-right">
                                 <div class="am-btn-group am-btn-group-xs">
-                                    <button class="am-btn am-btn-default am-btn-xs " data-toggle="modal" data-target="#updateModal" href="#" onclick="getVDCInfo({{ line.name }},{{ line.description }})"><span class="am-icon-pencil-square-o"></span> 编辑</button>
-                                    <button class="am-btn am-btn-default am-btn-xs am-hide-sm-only" href="#" onclick="return window.confirm('confirm delete {{ line.name }}?')"><span class="am-icon-trash-o"></span> 删除</button>
+                                    <button class="am-btn am-btn-default am-btn-xs " data-toggle="modal" data-target="#updateModal" href="#" onclick="getVDCInfo({{ line.id }},'{{ line.name }}','{{ line.description }}')"><span class="am-icon-pencil-square-o"></span> 编辑</button>
+                                    <button class="am-btn am-btn-default am-btn-xs am-hide-sm-only" href="#" data-toggle="modal" data-target="#deleteModal" onclick="getDeleteID({{ line.id }})"><span class="am-icon-pencil-square-o"></span>删除</button>
                                 </div>
                                 </div>
                             </td>
@@ -98,6 +98,7 @@
     </div>
 </div>
 
+<!-- 创建VDC -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -107,67 +108,60 @@
             <div class="modal-body">
                 <ul id="myTab" class="nav nav-tabs" role="tablist">
                     <li class="active"><a href="#tab1" data-toggle="tab">基本信息</a></li>
-                    <li><a href="#tab2" data-toggle="tab">配额</a></li>
                 </ul>
                 <form id="vdc_create_form" class="" role="form" action="{% url 'system_module:create_vdc' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                     <div id="myTabContent" class="tab-content">
-                    <div class="tab-pane fade in active" id="tab1">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label>vdc名称：</label>
-                                    <input type="text" name="vdc_name" placeholder="vdc名称" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label class="control-label" for="vdc_create_desc" style="display: block;">描述：</label>
-                                    <textarea id="vdc_create_desc" class="form-control" name="vdc_desc" type="text" style="resize: vertical;"></textarea>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label class="">vdc_管理员：</label>
-                                    <select id="vdc_admin_list" class="form-control" name="vdc_admin_id" type="text">
-                                        {% for line in vdc_admins %}
-                                            <option value="{{ line.id }}">{{ line.name }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label style="display: block">&ensp;</label>
-                                    <button data-toggle="modal" class="btn blue btn-default pull-right" type="button" data-target="#create_vdc_admin">新用户</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="tab2">
-                        <form class="" role="form">
+                        <div class="tab-pane fade in active" id="tab1">
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label>Vcpu：</label>
-                                        <input type="number" placeholder="0" name="cpu_amount" class="form-control">
+                                        <label>vdc名称：</label>
+                                        <input type="text" name="vdc_name" placeholder="vdc名称" class="form-control">
                                     </div>
+                                </div>
+                                <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label>Instance：</label>
-                                        <input type="number" placeholder="0" name="instance_amount" class="form-control">
+                                        <label class="control-label" for="vdc_create_desc" style="display: block;font-weight: bold;">描述：</label>
+                                        <textarea id="vdc_create_desc" class="form-control" name="vdc_desc" type="text" style="resize: vertical;"></textarea>
                                     </div>
-                                    <div class="form-group">
-                                        <label>RAM(MB)：</label>
-                                        <input type="number" placeholder="0" name="memory" class="form-control">
+                                </div>
+                                <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label>Vcpu(个)：</label>
+                                            <input type="number" placeholder="20" name="cpu_amount" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Instance(个)：</label>
+                                            <input type="number" placeholder="20" name="instance_amount" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>RAM(GB)：</label>
+                                            <input type="number" placeholder="10" name="memory" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Volume(GB)：</label>
+                                            <input type="number" placeholder="50" name="volume" class="form-control">
+                                        </div>
                                     </div>
+                                <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label>Volume(GB)：</label>
-                                        <input type="number" placeholder="0" name="volume" class="form-control">
+                                        <label class="">vdc_管理员：</label>
+                                        <select id="vdc_admin_list" class="form-control" name="vdc_admin_id" type="text">
+                                            {% for line in vdc_admins %}
+                                                <option value="{{ line.id }}">{{ line.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label style="display: block">&ensp;</label>
+                                        <button data-toggle="modal" class="btn blue btn-default pull-right" type="button" data-target="#create_vdc_admin">新用户</button>
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
                 </div>
             </form>
             </div>
@@ -188,7 +182,7 @@
 
 <!-- 创建用户 -->
 <div class="modal fade" id="create_vdc_admin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-<div class="modal-dialog">
+    <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
             <h4><strong>创建用户</strong></h4>
@@ -242,8 +236,9 @@
         </div>
     </div>
 </div>
-</div><!-- /.modal -->
+</div>
 
+<!-- 更新VDC -->
 <div class="modal fade" id="updateModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -270,11 +265,31 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <div class="text-right"><button id="updatePrj_btn" class="btn btn-default" type="submit">Submit</button></div>
+                    <div class="text-right"><button id="updateVDC_btn" class="btn btn-default" type="submit">Submit</button></div>
+                </div>
+            </div>
+        </div>
+</div>
+
+<!-- 删除VDC -->
+<div class="modal fade" id="deleteModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h4 class="modal-title">delete project</h4>
+                </div>
+                <div class="modal-body">
+                    <span class="comfirm-text">Please confirm your selection,this action cannot be undone.</span>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
+                    <button class="text-right btn btn-default" type="submit" id="deleteVDCBtn">删除</button>
                 </div>
             </div>
         </div>
     </div>
+
 
 
     <script>

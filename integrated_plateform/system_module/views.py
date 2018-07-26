@@ -65,7 +65,7 @@ def create_vdc(request):
     quota_volume = request.POST.get('volume')
     quota_instances = request.POST.get('instance_amount')
     #管理平台创建vdc时，先通过传递quota参数在openstack后端创建对应的project 如创建成功，再在管理平台创建vdc
-    quota_dict = {"cores":quota_cpu,"gigabytes": quota_volume, "backup_gigabytes": quota_volume, "instances": quota_instances, "ram": quota_ram}
+    quota_dict = {"cores":quota_cpu,"gigabytes": quota_volume, "backup_gigabytes": quota_volume, "instances": quota_instances, "ram": quota_ram * 1024}
     cl = keystoneClient.Client()
     key = cl.attach2project(quota_params=quota_dict)
     if key:
@@ -82,15 +82,19 @@ def create_vdc_admin(request):
     # return HttpResponse('ok')
 
 def del_VDC(request):
-    vdc_id = request.POST.get('vdc_id')
-    auth_models.VDC.objects.filter(id=vdc_id).delete()
+    del_vdc_id = request.GET.get("id")
+    auth_models.VDC.objects.filter(id=del_vdc_id).delete()
     return redirect('/sys_manage_vdc')
 
 def update_VDC(request):
-    vdc_id = request.POST.get('vdc_id')
-    name = request.POST.get('update_name')
-    desc = request.POST.get('update_desc')
+    param = request.GET.get("data")
+    print(param)
+    update_info = json.loads(param)
+    vdc_id = update_info['vdc_id']
+    name = update_info['name']
+    desc = update_info['desc']
     auth_models.VDC.objects.filter(id=vdc_id).update(name=name,description=desc)
+    return HttpResponse('ok')
 
 #------------manage user-------------
 #@auth
@@ -126,7 +130,6 @@ def del_user(request):
     print(user_id)
     auth_models.User.objects.filter(id=user_id).delete()
     return redirect('/sys_manage_user')
-
 
 def update_user(request):
     param = request.GET.get("data")

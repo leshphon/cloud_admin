@@ -23,6 +23,9 @@ $(document).on('click', '#del_user', function () {
     })
 });
 
+
+
+<!-- update user -->
 var update_user_id;
 function getUserInfo(id,name,email) {
     update_user_id = id;
@@ -30,7 +33,6 @@ function getUserInfo(id,name,email) {
     $("#update_email").val(email);
 
 }
-
 function updateUserJsonGet(){
     let update_name = $("#update_name").val();
     let update_email = $("#update_email").val();
@@ -42,7 +44,6 @@ function updateUserJsonGet(){
     console.log(json_param);
     return json_param;
 }
-
 $(document).on('click','#updateUser_btn',function () {
     $.ajax({
         type:"GET",
@@ -58,3 +59,4 @@ $(document).on('click','#updateUser_btn',function () {
         }
     });
 });
+<!-- update user -->
