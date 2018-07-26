@@ -87,10 +87,15 @@
                 </li>
                 <li>
                     <a class="" href="#">
-                        <i class="fa fa fa-cloud"></i>
+                        <i class="fa fa fa-database"></i>
                         <span class="nav-label">网络管理</span>
-                        <!--<span class="fa arrow"></span>-->
+                        <span class="fa arrow"></span>
                     </a>
+                    <ul class="nav nav-second-level collapse" aria-expanded="true">
+                        <li><a class="J_menuItem" href="{% url 'vdc_module:network_manage' %}">网络</a></li>
+                        <li><a class="J_menuItem" href="{% url 'vdc_module:route_manage' %}">路由</a></li>
+                        <li><a class="J_menuItem" href="#">浮动ip</a></li>
+                    </ul>
                 </li>
                 <li>
                     <a class="" href="#">

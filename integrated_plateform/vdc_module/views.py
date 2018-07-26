@@ -5,12 +5,16 @@ from django.http import HttpResponse
 from vdc_module.api.member import User, Token, Domain
 import vdc_module.api.keystone.interface as keystoneclient
 import vdc_module.api.nova.interface as novaclient
-import vdc_module.api.neutron.interface as neutronclient
+
 import vdc_module.api.glance.interface as glanceclient
 import json
 
+
+import vdc_module.api.neutron as neutronclient
+
 from user_auth import models as auth_models
 import models
+
 from django.shortcuts import redirect
 from django.contrib.auth.hashers import (
     check_password, is_password_usable, make_password,
@@ -181,3 +185,11 @@ def instance_type(request):
 
 def instance_build_type(request):
     return render(request, 'vdc_module/vdc_instance_build_type.html')
+
+
+#---------------network-manage--------------------------
+def network_manage(request):
+    return render(request, 'vdc_module/vdc_network_manage.html')
+
+def route_manage(request):
+    return render(request, 'vdc_module/vdc_route_manage.html')

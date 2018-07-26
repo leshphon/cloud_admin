@@ -24,5 +24,7 @@ urlpatterns = [
     url(r'^instance_type', views.instance_type, name='instance_type'),
     url(r'^instance_build_type', views.instance_build_type, name='instance_build_type'),
 
+    url(r'^network_manage',views.network_manage,name="network_manage"),
+    url(r'^route_manage', views.route_manage, name="route_manage"),
     url(r'^manage_user', views.manage_user, name='manage_user'),
 ]
