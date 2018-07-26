@@ -7,7 +7,7 @@
 {% block extracss %}
     <link href="{% static 'assets/global/css/components.min.css' %}" rel="stylesheet" id="style_components" type="text/css" /> <!-- sidebar字体加粗 -->
     <link href="{% static 'assets/global/css/plugins.min.css' %}" rel="stylesheet" type="text/css" />
-
+    <link href="{% static 'assets/global/css/amazeui.min.css' %}" rel="stylesheet" type="text/css" />
     <!-- Data Tables -->
     <link href="{% static 'css/plugins/dataTables/dataTables.bootstrap.css' %}" rel="stylesheet">
 
@@ -38,22 +38,29 @@
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5>vdc信息</h5>
-                    <div class="ibox-tools">
-                        <a data-toggle="modal" class="btn btn-primary btn-sm pull-right" data-target="#myModal">创建vdc</a>
-                    </div>
+                        <div class="btn-group pull-right">
+                            <a href="#" class="btn btn-primary btn-xs dropdown-toggle pull-right" data-toggle="dropdown">创建vdc</a>
+                            <ul class="dropdown-menu">
+                                <li><a data-toggle="modal" class="btn btn-primary btn-sm " data-target="#myModal">创建虚拟vdc</a></li>
+                                <li><a class="btn btn-primary btn-sm "  href="#">创建物理vdc</a></li>
+                                <li><a class="btn btn-primary btn-sm "  href="#">创建容器vdc</a></li>
+                            </ul>
+                        </div>
                 </div>
                 <div class="ibox-content">
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                             <tr>
-                            {% for line in vdc_fields %}
-                            <th>{{ line.name }}</th>
-                            {% endfor %}
-                            <th>操作</th>
+                                <th>VDC名</th>
+                                <th>描述</th>
+                                <th>CPU</th>
+                                <th>实例数</th>
+                                <th>内存</th>
+                                <th>卷</th>
+                                <th>操作</th>
                             </tr>
                         </thead>
                         <tbody>
-
                         {% for line in vdc_lists %}
                         <tr>
                             <td>{{ line.name }}</td>
@@ -63,11 +70,11 @@
                             <td>{{ line.ram }}</td>
                             <td>{{ line.volume }}</td>
                             <td>
-                                <div class="btn-group">
-                                    <a class="btn btn-success" data-toggle="modal" data-target="#updateModal" href="#" onclick="getVDCInfo({{ line.name }},{{ line.description }})" ><span class="glyphicon glyphicon-refresh"></span></a>
+                                <div class="am-btn-toolbar  pull-right">
+                                <div class="am-btn-group am-btn-group-xs">
+                                    <button class="am-btn am-btn-default am-btn-xs " data-toggle="modal" data-target="#updateModal" href="#" onclick="getVDCInfo({{ line.name }},{{ line.description }})"><span class="am-icon-pencil-square-o"></span> 编辑</button>
+                                    <button class="am-btn am-btn-default am-btn-xs am-hide-sm-only" href="#" onclick="return window.confirm('confirm delete {{ line.name }}?')"><span class="am-icon-trash-o"></span> 删除</button>
                                 </div>
-                                <div class="btn-group">
-                                    <a class="btn btn-danger" href="#" onclick="return window.confirm('confirm delete {{ line.name }}?')"><span class="glyphicon glyphicon-remove"></span></a>
                                 </div>
                             </td>
                         </tr>
@@ -75,10 +82,13 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                            {% for line in vdc_fields %}
-                            <th>{{ line.name }}</th>
-                            {% endfor %}
-                            <th>操作</th>
+                                <th>VDC名</th>
+                                <th>描述</th>
+                                <th>CPU</th>
+                                <th>实例数</th>
+                                <th>内存</th>
+                                <th>卷</th>
+                                <th>操作</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -239,7 +249,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                    <h4 class="modal-title">update project</h4>
+                    <h4 class="modal-title">更新VDC</h4>
                 </div>
                 <div class="container-fluid">
                     <div class="row">
@@ -247,13 +257,13 @@
                             <div class="form-group col-sm-6">
                                 <label class="control-label" for="update_name">name</label>
                                 <div>
-                                    <input id="ide_update_name" class="form-control" value="">
+                                    <input id="update_name" class="form-control" value="">
                                 </div>
                             </div>
                             <div class="form-group col-sm-6">
                                 <label class="control-label" for="update_desc">description</label>
                                 <div>
-                                    <input id="ide_update_desc" class="form-control" value="">
+                                    <input id="update_desc" class="form-control" value="">
                                 </div>
                             </div>
                         </div>
@@ -269,8 +279,20 @@
 
     <script>
         $(document).ready(function () {
-            $('.dataTables-example').dataTable();
-
+            $('.dataTables-example').dataTable({
+                "bPaginate": true,
+                "bSortMulti":false,
+                "bAutoWidth":false,
+                "columns": [
+                   { "bSortable": true },
+		           { "bSortable": true },
+		           { "bSortable": true },
+		           { "bSortable": true },
+		           { "bSortable": true },
+		           { "bSortable": true },
+                   { "bSortable": false ,sWidth:'130px'},
+		         ],
+		       });
         });
 
     </script>
