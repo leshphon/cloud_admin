@@ -68,12 +68,9 @@ def create_vdc(request):
     quota_dict = {"cores":quota_cpu,"gigabytes": quota_volume, "backup_gigabytes": quota_volume, "instances": quota_instances, "ram": quota_ram}
     cl = keystoneClient.Client()
     key = cl.attach2project(quota_params=quota_dict)
-    vdc_user = cl.register_user(key=key)
-    print("this is backend info",vdc_user)
-    if vdc_user:
+    if key:
         vdc_obj = auth_models.VDC(name=name, description=desc,backend_info=key,cpu=quota_cpu,ram=quota_ram,volume=quota_volume,instances=quota_instances)
         vdc_obj.save()
-        request.session["backend_info"] = vdc_user
         auth_models.User_Role_VDC.objects.filter(user_id=vdc_admin_id,role_id=settings.SYSROLES['SYSVDC']).update(vdc_id=vdc_obj.id)  #确保一个用户只充当一个vdc的admin
         return redirect('/sys_manage_vdc')
 
@@ -129,6 +126,7 @@ def del_user(request):
     print(user_id)
     auth_models.User.objects.filter(id=user_id).delete()
     return redirect('/sys_manage_user')
+
 
 def update_user(request):
     param = request.GET.get("data")
