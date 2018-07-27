@@ -59,4 +59,25 @@ $(document).on('click','#updateUser_btn',function () {
         }
     });
 });
-<!-- update user -->
+
+
+<!-- delete user -->
+var delete_user_id;
+function getDeleteUserID(id) {
+    delete_user_id = id;
+    console.log(delete_user_id);
+}
+$(document).on('click','#deleteUserBtn',function () {
+    $.ajax({
+        type:"GET",
+        url:"/sys_delete_user",
+        data: {"id":delete_user_id},
+        success:function(data) {
+            // alert('success delete');
+            window.location.reload();
+        },
+        error:function() {
+            alert('delete failed')
+        }
+    });
+});

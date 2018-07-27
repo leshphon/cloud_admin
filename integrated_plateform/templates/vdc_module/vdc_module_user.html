@@ -7,7 +7,7 @@
 {% block extracss %}
     <link href="{% static 'assets/global/css/components.min.css' %}" rel="stylesheet" id="style_components" type="text/css" /> <!-- sidebar字体加粗 -->
     <link href="{% static 'assets/global/css/plugins.min.css' %}" rel="stylesheet" type="text/css" />
-
+    <link href="{% static 'assets/global/css/amazeui.min.css' %}" rel="stylesheet" type="text/css" />
     <!-- Data Tables -->
     <link href="{% static 'css/plugins/dataTables/dataTables.bootstrap.css' %}" rel="stylesheet">
 
@@ -24,48 +24,72 @@
 {% endblock %}
 
 {% block content %}
-    <div class="wrapper wrapper-content animated fadeInRight gray-bg">
-        <div class="container-fluid">
-            <table class="table table-striped table-bordered table-hover dataTables-example">
-                <caption><h3 class="pull-left">用户信息</h3><button data-toggle="modal" class="btn btn-white btn-default btn-sm pull-right" data-target="#myModal">创建用户</button></caption>
-                <thead>
-                <tr>
-                    {% for line in user_fields %}
-                    <th>{{ line.name }}</th>
-                    {% endfor %}
-                    <th>role</th>
-                    <th>action</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    {% for i in user_lists %}
-                        <tr>
-                            <td>{{ i.name }}</td>
-                            <td>{{ i.email }}</td>
-                            <td>{{ i.department }}</td>
-                            <td>general user</td>
-                        <td>
-                                <div class="btn-group">
-                                    <a href="#" class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-wrench"></span></a>
-                                    <ul class="dropdown-menu">
-                                         <li>
-{#                                             <a data-toggle="modal" data-target="#updateModal" href="#" onclick="getUserInfo($('#user_name').text(),$('#user_email').text())">update</a></li>#}
-                                             <a data-toggle="modal" data-target="#updateModal" href="#" onclick="getUserInfo($('#user_name'+'{{ line.name }}').text())">update</a></li>
-
-                                         <li>
-                                        <li><a id="del_user" class="btn" href="#">delete</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tr>
-                </tbody>
-            </table>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>用户信息</h5>
+                    <div class="ibox-tools">
+                        <a data-toggle="modal" class="btn btn-primary btn-xs" data-target="#myModal">创建用户</a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-striped table-bordered table-hover dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>用户名</th>
+                                <th>邮件地址</th>
+                                <th>部门</th>
+                                <th>CPU(个)</th>
+                                <th>实例数(个)</th>
+                                <th>内存(GB)</th>
+                                <th>卷(GB)</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for line in user_lists %}
+                             <tr class="gradeX">
+{#                                 <td hidden id="user_id">{{ line.id }}</td>#}
+                                 <td>{{ line.name }}</td>
+                                 <td>{{ line.email }}</td>
+                                 <td>{{ line.department }}</td>
+                                <td>{{ line.cpu }}</td>
+                                <td>{{ line.instances }}</td>
+                                <td>{{ line.ram }}</td>
+                                <td>{{ line.volume }}</td>
+                                <td>
+                                    <div class="am-btn-toolbar  pull-right">
+                                    <div class="am-btn-group am-btn-group-xs">
+                                        <button class="am-btn am-btn-default am-btn-xs " data-toggle="modal" data-target="#updateModal" href="#" onclick="getUserInfo({{ line.id }},'{{ line.name }}','{{ line.email }}')"><span class="am-icon-pencil-square-o"></span> 编辑</button>
+                                        <button class="am-btn am-btn-default am-btn-xs am-hide-sm-only" href="#" data-toggle="modal" data-target="#deleteModal" onclick="getDeleteUserID({{ line.id }})"><span class="am-icon-trash-o"></span> 删除</button>
+                                    </div>
+                                    </div>
+                                </td>
+                             </tr>
+                        {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>用户名</th>
+                                <th>邮件地址</th>
+                                <th>部门</th>
+                                <th>CPU(个)</th>
+                                <th>实例数(个)</th>
+                                <th>内存(GB)</th>
+                                <th>卷(GB)</th>
+                                <th>操作</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 
+<!-- 创建用户 -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -75,37 +99,49 @@
             <div class="modal-body">
                 <div id="myTabContent" class="tab-content">
                     <div class="tab-pane fade in active">
-                        <form id="sys_create_user_form" role="form" action="{% url 'system_module:create_user' %}" method="post" enctype="multipart/form-data">
+                        <form id="vdc_create_user_form" role="form" action="{% url 'vdc_module:create_user' %}" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="row">
-                                <div class="col-sm-6 b-r">
+                                <div class="col-sm-12 ">
                                     <div class="form-group">
-                                        <label>用户名：</label>
+                                        <label>用户名</label>
                                         <input type="text" name="username" placeholder="请输入用户名" class="form-control">
                                     </div>
                                     <div class="form-group">
-                                        <label>邮箱：</label>
+                                        <label>邮箱</label>
                                         <input type="email" name="email" placeholder="邮箱" class="form-control">
                                     </div>
+                                     <div class="form-group">
+                                        <label>部门</label>
+                                        <input type="text" name="department" placeholder="大数据工厂" class="form-control">
+                                    </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label>密码：</label>
+                                        <label>密码</label>
                                         <input id="password_1" type="password" placeholder="请输入密码" class="form-control">
                                     </div>
                                     <div class="form-group">
-                                        <label>确认密码：</label>
+                                        <label>确认密码</label>
                                         <input id="password_2" type="password" name="password" placeholder="请确认密码" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label class="control-label">角色：</label>
-                                        <select class="form-control" name="user_role" type="text">
-                                            {% for rr in role_lists %}
-                                            <option value="{{ rr.id }}">{{ rr.name }}</option>
-                                            {% endfor %}
-                                        </select>
+                                        <label>Vcpu(个)：</label>
+                                        <input type="number" placeholder="20" name="cpu_amount" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Instance(个)：</label>
+                                        <input type="number" placeholder="20" name="instance_amount" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>RAM(GB)：</label>
+                                        <input type="number" placeholder="10" name="memory" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Volume(GB)：</label>
+                                        <input type="number" placeholder="50" name="volume" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -119,14 +155,16 @@
                         <strong>取消</strong>
                     </button>
                     <span class="pull-right">&ensp;&ensp;</span>
-                    <button id="sys_create_user_sub" class="btn btn-primary pull-right m-t-n-xs" type="button">
+                    <button id="vdc_create_user_sub" class="btn btn-primary pull-right m-t-n-xs" type="button">
                         <strong>确认</strong>
                     </button>
                 </div>
             </div>
         </div>
     </div>
-</div><!-- /.modal -->
+</div>
+
+<!-- 更新用户 -->
 <div class="modal fade" id="updateModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -157,6 +195,52 @@
                 </div>
             </div>
         </div>
+</div>
+
+<!-- 删除用户 -->
+<div class="modal fade" id="deleteModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h4 class="modal-title">delete User</h4>
+                </div>
+                <div class="modal-body">
+                    <span class="comfirm-text">Please confirm your selection,this action cannot be undone.</span>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
+                    <button class="text-right btn btn-default" type="submit" id="deleteUserBtn">删除</button>
+                </div>
+            </div>
+        </div>
     </div>
 
+
+    <!-- Data Tables -->
+    <script src="{% static 'js/plugins/dataTables/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'js/plugins/dataTables/dataTables.bootstrap.js'%}"></script>
+    <!-- 自定义js -->
+    <script src="{% static 'js/content.js?v=1.0.0' %}"></script>
+
+<!-- Page-Level Scripts -->
+    <script>
+        $(document).ready(function () {
+            $('.dataTables-example').dataTable({
+                "bPaginate": true,
+                "bSortMulti":false,
+                "bAutoWidth": false,
+                "columns": [
+		           { "bSortable": true },
+		           { "bSortable": true },
+		           { "bSortable": true },
+		           { "bSortable": true },
+                   { "bSortable": true },
+                   { "bSortable": true },
+                   { "bSortable": true },
+		           { "bSortable": false ,sWidth:'130px'},
+		         ],
+		       });
+         })
+    </script>
 {% endblock %}
