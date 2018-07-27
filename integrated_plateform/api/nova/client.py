@@ -79,238 +79,262 @@ class Client(object):
 
     @staticmethod
     def check_action(user, ):
-        if user.enable is False or user.flag == 'sys':
-            return None
-        else:
+        # if user.enable is False or user.flag == 'sys':
+        #     return None
+        # else:
             return {
                 "ACTIVE": [
                     {
+                        "cn_name": "创建快照存为镜像",
                         "name": "snapshot",
-                        "href": "/manipulateServer",
+                        "href": "/vdc_manipulateServer",
+                        "role": "vdc_user"
                     },
                     {
+                        "cn_name": "更新实例",
                         "name": "update",
-                        "href": "/updateServer",
+                        "href": "/vdc_updateServer",
+                        "role": "vdc_user"
                     },
                     {
+                        "cn_name": "暂停实例",
                         "name": "pause",
-                        "href": "/manipulateServerNoParams"
+                        "href": "/vdc_manipulateServerNoParams",
+                        "role": "vdc_user"
                     },
                     {
+                        "cn_name": "挂起实例",
                         "name": "suspend",
-                        "href": "/manipulateServerNoParams"
+                        "href": "/vdc_manipulateServerNoParams",
+                        "role": "vdc_user"
                     },
                     {
+                        "cn_name": "废弃实例",
                         "name": "shelve",
-                        "href": "/manipulateServerNoParams"
+                        "href": "/vdc_manipulateServerNoParams",
+                        "role": "vdc_user"
                     },
                     {
+                        "cn_name": "调整实例大小",
                         "name": "resize",
-                        "href": "/manipulateServer"
+                        "href": "/vdc_manipulateServer",
+                        "role": "vdc_user"
                     },
                     {
-                        "name": "lock",
-                        "href": "/manipulateServerNoParams"
-                    },
-                    {
-                        "name": "unlock",
-                        "href": "/manipulateServerNoParams"
-                    },
-                    {
+                        "cn_name": "软重启实例",
                         "name": "soft_reboot",
-                        "href": "/manipulateServerNoParams"
+                        "href": "/vdc_manipulateServerNoParams",
+                        "role": "vdc_user"
                     },
                     {
+                        "cn_name": "硬重启实例",
                         "name": "hard_reboot",
-                        "href": "/manipulateServerNoParams"
+                        "href": "/vdc_manipulateServerNoParams",
+                        "role": "vdc_user"
                     },
                     {
+                        "cn_name": "关闭实例",
                         "name": "stop",
-                        "href": "/manipulateServerNoParams"
+                        "href": "/vdc_manipulateServerNoParams",
+                        "role": "vdc_user"
                     },
                     {
+                        "cn_name": "重建实例",
                         "name": "rebuild",
-                        "href": "/manipulateServer"
+                        "href": "/vdc_manipulateServer",
+                        "role": "vdc_user"
                     },
                     {
+                        "cn_name": "删除实例",
                         "name": "delete",
-                        "href": "/deleteServer"
+                        "href": "/vdc_deleteServer",
+                        "role": "vdc_user"
                     },
                     {
+                        "cn_name": "迁移实例",
                         "name": "live_migrate",  # admin
-                        "href": "/manipulateServer"
+                        "href": "/vdc_manipulateServer",
+                        "role": "vdc_admin"
                     },
                 ],
                 "PAUSED": [
                     {
+                        "cn_name": "创建快照存为镜像",
                         "name": "snapshot",
-                        "href": "/manipulateServer",
+                        "href": "/vdc_manipulateServer",
+                        "role": "vdc_user"
                     },
                     {
+                        "cn_name": "更新实例",
                         "name": "update",
-                        "href": "/updateServer",
+                        "href": "/vdc_updateServer",
+                        "role": "vdc_user"
                     },
                     {
+                        "cn_name": "恢复实例",
                         "name": "unpause",
-                        "href": "/manipulateServerNoParams"
+                        "href": "/vdc_manipulateServerNoParams",
+                        "role": "vdc_user"
                     },
                     {
+                        "cn_name": "废弃实例",
                         "name": "shelve",
-                        "href": "/manipulateServerNoParams"
+                        "href": "/vdc_manipulateServerNoParams",
+                        "role": "vdc_user"
                     },
                     {
-                        "name": "lock",
-                        "href": "/manipulateServerNoParams"
-                    },
-                    {
-                        "name": "unlock",
-                        "href": "/manipulateServerNoParams"
-                    },
-                    {
+                        "cn_name": "删除实例",
                         "name": "delete",
-                        "href": "/deleteServer"
+                        "href": "/vdc_deleteServer",
+                        "role": "vdc_user"
                     }
                 ],
                 "SUSPENDED": [
                     {
+                        "cn_name": "创建快照存为镜像",
                         "name": "snapshot",
-                        "href": "/manipulateServer",
+                        "href": "/vdc_manipulateServer",
+                        "role": "vdc_user"
                     },
                     {
+                        "cn_name": "更新实例",
                         "name": "update",
-                        "href": "/updateServer",
+                        "href": "/vdc_updateServer",
+                        "role": "vdc_user"
                     },
                     {
+                        "cn_name": "恢复实例",
                         "name": "unsuspend",
-                        "href": "/manipulateServerNoParams"
+                        "href": "/vdc_manipulateServerNoParams",
+                        "role": "vdc_user"
                     },
                     {
+                        "cn_name": "废弃实例",
                         "name": "shelve",
-                        "href": "/manipulateServerNoParams"
+                        "href": "/vdc_manipulateServerNoParams",
+                        "role": "vdc_user"
                     },
                     {
-                        "name": "lock",
-                        "href": "/manipulateServerNoParams"
-                    },
-                    {
-                        "name": "unlock",
-                        "href": "/manipulateServerNoParams"
-                    },
-                    {
+                        "cn_name": "删除实例",
                         "name": "delete",
-                        "href": "/deleteServer"
+                        "href": "/vdc_deleteServer",
+                        "role": "vdc_user"
                     }
                 ],
                 "SHUTOFF": [
                     {
+                        "cn_name": "创建快照存为镜像",
                         "name": "snapshot",
-                        "href": "/manipulateServer",
+                        "href": "/vdc_manipulateServer",
+                        "role": "vdc_user"
                     },
                     {
+                        "cn_name": "更新实例",
                         "name": "update",
-                        "href": "/updateServer",
+                        "href": "/vdc_updateServer",
+                        "role": "vdc_user"
                     },
                     {
+                        "cn_name": "开启实例",
                         "name": "start",
-                        "href": "/manipulateServerNoParams"
+                        "href": "/vdc_manipulateServerNoParams",
+                        "role": "vdc_user"
                     },
                     {
+                        "cn_name": "废弃实例",
                         "name": "shelve",
-                        "href": "/manipulateServerNoParams"
+                        "href": "/vdc_manipulateServerNoParams",
+                        "role": "vdc_user"
                     },
                     {
-                        "name": "lock",
-                        "href": "/manipulateServerNoParams"
-                    },
-                    {
-                        "name": "unlock",
-                        "href": "/manipulateServerNoParams"
-                    },
-                    {
+                        "cn_name": "删除实例",
                         "name": "delete",
-                        "href": "/deleteServer"
+                        "href": "/vdc_deleteServer",
+                        "role": "vdc_user"
                     },
                     {
+                        "cn_name": "重建实例",
                         "name": "rebuild",
-                        "href": "/manipulateServer"
+                        "href": "/vdc_manipulateServer",
+                        "role": "vdc_user"
                     },
                     {
+                        "cn_name": "调整实例大小",
                         "name": "resize",
-                        "href": "/manipulateServer"
+                        "href": "/vdc_manipulateServer",
+                        "role": "vdc_user"
                     },
                     {
+                        "cn_name": "硬重启实例",
                         "name": "hard_reboot",
-                        "href": "/manipulateServerNoParams"
+                        "href": "/vdc_manipulateServerNoParams",
+                        "role": "vdc_user"
                     }
                 ],
                 "VERIFY_RESIZE": [
                     {
+                        "cn_name": "确认实例大小调整",
                         "name": "confirm_resize",
-                        "href": "/manipulateServerNoParams"
+                        "href": "/vdc_manipulateServerNoParams",
+                        "role": "vdc_user"
                     },
                     {
+                        "cn_name": "取消实例大小调整",
                         "name": "revert_resize",
-                        "href": "/manipulateServerNoParams"
+                        "href": "/vdc_manipulateServerNoParams",
+                        "role": "vdc_user"
                     },
                     {
+                        "cn_name": "更新实例",
                         "name": "update",
-                        "href": "/updateServer",
+                        "href": "/vdc_updateServer",
+                        "role": "vdc_user"
                     },
                     {
-                        "name": "lock",
-                        "href": "/manipulateServerNoParams"
-                    },
-                    {
-                        "name": "unlock",
-                        "href": "/manipulateServerNoParams"
-                    },
-                    {
+                        "cn_name": "删除实例",
                         "name": "delete",
-                        "href": "/deleteServer"
+                        "href": "/vdc_deleteServer",
+                        "role": "vdc_user"
                     },
                     {
+                        "cn_name": "关闭实例",
                         "name": "stop",
-                        "href": "/manipulateServerNoParams"
+                        "href": "/vdc_manipulateServerNoParams",
+                        "role": "vdc_user"
                     }
                 ],
                 "SHELVED_OFFLOADED": [
                     {
+                        "cn_name": "更新实例",
                         "name": "update",
-                        "href": "/updateServer",
+                        "href": "/vdc_updateServer",
+                        "role": "vdc_user"
                     },
                     {
+                        "cn_name": "取消废弃实例",
                         "name": "unshelve",
-                        "href": "/manipulateServerNoParams"
+                        "href": "/vdc_manipulateServerNoParams",
+                        "role": "vdc_user"
                     },
                     {
-                        "name": "lock",
-                        "href": "/manipulateServerNoParams"
-                    },
-                    {
-                        "name": "unlock",
-                        "href": "/manipulateServerNoParams"
-                    },
-                    {
+                        "cn_name": "删除实例",
                         "name": "delete",
-                        "href": "/deleteServer"
+                        "href": "/vdc_deleteServer",
+                        "role": "vdc_user"
                     }
                 ],
                 "OTHER": [
                     {
+                        "cn_name": "更新实例",
                         "name": "update",
-                        "href": "/updateServer",
+                        "href": "/vdc_updateServer",
+                        "role": "vdc_user"
                     },
                     {
-                        "name": "lock",
-                        "href": "/manipulateServerNoParams"
-                    },
-                    {
-                        "name": "unlock",
-                        "href": "/manipulateServerNoParams"
-                    },
-                    {
+                        "cn_name": "删除实例",
                         "name": "delete",
-                        "href": "/deleteServer"
+                        "href": "/vdc_deleteServer",
+                        "role": "vdc_user"
                     }
                 ]
             }

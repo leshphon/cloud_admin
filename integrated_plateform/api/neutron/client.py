@@ -15,7 +15,7 @@ class Client(object):
 
     # network
     @staticmethod
-    def get_network(user, identification=None, params=None):
+    def get_network(user, identification=None):
         network_manager = networks.NetworkManager(user=user)
         if user.flag == 'non-sys':
             params = {
@@ -23,7 +23,7 @@ class Client(object):
             }
             return network_manager.get(identification=identification, **params)
         elif user.flag == 'sys':
-            return network_manager.get(identification=identification, **params)
+            return network_manager.get(identification=identification)
 
     @staticmethod
     def create_network(user, params):

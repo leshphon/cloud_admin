@@ -21,16 +21,17 @@ class FlavorManager(object):
         else:
             result = requests.get(self.user.endpoint["nova"] + '/flavors/detail' + '?project_id=' +
                                   kwargs.get("project_id"), headers=self.user.headers)
-        result_dict = result.json()
-        result_len = len(result_dict)
-        # This id obj return
-        list_result = []
-        if utils.answer_detect(result, flag='dict')['detect']['code'] == 1:
-            for i in range(result_len):
-                list_result.append(struct_flavor(result_dict["flavors"][i]))
-            return list_result
-        else:
-            return utils.answer_detect(result)
+        # result_dict = result.json()
+        # result_len = len(result_dict)
+        # # This id obj return
+        # list_result = []
+        # if utils.answer_detect(result, flag='dict')['detect']['code'] == 1:
+        #     for i in range(result_len):
+        #         list_result.append(struct_flavor(result_dict["flavors"][i]))
+        #     return list_result
+        # else:
+        #     return utils.answer_detect(result)
+        return utils.answer_detect(result)
 
     def create(self, **kwargs):
         list_result = []
@@ -47,8 +48,9 @@ class FlavorManager(object):
             params["flavor"]["os-flavor-access:is_public"] = kwargs["os-flavor-access:is_public"]
         result = requests.post(self.user.endpoint["nova"] + '/flavors', data=json.dumps(params),
                                headers=self.user.headers)
-        if utils.answer_detect(result, flag='dict')['detect']['code'] == 1:
-            return list_result.append(struct_flavor(result.json()["flavor"]))
+        # if utils.answer_detect(result, flag='dict')['detect']['code'] == 1:
+        #     return list_result.append(struct_flavor(result.json()["flavor"]))
+        # return utils.answer_detect(result)
         return utils.answer_detect(result)
 
     def delete(self, identification):

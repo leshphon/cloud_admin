@@ -1,4 +1,4 @@
-{% extends 'vdc_module/vdc_module_base.html' %}
+{% extends 'vdc_module/base.html' %}
 {% load static %}
 {% load staticfiles %}
 {% block tag_title %}
@@ -17,7 +17,7 @@
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/plugins/jeditable/jquery.jeditable.js' %}"></script>
-    <script src="{% static 'js/instance_build_type.js' %}"></script>
+    <script src="{% static 'js/flavor_create.js' %}"></script>
 
 {% endblock %}
 
@@ -44,23 +44,23 @@
                              <div class="col-sm-7">
                                  <div class="input-group m-b">
                                       <span class="input-group-addon">类型 名称</span>
-                                      <input id="server_name" class="form-control" type="text" placeholder="实例类型名称">
+                                      <input id="name" class="form-control" type="text" placeholder="实例类型名称">
                                  </div>
                                  <div class="input-group m-b">
                                      <span class="input-group-addon">VCPU数量</span>
-                                     <input id="server_amount" class="form-control" type="number" placeholder="数量">
+                                     <input id="vcpus" class="form-control" type="number" placeholder="数量">
                                  </div>
                                  <div class="input-group m-b">
                                      <span class="input-group-addon">内存 (MB)</span>
-                                     <input id="server_memory" class="form-control" type="number" placeholder="内存大小">
+                                     <input id="ram" class="form-control" type="number" placeholder="内存大小">
                                  </div>
                                  <div class="input-group m-b">
                                      <span class="input-group-addon">磁盘 (GB)</span>
-                                     <input id="server_disk" class="form-control" type="number" placeholder="磁盘大小">
+                                     <input id="disk" class="form-control" type="number" placeholder="磁盘大小">
                                  </div>
                              </div>
                              <div class="col-sm-7">
-                                 <button id="createVS_btn" class="btn btn-primary " style="border: none;">创建实例类型</button>
+                                 <button id="#createFlavor_btn" class="btn btn-primary " style="border: none;">创建实例类型</button>
                                  <a href="#" class="btn btn-warning " style="border: none;" onclick="cancelBtn()">取消</a>
                              </div>
                          </div>

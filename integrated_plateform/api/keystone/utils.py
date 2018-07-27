@@ -13,7 +13,7 @@ def rstr_gen(key_len):
     :param key_len: the length of targeted random dig or str
     :return:
     """
-    return "".join([random.choice(string.letters + string.digits + '!@#$%^&*()_+={}[]\/~`') for i in range(key_len)])
+    return "".join([random.choice(string.letters + string.digits + '!@#$%^&*_+=~`') for i in range(key_len)])
 
 
 def answer_detect(result, flag="JSON"):

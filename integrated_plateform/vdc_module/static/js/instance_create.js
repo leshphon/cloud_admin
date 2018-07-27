@@ -77,7 +77,7 @@ function network_get() {
 function flavor_get() {
     $.ajax({
         type: 'get',
-        url: '/vdc_show_flavors',
+        url: '/vdc_flavor_show',
         dataType: 'json',
         success: function (data) {
             console.log(data);

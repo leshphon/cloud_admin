@@ -1,7 +1,7 @@
 # # all return is JSON
 import json
 
-import keystone.client as keystoneclient
+import api.keystone.client as keystoneclient
 import client as neutronclient
 
 # Get a user auth
@@ -26,16 +26,16 @@ nc = neutronclient.Client()
 #                               params={'name': 'out', 'shared': True})
 
 # show network
-# net_result = nc.get_network(user=sys_user)
-# print(json.dumps(json.loads(net_result), sort_keys=True, indent=4, separators=(',', ': ')))
+net_result = nc.get_network(user=sys_user)
+print(json.dumps(json.loads(net_result), sort_keys=True, indent=4, separators=(',', ': ')))
 
 # SUBNET
 # sub_result = nc.get_subnet(user=sys_user, params={"network_id": "a659ce8a-9163-4a5e-8d8a-1df40c3bf863"})
 # print(json.dumps(json.loads(sub_result), sort_keys=True, indent=4, separators=(',', ': ')))
 
 # PORT
-port_result = nc.get_port(user=sys_user, params={"network_id": "ef4063ea-27cc-487f-b574-51652f8a48e0"})
-print(json.dumps(json.loads(port_result), sort_keys=True, indent=4, separators=(',', ': ')))
+# port_result = nc.get_port(user=sys_user, params={"network_id": "ef4063ea-27cc-487f-b574-51652f8a48e0"})
+# print(json.dumps(json.loads(port_result), sort_keys=True, indent=4, separators=(',', ': ')))
 
 # cport_result = nc.create_port(user=sys_user,
 #                               params={"network_id": "ef4063ea-27cc-487f-b574-51652f8a48e0",

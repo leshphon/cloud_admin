@@ -79,7 +79,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="" href="{% url 'vdc_module:instance_manage' %}">
+                    <a class="" href="{% url 'vdc_module:instance_index' %}">
                         <i class="fa fa-columns"></i>
                         <span class="nav-label">实例管理
                         </span>
@@ -89,8 +89,13 @@
                     <a class="" href="#">
                         <i class="fa fa fa-cloud"></i>
                         <span class="nav-label">网络管理</span>
-                        <!--<span class="fa arrow"></span>-->
+                        <span class="fa arrow"></span>
                     </a>
+                    <ul class="nav nav-second-level collapse" aria-expanded="true">
+                        <li><a class="J_menuItem" href="#">网络</a></li>
+                        <li><a class="J_menuItem" href="#">路由</a></li>
+                        <li><a class="J_menuItem" href="#">浮动IP</a></li>
+                    </ul>
                 </li>
                 <li>
                     <a class="" href="#">
@@ -99,7 +104,7 @@
                         <span class="fa arrow"></span>
                     </a>
                     <ul class="nav nav-second-level collapse" aria-expanded="true">
-                        <li><a class="J_menuItem" href="{% url 'vdc_module:instance_type' %}">实例类型</a></li>
+                        <li><a class="J_menuItem" href="{% url 'vdc_module:flavor_index' %}">实例类型</a></li>
                     </ul>
                 </li>
                 <li>
