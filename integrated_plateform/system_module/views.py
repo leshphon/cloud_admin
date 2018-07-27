@@ -162,6 +162,11 @@ def manage_role(request):
         'role_lists': role_lists,
     })
 
+def manage_host(request):
+    role_lists = auth_models.Role.objects.all()
+    return render(request, 'system_module/sys_manage_host.html', {
+    })
+
 def create_role(request):
     name = request.POST.get('rolename')
     desc = request.POST.get('desc')
