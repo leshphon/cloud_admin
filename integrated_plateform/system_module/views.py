@@ -102,6 +102,7 @@ def manage_user(request):
     user_lists = []
     user_role_obj = auth_models.User_Role_VDC.objects.all()
     roles = auth_models.Role.objects.all()
+    role_lists = []
     for i in user_role_obj:
         if i.role_id != settings.SYSROLES['SYSUSER']:
             user_dict = {}
@@ -113,11 +114,12 @@ def manage_user(request):
             user_dict["department"] = user_obj.department
             user_dict["role_name"] = role_obj_name
             user_lists.append(user_dict)
-            # user_id_list.append(user_obj.id)      #id传向前端 用于更新用户数据时显示旧的信息
-
+    for j in roles:
+        if j.id != settings.SYSROLES['SYSUSER']:
+            role_lists.append(j)
     return render(request, 'system_module/sys_manage_user.html', {
         'user_lists': user_lists,
-        'role_lists': roles,
+        'role_lists': role_lists,
     })
 
 def create_user(request):
@@ -126,8 +128,7 @@ def create_user(request):
     return redirect('/sys_manage_user')
 
 def del_user(request):
-    user_id = request.POST.get('user_id')
-    print(user_id)
+    user_id = request.GET.get('id')
     auth_models.User.objects.filter(id=user_id).delete()
     return redirect('/sys_manage_user')
 

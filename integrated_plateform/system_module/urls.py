@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'^update_user$', views.update_user, name='update_user'),
     url(r'^update_VDC$', views.update_VDC, name='update_VDC'),
     url(r'^delete_VDC$', views.del_VDC, name='delete_VDC'),
+    url(r'^delete_user$', views.del_user, name='delete_user'),
 
 
     #url(r'^init', views.init_role, name='init'),
