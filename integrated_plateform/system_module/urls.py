@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^manage_vdc', views.manage_vdc, name='manage_vdc'),
     url(r'^manage_user', views.manage_user, name='manage_user'),
     url(r'^manage_role', views.manage_role, name='manage_role'),
+    url(r'^manage_host', views.manage_host, name='manage_host'),
     url(r'^create_user', views.create_user, name='create_user'),
     url(r'^create_vdc$', views.create_vdc, name='create_vdc'),
     url(r'^create_vdc_admin$', views.create_vdc_admin, name='create_vdc_admin'),
