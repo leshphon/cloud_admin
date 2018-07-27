@@ -13,6 +13,7 @@ $(document).ready(function () {
 });
 
 function network_get() {
+
     $.ajax({
         type:'get', //请求方式，默认get
         url :"/vdc_show_net",

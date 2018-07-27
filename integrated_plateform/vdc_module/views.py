@@ -10,7 +10,7 @@ import vdc_module.api.glance.interface as glanceclient
 import json
 
 
-import vdc_module.api.neutron as neutronclient
+import vdc_module.api.neutron.interface as neutronclient
 
 from user_auth import models as auth_models
 import models
@@ -116,7 +116,9 @@ def show_server(request):
 
 
 def showNet(request):
+    openstack_login(request)
     result = neutronclient.networks.show(user=request.session.get("user"))
+    print(result)
     return HttpResponse(result, content_type="application/json")
 
 
@@ -193,3 +195,4 @@ def network_manage(request):
 
 def route_manage(request):
     return render(request, 'vdc_module/vdc_route_manage.html')
+
