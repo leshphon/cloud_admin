@@ -44,8 +44,6 @@ def sys_index(request):
 #-----------manage VDC---------------
 @auth
 def manage_vdc(request):
-    exclude = ['id','created_time', 'updated_time','backend_info','used_ram','used_cpu','used_volume','used_instances']
-    print_vdc_fields = models.print_fields(exclude, 'VDC')
     vdc_lists = auth_models.VDC.objects.all()
     vdc_admins_obj = auth_models.User_Role_VDC.objects.filter(role_id=settings.SYSROLES['SYSVDC'])
     vdc_admins = []
@@ -53,7 +51,6 @@ def manage_vdc(request):
         if i.vdc_id is None:        #判断该用户是否已经是某个vdc的管理员了
             vdc_admins.append(auth_models.User.objects.get(id=i.user_id))
     return render(request, 'system_module/sys_manage_vdc.html', {
-        'vdc_fields': print_vdc_fields,
         'vdc_lists': vdc_lists,
         'vdc_admins': vdc_admins,
     })
@@ -68,15 +65,12 @@ def create_vdc(request):
     quota_volume = request.POST.get('volume')
     quota_instances = request.POST.get('instance_amount')
     #管理平台创建vdc时，先通过传递quota参数在openstack后端创建对应的project 如创建成功，再在管理平台创建vdc
-    quota_dict = {"cores":quota_cpu,"gigabytes": quota_volume, "backup_gigabytes": quota_volume, "instances": quota_instances, "ram": quota_ram}
+    quota_dict = {"cores":quota_cpu,"gigabytes": quota_volume, "backup_gigabytes": quota_volume, "instances": quota_instances, "ram": quota_ram * 1024}
     cl = keystoneClient.Client()
     key = cl.attach2project(quota_params=quota_dict)
-    vdc_user = cl.register_user(key=key)
-    print("this is backend info",vdc_user)
-    if vdc_user:
-        vdc_obj = auth_models.VDC(name=name, description=desc,backend_info=vdc_user,cpu=quota_cpu,ram=quota_ram,volume=quota_volume,instances=quota_instances)
+    if key:
+        vdc_obj = auth_models.VDC(name=name, description=desc,backend_info=key,cpu=quota_cpu,ram=quota_ram,volume=quota_volume,instances=quota_instances)
         vdc_obj.save()
-        request.session["backend_info"] = vdc_user
         auth_models.User_Role_VDC.objects.filter(user_id=vdc_admin_id,role_id=settings.SYSROLES['SYSVDC']).update(vdc_id=vdc_obj.id)  #确保一个用户只充当一个vdc的admin
         return redirect('/sys_manage_vdc')
 
@@ -88,15 +82,19 @@ def create_vdc_admin(request):
     # return HttpResponse('ok')
 
 def del_VDC(request):
-    vdc_id = request.POST.get('vdc_id')
-    auth_models.VDC.objects.filter(id=vdc_id).delete()
+    del_vdc_id = request.GET.get("id")
+    auth_models.VDC.objects.filter(id=del_vdc_id).delete()
     return redirect('/sys_manage_vdc')
 
 def update_VDC(request):
-    vdc_id = request.POST.get('vdc_id')
-    name = request.POST.get('update_name')
-    desc = request.POST.get('update_desc')
+    param = request.GET.get("data")
+    print(param)
+    update_info = json.loads(param)
+    vdc_id = update_info['vdc_id']
+    name = update_info['name']
+    desc = update_info['desc']
     auth_models.VDC.objects.filter(id=vdc_id).update(name=name,description=desc)
+    return HttpResponse('ok')
 
 #------------manage user-------------
 #@auth
@@ -108,7 +106,7 @@ def manage_user(request):
         if i.role_id != settings.SYSROLES['SYSUSER']:
             user_dict = {}
             user_obj = i.user
-            role_obj_name = i.role.name
+            role_obj_name = i.role.description
             user_dict["id"] = user_obj.id
             user_dict["name"] = user_obj.name
             user_dict["email"] = user_obj.email
@@ -158,11 +156,8 @@ def change_user_password(request):
 #------------manage Role-------------
 @auth
 def manage_role(request):
-    exclude = ['created_time','updated_time','id']
-    print_role_fields = models.print_fields(exclude, 'Role')
     role_lists = auth_models.Role.objects.all()
     return render(request, 'system_module/sys_manage_role.html', {
-        'role_fields': print_role_fields,
         'role_lists': role_lists,
     })
 

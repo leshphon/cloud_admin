@@ -29,11 +29,12 @@ def manage_user(request):
     # user_role_list = []                 #用户的角色列表
     user_role_obj = auth_models.User_Role_VDC.objects.all()
     for i in user_role_obj:
-        if i.role_id == settings.SYSROLES['SYSUSER'] and i.vdc_id == request.session['login_user_recent_vdc']:    #判断是登录vdc_admin_user所管理的vdc中的用户
-            print('333333333333:',request.session['login_user_recent_vdc'],i.vdc_id)
+        if i.role_id == settings.SYSROLES['SYSUSER'] and i.vdc_id == request.session[
+            'login_user_recent_vdc']:  # 判断是登录vdc_admin_user所管理的vdc中的用户
+            print('333333333333:', request.session['login_user_recent_vdc'], i.vdc_id)
             user_obj = i.user
             user_lists.append(user_obj)
-    print("this is vdc user list:",user_lists)
+    print("this is vdc user list:", user_lists)
     return render(request, 'vdc_module/module_user.html', {
         'user_fields': print_user_fields,
         'user_lists': user_lists,
@@ -73,8 +74,21 @@ def change_user_password(request):
 
 # ----------------instances manage---------------
 def vdc_index(request):
+    # openstack_user = request.session.get('openstack_user')
+    # recent_vdc_id = request.session.get('recent_vdc')
+    # user_role_id = request.session.get('user_role')
+    # user_id = request.session.get('user')
+    openstack_user = vdc_user
+    recent_vdc_id = 15
+    user_role_id = 6
+    user_id = 4
+
+    vdc_obj = auth_models.VDC.objects.filter(id=recent_vdc_id)
+    role_obj = auth_models.Role.objects.filter(id=user_role_id)
     return render(request, 'vdc_module/index.html', {
         'error': 'here is error message',
+        'currentpj': vdc_obj[0].name,
+        'current_role_name': role_obj[0].name,
     })
 
 
@@ -132,11 +146,27 @@ def instance_show(request):
 
 def getStatusAction(request):
     # openstack_user = request.session.get('openstack_user')
+    # user_role_id = request.session.get('user_role')
+
     openstack_user = vdc_user
+    user_role_id = 6
     return HttpResponse(
-        json.dumps(nvclient.Client().check_action(user=openstack_user)),
-        content_type="application/json"
+        json.dumps(nvclient.Client().check_action(user=openstack_user, status=request.POST.get("status"),
+                                                  task_status=request.POST.get("task_status"),
+                                                  role=user_role_id)), content_type="application/json"
     )
+
+
+def updateServer(request):
+    # openstack_user = request.session.get('openstack_user')
+    # user_role_id = request.session.get('user_role')
+
+    openstack_user = vdc_user
+    user_role_id = 6
+    result = nvclient.Client().update_servers(user=openstack_user,  params={"name": request.POST.get("name")},
+                                              identification=request.POST.get("id"))
+    return HttpResponse(result, content_type="application/json")
+
 
 
 # def showNet(request):
@@ -208,6 +238,19 @@ def flavor_create(request):
         return HttpResponse(result)
     return render(request, 'vdc_module/flavor_create.html')
 
+
 # def show_image(request):
 #     result = glanceclient.image.show(user=request.session.get("user"), image_id=None, value=None)
 #     return HttpResponse(result, content_type="application/json")
+
+# def instance_build_type(request):
+#     return render(request, 'vdc_module/vdc_instance_build_type.html')
+
+
+# ---------------network-manage--------------------------
+def network_manage(request):
+    return render(request, 'vdc_module/vdc_network_manage.html')
+
+
+def route_manage(request):
+    return render(request, 'vdc_module/vdc_route_manage.html')

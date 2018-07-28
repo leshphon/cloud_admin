@@ -19,9 +19,8 @@
                 <caption></caption>
                 <thead>
                 <tr>
-                    {% for line in role_fields %}
-                    <th>{{ line.name }}</th>
-                    {% endfor %}
+                    <th>角色名</th>
+{#                    <th>描述</th>#}
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -29,8 +28,8 @@
                 <tr>
                     {% for line in role_lists %}
                         <tr>
-                            <td>{{ line.name }}</td>
                             <td>{{ line.description }}</td>
+{#                            <td>{{ line.description }}</td>#}
                             <td>
                                 <div class="btn-group">
                                     <a href="#" class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-wrench"></span></a>

@@ -5,7 +5,7 @@ import client as novaclient
 
 # Get a user auth
 kc = keystoneclient.Client()
-key = ('dj+m~Fn_]DMk' + '=EOSEk@CdcEY' + 'riIw~U_Q$x0d')
+key = ("DQvsrCWt8Ap_" + "11C4C=_NFpnO" + "5Y4xU[" + "\\" + "\\" + "}Ku5")
 vdc_user = kc.register_user(key=key)
 sys_user = kc.register_user(auth='system')
 
@@ -38,5 +38,8 @@ nc = novaclient.Client()
 
 # de_re = nc.delete_servers(user=sys_user, identification="1d15bf9e-ae61-4ab9-a35d-7d8077f5c35b")
 # print(json.dumps(json.loads(de_re), sort_keys=True, indent=4, separators=(',', ': ')))
-show_instance = nc.show_servers(user=sys_user)
-print(json.dumps(json.loads(show_instance), sort_keys=True, indent=4, separators=(',', ': ')))
+# show_instance = nc.show_servers(user=vdc_user)
+# print(json.dumps(json.loads(show_instance), sort_keys=True, indent=4, separators=(',', ': ')))
+
+obj = nc.check_action(user=vdc_user, status='ACTIVE', task_status='power-offing', role=1)
+print(obj)

@@ -1,8 +1,58 @@
-function getVDCInfo(name,desc) {
-    console.log("qianduan:",name);
-    $("#ide_update_name").val(name);
-    $("#ide_update_desc").val(desc);
+<!-- update vdc -->
+var update_vdc_id;
+function getVDCInfo(id,name,desc) {
+    update_vdc_id = id;
+    $("#update_name").val(name);
+    $("#update_desc").val(desc);
 }
+function updateVDCJsonGet(){
+    let update_name = $("#update_name").val();
+    let update_desc = $("#update_desc").val();
+    let json_param = {
+        "name":update_name,
+        "desc":update_desc,
+        "vdc_id":update_vdc_id,
+    };
+    console.log(json_param);
+    return json_param;
+}
+$(document).on('click','#updateVDC_btn',function () {
+    $.ajax({
+        type:"GET",
+        url:"/sys_update_VDC",
+        data:{"data":JSON.stringify(updateVDCJsonGet())},
+        success:function (data) {
+            console.log("success",data)
+            window.location.reload();
+        },
+        error:function () {
+            alert("update error");
+            // console.log(data["data"]);
+        }
+    });
+});
+
+<!-- delete vdc -->
+var delete_vdc_id;
+function getDeleteID(id) {
+    delete_vdc_id = id;
+}
+$(document).on('click','#deleteVDCBtn',function () {
+    $.ajax({
+        type:"GET",
+        url:"/sys_delete_VDC",
+        data: {"id":delete_vdc_id},
+        success:function(data) {
+            // alert('success delete');
+            window.location.reload();
+        },
+        error:function() {
+            alert('delete failed')
+        }
+    });
+});
+
+
 $(document).on('click', '#sys_create_vdc_user_sub', function () {
     if ($('#password_1').val() === $('#password_2').val()){
         // document.getElementById('sys_create_vdc_admin_form').submit();

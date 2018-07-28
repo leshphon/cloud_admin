@@ -10,7 +10,7 @@ cl = client.Client()
 # key = cl.attach2project(quota_params=quota_data)
 
 # register a vdc user and return is a user class from keystone api
-vdc_user = cl.register_user(key=("DQvsrCWt8Ap_" + "11C4C=_NFpnO5Y4xU[" + "\\" + "\\" + "}Ku5"))
+vdc_user = cl.register_user(key=("DQvsrCWt8Ap_" + "11C4C=_NFpnO" + "5Y4xU[" + "\\" + "\\" + "}Ku5"))
 
 # register a system user and return is a user class from keystone api
 system_user = cl.register_user(auth='system')

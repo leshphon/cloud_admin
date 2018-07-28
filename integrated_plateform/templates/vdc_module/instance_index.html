@@ -17,7 +17,7 @@
     <script src="{% static 'assets/global/plugins/jquery.blockui.min.js' %}" type="text/javascript"></script>
     <script src="{% static 'assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js' %}" type="text/javascript"></script>
     <!-- END CORE PLUGINS -->
-{#    <script src="{% static 'js/instance_index.js' %}"></script>#}
+    <script src="{% static 'js/instance_index.js' %}"></script>
 
 {% endblock %}
 
@@ -30,7 +30,7 @@
                             <h5><strong>实例信息</strong></h5>
                             <div class="ibox-tools">
                                 <a class="btn btn-primary btn-sm" href="{% url 'vdc_module:instance_create' %}">创建实例</a>
-                                <button class="btn btn-sm">删除实例</button>
+                                <button class="btn btn-danger btn-sm">删除实例</button>
                             </div>
                         </div>
                         <div class="ibox-content">
@@ -42,7 +42,7 @@
                                         <th>网络IP</th>
                                         <th>状态</th>
                                         <th>任务</th>
-{#                                        <th>操作</th>#}
+                                        <th>操作</th>
 {#                                        <th></th>#}
                                     </tr>
                                 </thead>
@@ -53,20 +53,22 @@
                                     <td>{{ line.instance.name }}</td>
                                     <td>
                                         {% for subline in line.addr %}
-                                            <p>网络名：{{ subline.net_name }} 网络类型：{{ subline.net_type }} IP地址：{{ subline.net_addr }} </p>
+                                           网络名：{{ subline.net_name }} 网络类型：{{ subline.net_type }} IP地址：{{ subline.net_addr }}<br/>
                                         {% endfor %}
                                     </td>
                                     <td>{{ line.instance.status }}</td>
                                     <td>{{ line.instance.task_state }}</td>
-{#                            <td>#}
-{#                                <div class="btn-group">#}
-{#                                    <a class="btn btn-success" data-toggle="modal" data-target="#updateModal" href="#" onclick="getVDCInfo({{ line.name }},{{ line.description }})" ><span class="glyphicon glyphicon-refresh"></span></a>#}
-{#                                </div>#}
-{#                                <div class="btn-group">#}
-{#                                    <a class="btn btn-danger" href="#" onclick="return window.confirm('confirm delete {{ line.name }}?')"><span class="glyphicon glyphicon-remove"></span></a>#}
-{#                                </div>#}
-{#                            </td>#}
-                        </tr>
+                                    <td></td>
+{#                                    <td>#}
+{#                                        <div class="btn-group">#}
+{#                                            <a href="#" class="btn btn-white btn-sm dropdown-toggle" onclick="showOperateOpts()" data-toggle="dropdown">#}
+{#                                            <span class="glyphicon glyphicon-wrench"></span>#}
+{#                                            </a>#}
+{#                                            <ul id="instanceOperateOpts_' + i + '" class="dropdown-menu">' +#}
+{#                                            </ul>#}
+{#                                        </div>#}
+{#                                    </td>#}
+                                </tr>
                         {% endfor %}
                         </tbody>
                     </table>
@@ -76,6 +78,210 @@
                 </div>
             </div>
     </div>
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4><strong>编辑实例</strong></h4>
+            </div>
+            <div class="modal-body">
+                <div id="myTabContent" class="tab-content">
+                    <div class="tab-pane fade in active">
+                        <form id="vdc_update_instance" role="form" action="{% url 'vdc_module:updateServer' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-sm-6 b-r">
+                                    <div class="form-group">
+                                        <input type="hidden" id="update_instance_id" name="id" class="form-control">
+                                        <label>实例名：</label>
+                                        <input type="text" name="name" placeholder="请输入新的实例名" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div>
+                    <button class="btn pull-right m-t-n-xs" data-dismiss="modal">
+                        <strong>取消</strong>
+                    </button>
+                    <span class="pull-right">&ensp;&ensp;</span>
+                    <button id="sys_create_user_sub" class="btn btn-primary pull-right m-t-n-xs" type="button">
+                        <strong>确认</strong>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- /.modal -->
+
+    <div class="modal fade" id="rebuildModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4><strong>创建用户</strong></h4>
+            </div>
+            <div class="modal-body">
+                <div id="myTabContent" class="tab-content">
+                    <div class="tab-pane fade in active">
+                        <form id="sys_create_user_form" role="form" action="{% url 'system_module:create_user' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-sm-6 b-r">
+                                    <div class="form-group">
+                                        <label>用户名：</label>
+                                        <input type="text" name="username" placeholder="请输入用户名" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>邮箱：</label>
+                                        <input type="email" name="email" placeholder="邮箱" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>密码：</label>
+                                        <input id="password_1" type="password" placeholder="请输入密码" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>确认密码：</label>
+                                        <input id="password_2" type="password" name="password" placeholder="请确认密码" class="form-control">
+                                    </div>
+                                </div>
+{#                                <div class="col-sm-12">#}
+{#                                    <div class="form-group">#}
+{#                                        <label class="control-label">角色：</label>#}
+{#                                        <select class="form-control" name="user_role" type="text">#}
+{#                                            {% for rr in role_lists %}#}
+{#                                            <option value="{{ rr.id }}">{{ rr.name }}</option>#}
+{#                                            {% endfor %}#}
+{#                                        </select>#}
+{#                                    </div>#}
+{#                                </div>#}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div>
+                    <button class="btn pull-right m-t-n-xs" data-dismiss="modal">
+                        <strong>取消</strong>
+                    </button>
+                    <span class="pull-right">&ensp;&ensp;</span>
+                    <button id="sys_create_user_sub" class="btn btn-primary pull-right m-t-n-xs" type="button">
+                        <strong>确认</strong>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- /.modal -->
+
+    <div class="modal fade" id="live_migrateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4><strong>迁移实例</strong></h4>
+            </div>
+            <div class="modal-body">
+                <div id="myTabContent" class="tab-content">
+                    <div class="tab-pane fade in active">
+                        <form id="sys_create_user_form" role="form" action="{% url 'system_module:create_user' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div>
+                    <button class="btn pull-right m-t-n-xs" data-dismiss="modal">
+                        <strong>取消</strong>
+                    </button>
+                    <span class="pull-right">&ensp;&ensp;</span>
+                    <button id="sys_create_user_sub" class="btn btn-primary pull-right m-t-n-xs" type="button">
+                        <strong>确认</strong>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- /.modal -->
+
+    <div class="modal fade" id="snapshotModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4><strong>创建实例快照</strong></h4>
+            </div>
+            <div class="modal-body">
+                <div id="myTabContent" class="tab-content">
+                    <div class="tab-pane fade in active">
+                        <form id="sys_create_user_form" role="form" action="{% url 'system_module:create_user' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-sm-6 b-r">
+                                    <div class="form-group">
+                                        <label>快照名：</label>
+                                        <input type="text" name="name" placeholder="请输入快照名" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div>
+                    <button class="btn pull-right m-t-n-xs" data-dismiss="modal">
+                        <strong>取消</strong>
+                    </button>
+                    <span class="pull-right">&ensp;&ensp;</span>
+                    <button id="sys_create_user_sub" class="btn btn-primary pull-right m-t-n-xs" type="button">
+                        <strong>确认</strong>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- /.modal -->
+
+    <div class="modal fade" id="resizeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4><strong>调整实例大小</strong></h4>
+            </div>
+            <div class="modal-body">
+                <div id="myTabContent" class="tab-content">
+                    <div class="tab-pane fade in active">
+                        <form id="sys_create_user_form" role="form" action="{% url 'system_module:create_user' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div>
+                    <button class="btn pull-right m-t-n-xs" data-dismiss="modal">
+                        <strong>取消</strong>
+                    </button>
+                    <span class="pull-right">&ensp;&ensp;</span>
+                    <button id="sys_create_user_sub" class="btn btn-primary pull-right m-t-n-xs" type="button">
+                        <strong>确认</strong>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- /.modal -->
+
 
     <script src="{% static 'js/plugins/jeditable/jquery.jeditable.js' %}"></script>
 
@@ -89,12 +295,26 @@
             table.dataTable({
                 "bPaginate": true,
                 "bSortMulti":false,
-                 {#"autoWidth": false,#}
+                 "autoWidth": false,
                 "columnDefs": [
                      {
                         "targets": [ 0 ],
                          "visible": false
+                    },
+                    {
+                        "targets": [ 5 ],
+                        render: function (data, type, row, meta) {
+                            var but;
+                            but = '<div class="btn-group">' +
+                                '<button class="btn btn-sm btn-success dropdown-toggle" onclick="showOperateOpts(' + "\'" + row[0] + "\'" + ',' + "\'" + row[3] + "\'" + ',' + "\'" + row[4] + "\'" + ')" data-toggle="dropdown">' + '操作' +
+                                '<span class="caret"></span></button>' +
+                                '<ul class="dropdown-menu" id="subbutton' + row[0] + '"' + '>' + '</ul></div>';
+                            {#console.log(but);#}
+                            {#console.log(row[0]);#}
+                            return but
                     }
+                    },
+                    { "orderable": false, "targets": [ 5 ] }
                 ]
 		       } );
 

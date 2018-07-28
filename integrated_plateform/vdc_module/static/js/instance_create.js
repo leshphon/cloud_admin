@@ -408,7 +408,7 @@ $(document).on('click', '#createVS_btn', function () {
         type: "POST",
         data: {
             'data_body': JSON.stringify(createVSJsonGet()),
-            'amount': $("#server_amount").val(),
+            'amount': $("#server_amount").val()
         },
         // data: JSON.stringify(createVSJsonGet()),
 // <<<<<<< HEAD

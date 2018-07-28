@@ -117,8 +117,6 @@ class ServerManager(object):
         }
         if kwargs.get("name") is not None:
             params["server"]["name"] = kwargs["name"]
-        if kwargs.get("description") is not None:
-            params["server"]["description"] = kwargs["description"]
         if kwargs.get("OS-DCF:diskConfig") is not None:
             params["server"]["OS-DCF:diskConfig"] = kwargs["OS-DCF:diskConfig"]
         result = requests.put(url=url + '/' + identification, data=json.dumps(params),
