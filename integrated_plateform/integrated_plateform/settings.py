@@ -105,10 +105,10 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': 'art319',
         'HOST': '10.190.2.226',
-        # 'NAME': 'cloudb',
-        # 'USER': 'cloud',
-        # 'PASSWORD': '123456',
-        # 'HOST': 'localhost',
+        #'NAME': 'cloudb',
+        #'USER': 'cloud',
+        #'PASSWORD': '123456',
+        #'HOST': 'localhost',
         'PORT': '3306'
     }
 }
