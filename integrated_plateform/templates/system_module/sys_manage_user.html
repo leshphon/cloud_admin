@@ -57,7 +57,7 @@
                                     <div class="am-btn-toolbar  pull-right">
                                     <div class="am-btn-group am-btn-group-xs">
                                         <button class="am-btn am-btn-default am-btn-xs " data-toggle="modal" data-target="#updateModal" href="#" onclick="getUserInfo({{ line.id }},'{{ line.name }}','{{ line.email }}')"><span class="am-icon-pencil-square-o"></span> 编辑</button>
-                                        <button class="am-btn am-btn-default am-btn-xs am-hide-sm-only"   id="{{ line.id }}"  onclick="clickButton(this.id,'{{ line.name }}')"><span class="am-icon-trash-o"></span> 删除</button>
+                                        <button class="am-btn am-btn-default am-btn-xs am-hide-sm-only" href="#" data-toggle="modal" data-target="#deleteModal" onclick="getDeleteUserID({{ line.id }})"><span class="am-icon-trash-o"></span> 删除</button>
                                     </div>
                                     </div>
                                 </td>
@@ -80,6 +80,7 @@
     </div>
 </div>
 
+<!-- 创建用户 -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -92,32 +93,36 @@
                         <form id="sys_create_user_form" role="form" action="{% url 'system_module:create_user' %}" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="row">
-                                <div class="col-sm-6 b-r">
+                                <div class="col-sm-12 ">
                                     <div class="form-group">
-                                        <label>用户名：</label>
+                                        <label>用户名</label>
                                         <input type="text" name="username" placeholder="请输入用户名" class="form-control">
                                     </div>
                                     <div class="form-group">
-                                        <label>邮箱：</label>
+                                        <label>邮箱</label>
                                         <input type="email" name="email" placeholder="邮箱" class="form-control">
                                     </div>
+                                     <div class="form-group">
+                                        <label>部门</label>
+                                        <input type="text" name="department" placeholder="大数据工厂" class="form-control">
+                                    </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label>密码：</label>
+                                        <label>密码</label>
                                         <input id="password_1" type="password" placeholder="请输入密码" class="form-control">
                                     </div>
                                     <div class="form-group">
-                                        <label>确认密码：</label>
+                                        <label>确认密码</label>
                                         <input id="password_2" type="password" name="password" placeholder="请确认密码" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label class="control-label">角色：</label>
+                                        <label class="control-label" style="font-weight: bold">角色</label>
                                         <select class="form-control" name="user_role" type="text">
-                                            {% for rr in role_lists %}
-                                            <option value="{{ rr.id }}">{{ rr.name }}</option>
+                                            {% for line in role_lists %}
+                                            <option value="{{ line.id }}">{{ line.description }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -140,7 +145,9 @@
             </div>
         </div>
     </div>
-</div><!-- /.modal -->
+</div>
+
+<!-- 更新用户 -->
 <div class="modal fade" id="updateModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -173,6 +180,26 @@
         </div>
 </div>
 
+<!-- 删除用户 -->
+<div class="modal fade" id="deleteModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h4 class="modal-title">delete User</h4>
+                </div>
+                <div class="modal-body">
+                    <span class="comfirm-text">Please confirm your selection,this action cannot be undone.</span>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">取消</button>
+                    <button class="text-right btn btn-default" type="submit" id="deleteUserBtn">删除</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- Data Tables -->
     <script src="{% static 'js/plugins/dataTables/jquery.dataTables.js' %}"></script>
     <script src="{% static 'js/plugins/dataTables/dataTables.bootstrap.js'%}"></script>
@@ -196,13 +223,5 @@
 		         ],
 		       });
          })
-    function clickButton(id,uname)
-    {
-        var ret = window.confirm('确定删除：' + uname + '?');
-        if (ret == true) {
-            alert('ok');
-        }
-        //document.getElementById('button1').click()
-    }
     </script>
 {% endblock %}

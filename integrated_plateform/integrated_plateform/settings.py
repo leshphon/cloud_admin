@@ -25,7 +25,8 @@ SECRET_KEY = '1m#)479jyt@5i@41$a-kak747=p(j)31)rpyj*k+#u&vs5=&8g'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '10.131.251.26', '10.131.251.151']
+
+ALLOWED_HOSTS = ['127.0.0.1', '10.131.251.26', '10.131.251.151', '10.131.251.101']
 
 
 # Application definition
@@ -101,14 +102,14 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'PPI',
+        # 'NAME': 'PPI',
+        # 'USER': 'root',
+        # 'PASSWORD': 'art319',
+        # 'HOST': '10.190.2.226',
+        'NAME': 'cloudb',
         'USER': 'root',
         'PASSWORD': 'art319',
-        'HOST': '10.190.2.226',
-        # 'NAME': 'cloudb',
-        # 'USER': 'cloud',
-        # 'PASSWORD': '123456',
-        # 'HOST': 'localhost',
+        'HOST': 'localhost',
         'PORT': '3306'
     }
 }

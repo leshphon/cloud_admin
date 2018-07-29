@@ -22,6 +22,7 @@ db = "PPIDB"
 port = 3306
 charset = "utf8"
 
+
 def auth(func):
     print("come auth")
 
@@ -52,7 +53,6 @@ def login(request):
                     request.session['username'] = name
                     request.session['password'] = password
                     request.session.set_expiry(60 * 15)
-
                     # 判断用户角色并进入相应页面
                     login_rel_objs = models.User_Role_VDC.objects.filter(user_id=login_obj.id)
 
@@ -66,6 +66,7 @@ def login(request):
                         return render(request, 'system_module/sys_index_overview.html')
                     else:
                         if login_obj.recent_use_VDC == 0:
+                            print(login_obj.recent_use_VDC)
                             VDC_id = login_rel_objs.first().vdc_id      # 将第一个关系中的vdc_id赋给recent_user_vdc
                             login_obj.recent_use_VDC = VDC_id           # 更新数据库
                             login_obj.save()

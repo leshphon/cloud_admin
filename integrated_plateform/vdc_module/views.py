@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 from django.shortcuts import render
 from django.http import HttpResponse
+
 from django.shortcuts import redirect
 from django.conf import settings
 from django.contrib.auth.hashers import (
@@ -22,21 +23,12 @@ import utils
 
 # ---------------manage user-----------------
 def manage_user(request):
-    exclude = ['id', 'password', 'created_time', 'updated_time', 'status', 'recent_use_VDC', 'cpu', 'ram', 'volume',
-               'instances', 'used_ram', 'used_cpu', 'used_volume', 'used_instances']
-    print_user_fields = utils.print_fields(exclude, 'User')
     user_lists = []
-    # user_role_list = []                 #用户的角色列表
-    user_role_obj = auth_models.User_Role_VDC.objects.all()
+    user_role_obj = auth_models.User_Role_VDC.objects.filter(role_id=settings.SYSROLES['SYSUSER'])
     for i in user_role_obj:
-        if i.role_id == settings.SYSROLES['SYSUSER'] and i.vdc_id == request.session[
-            'login_user_recent_vdc']:  # 判断是登录vdc_admin_user所管理的vdc中的用户
-            print('333333333333:', request.session['login_user_recent_vdc'], i.vdc_id)
-            user_obj = i.user
-            user_lists.append(user_obj)
-    print("this is vdc user list:", user_lists)
+        user_obj = i.user
+        user_lists.append(user_obj)
     return render(request, 'vdc_module/module_user.html', {
-        'user_fields': print_user_fields,
         'user_lists': user_lists,
     })
 
@@ -44,21 +36,26 @@ def manage_user(request):
 def create_user(request):  # 前端提供的角色列表要加以限制，只能创建普通用户，即role_id=6
     utils.create_user_operation(request)
     # 返回的是user_role_vdc里的一个对象
-    return redirect('/sys_manage_user')
+    return redirect('/vdc_manage_user')
 
 
 def del_user(request):
-    user_id = request.POST.get('user_id')
-    print(user_id)
+    user_id = request.GET.get('id')
     auth_models.User.objects.filter(id=user_id).delete()
-    return redirect('/sys_manage_user')
+    return redirect('/vdc_manage_user')
 
 
 def update_user(request):
-    user_id = request.POST.get('user_id')
-    name = request.POST.get('username')
-    email = request.POST.get('email')
+    param = request.GET.get("data")
+    print(param)
+    update_info = json.loads(param)
+    print('123:', update_info)
+    print('123:', update_info['user_id'])
+    user_id = update_info['user_id']
+    name = update_info['name']
+    email = update_info['email']
     auth_models.User.objects.filter(id=user_id).update(name=name, email=email)
+    return HttpResponse('ok')
 
 
 def change_user_password(request):
@@ -131,17 +128,6 @@ def instance_create(request):
         result = nvclient.Client().create_servers(user=openstack_user, params=request.POST.get("data_body"))
         return HttpResponse(result)
     return render(request, 'vdc_module/instance_create.html')
-
-
-def instance_show(request):
-    # openstack_user = request.session.get('openstack_user')
-    openstack_user = vdc_user
-    if not request.POST.get("id"):
-        result = nvclient.Client().show_servers(user=openstack_user)
-    else:
-        result = nvclient.Client().show_servers(user=openstack_user, identification=request.POST.get("id"))
-    print result
-    return HttpResponse(result, content_type="application/json")
 
 
 def getStatusAction(request):

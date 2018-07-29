@@ -36,3 +36,4 @@ class ServerAddresses(models.Model):
 class ServerSecurityGroup(models.Model):
     server_id = models.CharField(max_length=128)
     security_group_name = models.CharField(max_length=128)
+

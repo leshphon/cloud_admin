@@ -31,7 +31,11 @@ urlpatterns = [
 
     url(r'^network_manage',views.network_manage,name="network_manage"),
     url(r'^route_manage', views.route_manage, name="route_manage"),
+
     url(r'^manage_user', views.manage_user, name='manage_user'),
+    url(r'^create_user', views.create_user, name='create_user'),
+    url(r'^delete_user$', views.del_user, name='delete_user'),
+    url(r'^update_user$', views.update_user, name='update_user'),
 ]
 
 
