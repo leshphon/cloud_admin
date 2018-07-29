@@ -32,6 +32,14 @@ def init_admin_user():
         key = ("DQvsrCWt8Ap_" + "11C4C=_NFpnO" + "5Y4xU[" + "\\" + "\\" + "}Ku5")
         test_vdc = auth_models.VDC(name="test_vdc", backend_info=key, description='', cpu=50, ram=600000, volume=500,
                                    instances=50)
-        vdc_user_role = auth_models.User_Role_VDC(user_id=vdc_admin_user.id, role_id=2, vdc=test_vdc.id)
-        vdc_user_role.save()
         test_vdc.save()
+        vdc_user_role = auth_models.User_Role_VDC(user_id=vdc_admin_user.id, role_id=2, vdc_id=test_vdc.id)
+        vdc_user_role.save()
+
+
+def clean_user_vdc():
+    print("start cleaning all vdc,user and their relationship")
+    auth_models.VDC.objects.all().delete()
+    auth_models.User.objects.all().delete()
+    auth_models.User_Role_VDC.objects.all().delete()
+    print("clean over")

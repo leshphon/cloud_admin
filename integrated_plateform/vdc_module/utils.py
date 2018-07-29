@@ -36,7 +36,7 @@ def sync_database_all():
     for i in range(len(vdc_obj)):
         if not vdc_obj[i].backend_info:
             continue
-        # print(vdc_obj[i].backend_info)
+        print(vdc_obj[i].backend_info)
         opensatck_user = ksclient.Client().register_user(key=str(vdc_obj[i].backend_info))
         instance_json = nvclient.Client().show_servers(user=opensatck_user)
         instance_dict = json.loads(instance_json)

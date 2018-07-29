@@ -12,7 +12,7 @@ import json
 
 from user_auth import models as auth_models
 import models as vdc_models
-from api.keystone.test import vdc_user
+# from api.keystone.test import vdc_user
 import api.keystone.client as ksclient
 import api.neutron.client as ntclient
 import api.glance.client as gclient
@@ -72,39 +72,37 @@ def change_user_password(request):
 # ----------------instances manage---------------
 def vdc_index(request):
     # openstack_user = request.session.get('openstack_user')
-    # recent_vdc_id = request.session.get('recent_vdc')
-    # user_role_id = request.session.get('user_role')
-    # user_id = request.session.get('user')
-    openstack_user = vdc_user
-    recent_vdc_id = 15
-    user_role_id = 6
-    user_id = 4
+    recent_vdc_id = request.session.get('login_user_recent_vdc')
+    user_role_id = request.session.get('login_role')
+    user_name = request.session.get('username')
 
-    vdc_obj = auth_models.VDC.objects.filter(id=recent_vdc_id)
-    role_obj = auth_models.Role.objects.filter(id=user_role_id)
+    user_obj = auth_models.User.objects.get(name__exact=user_name)
+    vdc_obj = auth_models.VDC.objects.get(id=recent_vdc_id)
+    role_obj = auth_models.Role.objects.get(id=user_role_id)
+
+    # user_id = user_obj.id
+
     return render(request, 'vdc_module/index.html', {
         'error': 'here is error message',
-        'currentpj': vdc_obj[0].name,
-        'current_role_name': role_obj[0].name,
+        'currentpj': vdc_obj.name,
+        'current_role_name': role_obj.name,
     })
 
 
 def instance_index(request):
     # openstack_user = request.session.get('openstack_user')
-    # recent_vdc_id = request.session.get('recent_vdc')
-    # user_role_id = request.session.get('user_role')
-    # user_id = request.session.get('user')
-    openstack_user = vdc_user
-    recent_vdc_id = 15
-    user_role_id = 6
-    user_id = 4
+    recent_vdc_id = request.session.get('login_user_recent_vdc')
+    user_role_id = request.session.get('login_role')
+    user_name = request.session.get('username')
 
-    vdc_obj = auth_models.VDC.objects.filter(id=recent_vdc_id)
-    role_obj = auth_models.Role.objects.filter(id=user_role_id)
-    if user_role_id == 1:
+    user_obj = auth_models.User.objects.get(name__exact=user_name)
+    vdc_obj = auth_models.VDC.objects.get(id=recent_vdc_id)
+    role_obj = auth_models.Role.objects.get(id=user_role_id)
+
+    if user_role_id == 2:
         instance_obj = vdc_models.Server.objects.filter(created_in=recent_vdc_id)
     elif user_role_id == 6:
-        instance_obj = vdc_models.Server.objects.filter(created_in=recent_vdc_id, created_by=str(user_id))
+        instance_obj = vdc_models.Server.objects.filter(created_in=recent_vdc_id, created_by=user_obj.id)
     else:
         print("auth error!")
         return
@@ -114,8 +112,8 @@ def instance_index(request):
         addr_obj = vdc_models.ServerAddresses.objects.filter(server_id=i.identification)
         ins_addr_list.append({"instance": i, "addr": addr_obj})
     return render(request, 'vdc_module/instance_index.html', {
-        'currentpj': vdc_obj[0].name,
-        'current_role_name': role_obj[0].name,
+        'currentpj': vdc_obj.name,
+        'current_role_name': role_obj.name,
         'instance_params': ins_addr_list
 
     })
@@ -123,19 +121,16 @@ def instance_index(request):
 
 def instance_create(request):
     if request.method == "POST":
-        # openstack_user = request.session.get('openstack_user')
-        openstack_user = vdc_user
+        openstack_user = request.session.get('openstack_user')
+        # openstack_user = vdc_user
         result = nvclient.Client().create_servers(user=openstack_user, params=request.POST.get("data_body"))
         return HttpResponse(result)
     return render(request, 'vdc_module/instance_create.html')
 
 
 def getStatusAction(request):
-    # openstack_user = request.session.get('openstack_user')
-    # user_role_id = request.session.get('user_role')
-
-    openstack_user = vdc_user
-    user_role_id = 6
+    openstack_user = request.session.get('openstack_user')
+    user_role_id = request.session.get('login_role')
     return HttpResponse(
         json.dumps(nvclient.Client().check_action(user=openstack_user, status=request.POST.get("status"),
                                                   task_status=request.POST.get("task_status"),
@@ -144,11 +139,9 @@ def getStatusAction(request):
 
 
 def updateServer(request):
-    # openstack_user = request.session.get('openstack_user')
-    # user_role_id = request.session.get('user_role')
+    openstack_user = request.session.get('openstack_user')
+    # user_role_id = request.session.get('login_role')
 
-    openstack_user = vdc_user
-    user_role_id = 6
     result = nvclient.Client().update_servers(user=openstack_user,  params={"name": request.POST.get("name")},
                                               identification=request.POST.get("id"))
     return HttpResponse(result, content_type="application/json")
@@ -205,20 +198,19 @@ def updateServer(request):
 #     result = novaclient.server.details(user=request.session.get("user"), server_id=item_id)
 #     return HttpResponse(result, content_type="application/json")
 
+
 def flavor_index(request):
     return render(request, 'vdc_module/flavor_index.html')
 
 
 def flavor_show(request):
-    # openstack_user = request.session.get('openstack_user')
-    openstack_user = vdc_user
+    openstack_user = request.session.get('openstack_user')
     result = nvclient.Client().show_flavor(user=openstack_user)
     return HttpResponse(result, content_type="application/json")
 
 
 def flavor_create(request):
-    # openstack_user = request.session.get('openstack_user')
-    openstack_user = vdc_user
+    openstack_user = request.session.get('openstack_user')
     if request.method == 'POST':
         result = nvclient.Client().create_flavor(user=openstack_user, params=request.POST.get("data_body"))
         return HttpResponse(result)

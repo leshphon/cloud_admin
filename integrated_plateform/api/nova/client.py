@@ -79,9 +79,9 @@ class Client(object):
 
     @staticmethod
     def check_action(user, status, task_status, role):
-        # if user.enable is False:  # or user.flag == 'sys':
-        #     return None
-        # else:
+        if user.enable is False or user.flag == 'sys':
+            return None
+        else:
             snapshot = {
                 "cn_name": "创建快照存为镜像",
                 "name": "snapshot",
@@ -206,7 +206,7 @@ class Client(object):
                     temp = status_action[str(task_status)]
                 else:
                     temp = status_action["OTHER"]
-            if role == 1:
+            if role == 2:
                 return temp["vdc_admin"]
             elif role == 6:
                 return temp["vdc_user"]

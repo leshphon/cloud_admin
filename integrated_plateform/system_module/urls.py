@@ -2,7 +2,7 @@
 from django.conf.urls import url
 from . import views
 
-from tests import init_admin_user
+from tests import init_admin_user, clean_user_vdc
 
 app_name = 'system_module'
 
@@ -27,4 +27,5 @@ urlpatterns = [
 
 ]
 
+# clean_user_vdc()
 init_admin_user()

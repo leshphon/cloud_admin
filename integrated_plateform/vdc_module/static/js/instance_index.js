@@ -1,8 +1,8 @@
 // 点击operate按钮后自动生成对应于不同status下的操作选项函数
 function showOperateOpts(server_id, status, task_status) {
-    console.log(server_id);
-    console.log(status);
-    console.log(task_status);
+    // console.log(server_id);
+    // console.log(status);
+    // console.log(task_status);
     $.ajax({
         type: "POST",
         data: {
@@ -21,6 +21,7 @@ function showOperateOpts(server_id, status, task_status) {
                 // console.log(val.href);
                 var target_model;
                 var target_url;
+                // console.log(optsHtml);
                 if (val.href === '/vdc_updateServer')
                 {
                     target_model = "#updateModal";
@@ -45,7 +46,7 @@ function showOperateOpts(server_id, status, task_status) {
                 }
                 });
              var sub_button = "subbutton" + server_id;
-             console.log(optsHtml);
+             // console.log(optsHtml);
              document.getElementById(sub_button).innerHTML = optsHtml;
             }
     })
@@ -58,9 +59,9 @@ function addID2Models(server_id) {
 
 
 function no_params_action(server_id, target_url, action_id) {
-    console.log(server_id);
-    console.log(target_url);
-    console.log(action_id);
+    // console.log(server_id);
+    // console.log(target_url);
+    // console.log(action_id);
     // $.ajax({
     //     type: 'POST',
     //     data: {
