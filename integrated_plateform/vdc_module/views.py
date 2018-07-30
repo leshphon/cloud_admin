@@ -10,6 +10,7 @@ from django.contrib.auth.hashers import (
 )
 import json
 
+from django.conf import settings
 from user_auth import models as auth_models
 import models as vdc_models
 # from api.keystone.test import vdc_user
@@ -17,6 +18,7 @@ import api.keystone.client as ksclient
 import api.neutron.client as ntclient
 import api.glance.client as gclient
 import api.nova.client as nvclient
+
 
 import utils
 
@@ -94,29 +96,33 @@ def instance_index(request):
     recent_vdc_id = request.session.get('login_user_recent_vdc')
     user_role_id = request.session.get('login_role')
     user_name = request.session.get('username')
-
+    print(user_role_id)
     user_obj = auth_models.User.objects.get(name__exact=user_name)
     vdc_obj = auth_models.VDC.objects.get(id=recent_vdc_id)
     role_obj = auth_models.Role.objects.get(id=user_role_id)
 
-    if user_role_id == 2:
+    if user_role_id == settings.SYSROLES["SYSVDC"]:
         instance_obj = vdc_models.Server.objects.filter(created_in=recent_vdc_id)
-    elif user_role_id == 6:
+    elif user_role_id == settings.SYSROLES["SYSUSER"]:
         instance_obj = vdc_models.Server.objects.filter(created_in=recent_vdc_id, created_by=user_obj.id)
     else:
-        print("auth error!")
-        return
-
+        return HttpResponse(json.dumps({"error": "no this role!"}), content_type="application/json")
     ins_addr_list = []
-    for i in instance_obj:
-        addr_obj = vdc_models.ServerAddresses.objects.filter(server_id=i.identification)
-        ins_addr_list.append({"instance": i, "addr": addr_obj})
-    return render(request, 'vdc_module/instance_index.html', {
-        'currentpj': vdc_obj.name,
-        'current_role_name': role_obj.name,
-        'instance_params': ins_addr_list
-
-    })
+    if instance_obj:
+        for i in instance_obj:
+            addr_obj = vdc_models.ServerAddresses.objects.filter(server_id=i.identification)
+            ins_addr_list.append({"instance": i, "addr": addr_obj})
+        return render(request, 'vdc_module/instance_index.html', {
+            'currentpj': vdc_obj.name,
+            'current_role_name': role_obj.name,
+            'instance_params': ins_addr_list
+        })
+    else:
+        return render(request, 'vdc_module/instance_index.html', {
+            'currentpj': vdc_obj.name,
+            'current_role_name': role_obj.name,
+            'instance_params': ins_addr_list
+        })
 
 
 def instance_create(request):
@@ -131,6 +137,12 @@ def instance_create(request):
 def getStatusAction(request):
     openstack_user = request.session.get('openstack_user')
     user_role_id = request.session.get('login_role')
+    if user_role_id == settings.SYSROLES["SYSVDC"]:
+        flag = 1
+    elif user_role_id == settings.SYSROLES["SYSUSER"]:
+        flag = 0
+    else:
+        return HttpResponse(json.dumps({"error": "no this role!"}), content_type="application/json")
     return HttpResponse(
         json.dumps(nvclient.Client().check_action(user=openstack_user, status=request.POST.get("status"),
                                                   task_status=request.POST.get("task_status"),
