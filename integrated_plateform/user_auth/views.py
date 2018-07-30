@@ -35,9 +35,9 @@ def auth(func):
             return render(request, 'user_auth/login.html')
         # 判断用户权限
         role_id = request.session.get("login_role")
-        print('this is role_id from session',role_id)
+        print('this is role_id from session', role_id)
         rights = models.Role_Rights.objects.filter(role_id=role_id)
-        print('123345:',rights)
+        print('123345:', rights)
         return func(request, *args, **kwargs)
     return inner
 
@@ -146,12 +146,12 @@ def login_test(request):
                             return HttpResponse('这是一个普通用户，页面还在制作')
                 else:
                     error = '密码错误'
-                    return render(request, 'user_auth/login.html', {
+                    return render(request, 'user_auth/login2.html', {
                         'error': error,
                     })
         except:
             error = 'user does not exist'
-            return render(request, 'user_auth/login.html', {
+            return render(request, 'user_auth/login2.html', {
                 'error': error,
             })
     return render(request, 'user_auth/login2.html')
