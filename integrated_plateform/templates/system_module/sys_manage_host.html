@@ -7,7 +7,6 @@
 {% block extracss %}
     <link href="{% static 'assets/global/css/components.min.css' %}" rel="stylesheet" id="style_components" type="text/css" /> <!-- sidebar字体加粗 -->
     <link href="{% static 'assets/global/css/plugins.min.css' %}" rel="stylesheet" type="text/css" />
-    <link href="{% static 'assets/global/css/amazeui.min.css' %}" rel="stylesheet" type="text/css" />
     <!-- Data Tables -->
     <link href="{% static 'css/plugins/dataTables/dataTables.bootstrap.css' %}" rel="stylesheet">
 
@@ -53,7 +52,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                       <!-- {% for line in user_lists %}
+                       <!--{% for line in user_lists %}
                              <tr class="gradeX">
                                 <td hidden id="user_id">{{ line.id }}</td>
                                  <td id="user_name">{{ line.name }}</td>
@@ -63,13 +62,13 @@
                                 <td>
                                     <div class="am-btn-toolbar  pull-right">
                                     <div class="am-btn-group am-btn-group-xs">
-                                        <button class="am-btn am-btn-default am-btn-xs " data-toggle="modal" data-target="#updateModal" href="#" onclick="getUserInfo({{ line.id }},'{{ line.name }}','{{ line.email }}')"><span class="am-icon-pencil-square-o"></span> 编辑</button>
-                                        <button class="am-btn am-btn-default am-btn-xs am-hide-sm-only"   id="{{ line.id }}"  onclick="clickButton(this.id,'{{ line.name }}')"><span class="am-icon-trash-o"></span> 删除</button>
+                                        <button class="btn btn-white btn-xs" data-toggle="modal" data-target="#updateModal" href="#" onclick="getUserInfo({{ line.id }},'{{ line.name }}','{{ line.email }}')"><span class="fa fa-paste"></span> 编辑</button>
+                                        <button class="btn btn-white btn-xs" id="{{ line.id }}"  onclick="clickButton(this.id,'{{ line.name }}')"><span class="fa fa-trash-o"></span> 删除</button>
                                     </div>
                                     </div>
                                 </td>
                              </tr>
-                        {% endfor %}-->
+                        {% endfor %} -->
                             <tr class="gradeX">
                                 <td>一号机</td>
                                 <td>双路Intel E5-2630 V3</td>

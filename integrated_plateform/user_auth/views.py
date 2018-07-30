@@ -104,6 +104,56 @@ def logout(request):
         return render(request, 'user_auth/login.html')
 
 
+def login_test(request):
+    if request.method == 'POST':
+        name = request.POST.get('Username')
+        password = request.POST.get('Password')
+        try:
+            login_obj = models.User.objects.get(name__exact=name)
+            if login_obj:
+                if check_password(password, login_obj.password):
+                    request.session['username'] = name
+                    request.session['password'] = password
+                    request.session.set_expiry(60 * 15)
+                    # 判断用户角色并进入相应页面
+                    login_rel_objs = models.User_Role_VDC.objects.filter(user_id=login_obj.id)
 
+                    cl = keystoneClient.Client()
+
+                    # log_rel_objs是login用户的所有角色、vdc信息
+                    if login_rel_objs.__len__() == 1 and login_rel_objs.first().role_id == settings.SYSROLES['SYSADMIN']:       # 系统用户没有VDC关系,因此一个系统用户只有一条记录
+                        system_user = cl.register_user(auth='system')
+                        request.session["openstack_user"] = system_user
+                        request.session['login_role'] = login_rel_objs.first().role_id
+                        return render(request, 'system_module/sys_index_overview.html')
+                    else:
+                        if login_obj.recent_use_VDC == 0:
+                            print(login_obj.recent_use_VDC)
+                            VDC_id = login_rel_objs.first().vdc_id      # 将第一个关系中的vdc_id赋给recent_user_vdc
+                            login_obj.recent_use_VDC = VDC_id           # 更新数据库
+                            login_obj.save()
+                        recent_use_VDC_id = login_obj.recent_use_VDC
+                        login_rel_obj = models.User_Role_VDC.objects.filter(user_id=login_obj.id,vdc_id=recent_use_VDC_id)
+                        request.session['login_role'] = login_rel_obj.first().role_id
+                        request.session['login_user_recent_vdc'] = recent_use_VDC_id    #将recent_use_vdc也存入session中
+                        if login_rel_obj.first().role_id == settings.SYSROLES['SYSVDC']:
+                            vdc_obj = login_rel_obj.first().vdc
+                            vdc_user = cl.register_user(key=str(vdc_obj.backend_info))
+                            request.session["openstack_user"] = vdc_user
+                            print("this is backend info", request.session.get("openstack_user"))
+                            return render(request, 'vdc_module/index.html')
+                        elif login_rel_obj.role_id == settings.SYSROLES['SYSUSER']:
+                            return HttpResponse('这是一个普通用户，页面还在制作')
+                else:
+                    error = '密码错误'
+                    return render(request, 'user_auth/login.html', {
+                        'error': error,
+                    })
+        except:
+            error = 'user does not exist'
+            return render(request, 'user_auth/login.html', {
+                'error': error,
+            })
+    return render(request, 'user_auth/login2.html')
 
 

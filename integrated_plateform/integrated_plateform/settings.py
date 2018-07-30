@@ -102,14 +102,14 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': 'PPI',
-        # 'USER': 'root',
-        # 'PASSWORD': 'art319',
-        # 'HOST': '10.190.2.226',
-        'NAME': 'cloudb',
+        'NAME': 'PPI',
         'USER': 'root',
         'PASSWORD': 'art319',
-        'HOST': 'localhost',
+        'HOST': '10.190.2.226',
+        # 'NAME': 'cloudb',
+        # 'USER': 'root',
+        # 'PASSWORD': 'art319',
+        # 'HOST': 'localhost',
         'PORT': '3306'
     }
 }

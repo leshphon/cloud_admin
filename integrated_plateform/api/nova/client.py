@@ -78,7 +78,7 @@ class Client(object):
     #     pass
 
     @staticmethod
-    def check_action(user, status, task_status, role):
+    def check_action(user, status, task_status, flag):
         if user.enable is False or user.flag == 'sys':
             return None
         else:
@@ -206,8 +206,8 @@ class Client(object):
                     temp = status_action[str(task_status)]
                 else:
                     temp = status_action["OTHER"]
-            if role == 2:
+            if flag == 1:
                 return temp["vdc_admin"]
-            elif role == 6:
+            elif flag == 0:
                 return temp["vdc_user"]
 

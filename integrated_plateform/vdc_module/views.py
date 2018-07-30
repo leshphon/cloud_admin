@@ -146,7 +146,7 @@ def getStatusAction(request):
     return HttpResponse(
         json.dumps(nvclient.Client().check_action(user=openstack_user, status=request.POST.get("status"),
                                                   task_status=request.POST.get("task_status"),
-                                                  role=user_role_id)), content_type="application/json"
+                                                  flag=flag)), content_type="application/json"
     )
 
 

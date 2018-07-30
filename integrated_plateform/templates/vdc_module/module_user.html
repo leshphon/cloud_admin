@@ -7,7 +7,7 @@
 {% block extracss %}
     <link href="{% static 'assets/global/css/components.min.css' %}" rel="stylesheet" id="style_components" type="text/css" /> <!-- sidebar字体加粗 -->
     <link href="{% static 'assets/global/css/plugins.min.css' %}" rel="stylesheet" type="text/css" />
-    <link href="{% static 'assets/global/css/amazeui.min.css' %}" rel="stylesheet" type="text/css" />
+
     <!-- Data Tables -->
     <link href="{% static 'css/plugins/dataTables/dataTables.bootstrap.css' %}" rel="stylesheet">
 
@@ -62,8 +62,8 @@
                                 <td>
                                     <div class="am-btn-toolbar  pull-right">
                                     <div class="am-btn-group am-btn-group-xs">
-                                        <button class="am-btn am-btn-default am-btn-xs " data-toggle="modal" data-target="#updateModal" href="#" onclick="getUserInfo({{ line.id }},'{{ line.name }}','{{ line.email }}')"><span class="am-icon-pencil-square-o"></span> 编辑</button>
-                                        <button class="am-btn am-btn-default am-btn-xs am-hide-sm-only" href="#" data-toggle="modal" data-target="#deleteModal" onclick="getDeleteUserID({{ line.id }})"><span class="am-icon-trash-o"></span> 删除</button>
+                                        <button class="btn btn-white btn-xs" data-toggle="modal" data-target="#updateModal" href="#" onclick="getUserInfo({{ line.id }},'{{ line.name }}','{{ line.email }}')"><span class="fa fa-paste"></span> 编辑</button>
+                                        <button class="btn btn-white btn-xs" href="#" data-toggle="modal" data-target="#deleteModal" onclick="getDeleteUserID({{ line.id }})"><span class="fa fa-trash-o"></span> 删除</button>
                                     </div>
                                     </div>
                                 </td>
@@ -221,7 +221,7 @@
     <script src="{% static 'js/plugins/dataTables/jquery.dataTables.js' %}"></script>
     <script src="{% static 'js/plugins/dataTables/dataTables.bootstrap.js'%}"></script>
     <!-- 自定义js -->
-    <script src="{% static 'js/content.js?v=1.0.0' %}"></script>
+    <script src="{% static 'js/content.js' %}"></script>
 
 <!-- Page-Level Scripts -->
     <script>
@@ -238,7 +238,7 @@
                    { "bSortable": true },
                    { "bSortable": true },
                    { "bSortable": true },
-		           { "bSortable": false ,sWidth:'130px'},
+		           { "bSortable": false ,sWidth:'130px'}
 		         ],
 		       });
          })
